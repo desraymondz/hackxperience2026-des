@@ -37,7 +37,11 @@ export default function Navbar() {
 
   const handleNavClick = (item: { label: string; target: string; href?: string }) => {
     if (item.href) {
-      router.push(item.href);
+      if (pathname === item.href) {
+        window.location.assign(item.href);
+      } else {
+        router.push(item.href);
+      }
     } else if (pathname !== "/") {
       router.push(`/#${item.target}`);
     } else {
