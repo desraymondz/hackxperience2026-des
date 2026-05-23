@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(cat '/c/Users/User/.claude/projects/c--Users-User-Desktop-Nadon-s-hackxperience-admin-pages/0147d8ca-750a-4b0b-a0fe-3a9b4dbb6957/tool-results/bbjh6bjwg.txt')",
+      "Read(//c/Users/User/.claude/projects/c--Users-User-Desktop-Nadon-s-hackxperience-admin-pages/0147d8ca-750a-4b0b-a0fe-3a9b4dbb6957/tool-results/**)",
+      "Read(//tmp/submission_design/hackxperience-2026/project/**)",
+      "Bash(npm install *)",
+      "Bash(npx tsc *)"
+    ]
+  }
+}
