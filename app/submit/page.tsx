@@ -877,18 +877,30 @@ function SuccessState({ form, editToken, isNew }: { form: FormState; editToken: 
     setTimeout(() => fire({ particleCount: 50, spread: 100, origin: { y: 0.55 } }), 250);
   }, [isNew]);
 
+  const up = (delay: number) => ({
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.4, ease: "easeOut" as const, delay },
+  });
+
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
-        <div style={{ width: 56, height: 56, background: GREEN, color: "#fff", fontFamily: FM, fontWeight: 800, fontSize: 28, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>✓</div>
+      {/* Header */}
+      <motion.div {...up(0)} style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
+        <motion.div
+          initial={{ scale: 0.4, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 280, damping: 18, delay: 0.06 }}
+          style={{ width: 56, height: 56, background: GREEN, color: "#fff", fontFamily: FM, fontWeight: 800, fontSize: 28, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
+        >✓</motion.div>
         <div>
           <Mono color={GREEN} size={11} weight={800} style={{ letterSpacing: "0.1em" }}>// Submission Received</Mono>
           <div style={{ fontFamily: FS, fontSize: 30, fontWeight: 800, letterSpacing: "-0.01em" }}>You&apos;re in! Good luck!</div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Thumbnail — below title */}
-      <div style={{ marginBottom: 24, maxWidth: 420, border: `1.5px solid ${DARK_BG}`, boxShadow: SHADOW_SM, overflow: "hidden" }}>
+      {/* Thumbnail */}
+      <motion.div {...up(0.1)} style={{ marginBottom: 24, maxWidth: 420, border: `1.5px solid ${DARK_BG}`, boxShadow: SHADOW_SM, overflow: "hidden" }}>
         {form.thumbnailFile || form.thumbnailUrl ? (
           <ThumbnailPreview file={form.thumbnailFile} url={form.thumbnailUrl} />
         ) : (
@@ -896,9 +908,10 @@ function SuccessState({ form, editToken, isNew }: { form: FormState; editToken: 
             <Mono color={MUTED} size={11}>// No thumbnail uploaded</Mono>
           </div>
         )}
-      </div>
+      </motion.div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 18 }}>
+      {/* ID + Timestamp cards */}
+      <motion.div {...up(0.18)} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 18 }}>
         <Card padding={16}>
           <Mono color={MUTED} size={10} weight={600}>// Submission ID</Mono>
           <div style={{ height: 6 }} />
@@ -913,47 +926,62 @@ function SuccessState({ form, editToken, isNew }: { form: FormState; editToken: 
           <div style={{ height: 4 }} />
           <Mono color={MUTED} size={10}>Before deadline.</Mono>
         </Card>
-      </div>
+      </motion.div>
 
-      <Card padding={18} style={{ marginBottom: 18 }}>
-        <Mono color={RED} size={11} weight={800} style={{ letterSpacing: "0.1em" }}>&gt; What Happens Next</Mono>
-        <div style={{ height: 12 }} />
-        {[
-          ["01", "Admin reviews your submission", "within ~24h — they may approve, reject, or ping for fixes."],
-          ["02", "Judges score approved entries", "100 pts split across 4 criteria."],
-          ["03", "Results posted to Project Gallery", "1st / 2nd / 3rd / Crowd Choice announced post-event."],
-        ].map(([n, t, sub], i) => (
-          <div key={i} style={{ display: "flex", gap: 14, padding: "10px 0", borderTop: i ? `1px dashed ${LINE}` : "none" }}>
-            <Badge n={n} size={24} />
-            <div>
-              <div style={{ fontFamily: FS, fontSize: 13, fontWeight: 700 }}>{t}</div>
-              <div style={{ fontFamily: FM, fontSize: 11, color: MUTED, marginTop: 2 }}>// {sub}</div>
-            </div>
-          </div>
-        ))}
-      </Card>
-
-      {editToken && (
-        <Card padding={18} style={{ marginBottom: 18, background: "rgba(29,28,23,0.03)" }}>
-          <Mono color={DARK_BG} size={11} weight={800}>&gt; Edit Your Submission</Mono>
-          <div style={{ height: 10 }} />
-          <div style={{ fontFamily: FM, fontSize: 11, color: MUTED, lineHeight: 1.6, marginBottom: 12 }}>
-            // Save this link — paste it to reopen your submission before the deadline. Files must be re-uploaded.
-          </div>
-          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-            <div style={{ flex: 1, minWidth: 0, background: "#fff", border: `1.5px solid ${DARK_BG}`, padding: "10px 14px", fontFamily: FM, fontSize: 11, color: DARK_BG, wordBreak: "break-all" }}>
-              {`${typeof window !== "undefined" ? window.location.origin : ""}/submit?token=${editToken}`}
-            </div>
-            <RedBtn onClick={() => navigator.clipboard.writeText(`${window.location.origin}/submit?token=${editToken}`)}>
-              Copy
-            </RedBtn>
-          </div>
+      {/* What Happens Next */}
+      <motion.div {...up(0.26)} style={{ marginBottom: 18 }}>
+        <Card padding={18}>
+          <Mono color={RED} size={11} weight={800} style={{ letterSpacing: "0.1em" }}>&gt; What Happens Next</Mono>
+          <div style={{ height: 12 }} />
+          {[
+            ["01", "Admin reviews your submission", "within ~24h — they may approve, reject, or ping for fixes."],
+            ["02", "Judges score approved entries", "100 pts split across 4 criteria."],
+            ["03", "Results posted to Project Gallery", "1st / 2nd / 3rd / Crowd Choice announced post-event."],
+          ].map(([n, t, sub], i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.35, ease: "easeOut", delay: 0.36 + i * 0.09 }}
+              style={{ display: "flex", gap: 14, padding: "10px 0", borderTop: i ? `1px dashed ${LINE}` : "none" }}
+            >
+              <Badge n={n} size={24} />
+              <div>
+                <div style={{ fontFamily: FS, fontSize: 13, fontWeight: 700 }}>{t}</div>
+                <div style={{ fontFamily: FM, fontSize: 11, color: MUTED, marginTop: 2 }}>// {sub}</div>
+              </div>
+            </motion.div>
+          ))}
         </Card>
+      </motion.div>
+
+      {/* Edit link */}
+      {editToken && (
+        <motion.div {...up(0.62)} style={{ marginBottom: 18 }}>
+          <Card padding={18} style={{ background: "rgba(29,28,23,0.03)" }}>
+            <Mono color={DARK_BG} size={11} weight={800}>&gt; Edit Your Submission</Mono>
+            <div style={{ height: 10 }} />
+            <div style={{ fontFamily: FM, fontSize: 11, color: MUTED, lineHeight: 1.6, marginBottom: 12 }}>
+              // Save this link — paste it to reopen your submission before the deadline. Files must be re-uploaded.
+            </div>
+            <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+              <div style={{ flex: 1, minWidth: 0, background: "#fff", border: `1.5px solid ${DARK_BG}`, padding: "10px 14px", fontFamily: FM, fontSize: 11, color: DARK_BG, wordBreak: "break-all" }}>
+                {`${typeof window !== "undefined" ? window.location.origin : ""}/submit?token=${editToken}`}
+              </div>
+              <RedBtn onClick={() => navigator.clipboard.writeText(`${window.location.origin}/submit?token=${editToken}`)}>
+                Copy
+              </RedBtn>
+            </div>
+          </Card>
+        </motion.div>
       )}
 
-      <Link href="/" style={{ textDecoration: "none" }}>
-        <RedBtn>&gt; Back to HackXperience →</RedBtn>
-      </Link>
+      {/* Back button */}
+      <motion.div {...up(editToken ? 0.72 : 0.62)}>
+        <Link href="/" style={{ textDecoration: "none" }}>
+          <RedBtn>&gt; Back to HackXperience →</RedBtn>
+        </Link>
+      </motion.div>
     </div>
   );
 }
