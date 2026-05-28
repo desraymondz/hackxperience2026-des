@@ -166,14 +166,15 @@ function FieldLabel({ children, hint, required }: { children: React.ReactNode; h
   );
 }
 
-function SInput({ value, onChange, placeholder, suffix, h = 44 }: {
-  value: string; onChange?: (v: string) => void; placeholder?: string; suffix?: string; h?: number;
+function SInput({ value, onChange, onBlur, placeholder, suffix, h = 44 }: {
+  value: string; onChange?: (v: string) => void; onBlur?: () => void; placeholder?: string; suffix?: string; h?: number;
 }) {
   return (
     <div style={{ position: "relative", boxShadow: SHADOW_SM }}>
       <input
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
+        onBlur={onBlur}
         placeholder={placeholder}
         style={{
           width: "100%", height: h, background: "#fff", border: `1.5px solid ${DARK_BG}`,
@@ -588,8 +589,11 @@ function Step01({ form, setForm, onNext }: { form: FormState; setForm: (f: FormS
               }
               setForm({ ...form, thumbnailFile: file ?? null });
             }} />
-          <div
+          <motion.div
             onClick={() => thumbRef.current?.click()}
+            whileHover={{ borderColor: RED, backgroundColor: "rgba(192,0,0,0.04)" }}
+            whileTap={{ scale: 0.995 }}
+            transition={{ duration: 0.15 }}
             style={{
               aspectRatio: "16 / 9", border: `1.5px dashed ${DARK_BG}`, background: OFF_WHITE,
               display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
@@ -600,12 +604,12 @@ function Step01({ form, setForm, onNext }: { form: FormState; setForm: (f: FormS
               <ThumbnailPreview file={form.thumbnailFile} url={form.thumbnailUrl} />
             ) : (
               <>
-                <Mono color={MUTED} size={11}>[ Drag &amp; Drop or Click ]</Mono>
-                <Mono color={MUTED} size={10}>.JPG .PNG .WEBP</Mono>
-                <Mono color={MUTED} size={10}>// Cropped to 16:9</Mono>
+                <Mono color={MUTED} size={11}>[ Click to Upload ]</Mono>
+                <Mono color={MUTED} size={10}>.JPG .PNG .WEBP · ≤ 5 MB</Mono>
+                <Mono color={MUTED} size={10}>// Cropped to 16:9 on display</Mono>
               </>
             )}
-          </div>
+          </motion.div>
         </div>
         <div>
           <FieldLabel hint="SELECT ALL THAT APPLY">Tech Stack</FieldLabel>
@@ -624,6 +628,8 @@ function Step01({ form, setForm, onNext }: { form: FormState; setForm: (f: FormS
 function Step02({ form, setForm, onNext, onBack }: { form: FormState; setForm: (f: FormState) => void; onNext: () => void; onBack: () => void }) {
   const set = (k: keyof FormState) => (v: string) => setForm({ ...form, [k]: v });
   const deckRef = useRef<HTMLInputElement>(null);
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const touch = (k: string) => () => setTouched(t => ({ ...t, [k]: true }));
 
   return (
     <>
@@ -631,22 +637,22 @@ function Step02({ form, setForm, onNext, onBack }: { form: FormState; setForm: (
       <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
         <div>
           <FieldLabel required hint="MUST BE PUBLIC">GitHub Repo URL</FieldLabel>
-          <SInput value={form.githubUrl} onChange={set("githubUrl")} placeholder="https://github.com/your-org/your-repo" />
-          {form.githubUrl && !isValidUrl(form.githubUrl) && (
+          <SInput value={form.githubUrl} onChange={set("githubUrl")} onBlur={touch("githubUrl")} placeholder="https://github.com/your-org/your-repo" />
+          {touched.githubUrl && form.githubUrl && !isValidUrl(form.githubUrl) && (
             <Mono color={RED} size={10} style={{ display: "block", marginTop: 5 }}>// Invalid URL — must start with https://</Mono>
           )}
         </div>
         <div>
           <FieldLabel>Live URL</FieldLabel>
-          <SInput value={form.liveUrl} onChange={set("liveUrl")} placeholder="https://your-project.vercel.app" />
-          {form.liveUrl && !isValidUrl(form.liveUrl) && (
+          <SInput value={form.liveUrl} onChange={set("liveUrl")} onBlur={touch("liveUrl")} placeholder="https://your-project.vercel.app" />
+          {touched.liveUrl && form.liveUrl && !isValidUrl(form.liveUrl) && (
             <Mono color={RED} size={10} style={{ display: "block", marginTop: 5 }}>// Invalid URL — must start with https://</Mono>
           )}
         </div>
         <div>
           <FieldLabel required>Pitch Deck URL</FieldLabel>
-          <SInput value={form.pitchDeckUrl} onChange={set("pitchDeckUrl")} placeholder="https://drive.google.com/… or Canva / Slides link" />
-          {form.pitchDeckUrl && !isValidUrl(form.pitchDeckUrl) && (
+          <SInput value={form.pitchDeckUrl} onChange={set("pitchDeckUrl")} onBlur={touch("pitchDeckUrl")} placeholder="https://drive.google.com/… or Canva / Slides link" />
+          {touched.pitchDeckUrl && form.pitchDeckUrl && !isValidUrl(form.pitchDeckUrl) && (
             <Mono color={RED} size={10} style={{ display: "block", marginTop: 5 }}>// Invalid URL — must start with https://</Mono>
           )}
         </div>
@@ -662,8 +668,11 @@ function Step02({ form, setForm, onNext, onBack }: { form: FormState; setForm: (
               }
               setForm({ ...form, pitchDeckFile: file ?? null });
             }} />
-          <div
+          <motion.div
             onClick={() => deckRef.current?.click()}
+            whileHover={{ borderColor: RED, backgroundColor: "rgba(192,0,0,0.04)" }}
+            whileTap={{ scale: 0.995 }}
+            transition={{ duration: 0.15 }}
             style={{
               height: 130, border: `1.5px dashed ${DARK_BG}`, background: OFF_WHITE,
               display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
@@ -678,11 +687,11 @@ function Step02({ form, setForm, onNext, onBack }: { form: FormState; setForm: (
               </>
             ) : (
               <>
-                <Mono color={MUTED} size={12}>[ Drop deck here or click ]</Mono>
+                <Mono color={MUTED} size={12}>[ Click to Upload ]</Mono>
                 <Mono color={MUTED} size={10}>.PDF .PPTX · ≤ 25 MB</Mono>
               </>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
       <FormFooter onNext={onNext} onBack={onBack} nextLabel="Next: Team →" disabled={!validateStep(1, form)} />
@@ -731,7 +740,13 @@ function Step03({ form, setForm, onNext, onBack }: { form: FormState; setForm: (
               <input value={m.studentId} onChange={(e) => updateMember(m.id, "studentId", e.target.value)} placeholder="SIM-…" style={memberInputStyle} />
               <input value={m.role} onChange={(e) => updateMember(m.id, "role", e.target.value)} placeholder="Lead / Dev…" style={memberInputStyle} />
               <input value={m.email} onChange={(e) => updateMember(m.id, "email", e.target.value)} placeholder="name@mail.sim.edu" style={memberInputStyle} />
-              <button onClick={() => removeMember(m.id)} style={{ width: 28, height: 28, border: `1.5px solid ${DARK_BG}`, background: "#fff", fontFamily: FM, fontSize: 14, color: MUTED, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>
+              <motion.button
+                onClick={() => removeMember(m.id)}
+                whileHover={{ background: RED, color: "#fff", borderColor: RED }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ duration: 0.15 }}
+                style={{ width: 28, height: 28, border: `1.5px solid ${DARK_BG}`, background: "#fff", fontFamily: FM, fontSize: 14, color: MUTED, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+              >×</motion.button>
             </div>
           </motion.div>
         ))}
@@ -743,10 +758,16 @@ function Step03({ form, setForm, onNext, onBack }: { form: FormState; setForm: (
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
           >
-            <div onClick={addMember} style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 8px", border: `1.5px solid ${DARK_BG}`, background: "rgba(192,0,0,0.04)", cursor: "pointer" }}>
+            <motion.div
+              onClick={addMember}
+              whileHover={{ background: "rgba(192,0,0,0.1)" }}
+              whileTap={{ scale: 0.99 }}
+              transition={{ duration: 0.15 }}
+              style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 8px", border: `1.5px solid ${DARK_BG}`, background: "rgba(192,0,0,0.04)", cursor: "pointer" }}
+            >
               <Badge n={String(form.members.length + 1).padStart(2, "0")} size={26} />
               <Mono color={RED} size={11} weight={800}>[ + Add Member ] — Row {form.members.length + 1} of 5</Mono>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -811,13 +832,30 @@ function Step04({ form, onBack, onSubmit, isEditing, isPastDeadline, isSubmittin
           <RRow label="Notes" value={form.notes} />
         </RBlock>
 
-        <div
+        <motion.div
           onClick={() => setConsent(!consent)}
+          whileHover={{ background: "rgba(192,0,0,0.08)" }}
+          whileTap={{ scale: 0.995 }}
+          transition={{ duration: 0.15 }}
           style={{ border: `1.5px solid ${DARK_BG}`, background: "rgba(192,0,0,0.04)", padding: 16, display: "flex", gap: 12, alignItems: "flex-start", cursor: "pointer", marginBottom: 14 }}
         >
-          <div style={{ width: 18, height: 18, border: `1.5px solid ${RED}`, background: consent ? RED : "transparent", color: "#fff", fontFamily: FM, fontWeight: 700, fontSize: 12, display: "flex", alignItems: "center", justifyContent: "center", flex: "0 0 auto", marginTop: 2 }}>
-            {consent ? "✓" : ""}
-          </div>
+          <motion.div
+            animate={{ background: consent ? RED : "transparent" }}
+            transition={{ duration: 0.15 }}
+            style={{ width: 18, height: 18, border: `1.5px solid ${RED}`, color: "#fff", fontFamily: FM, fontWeight: 700, fontSize: 12, display: "flex", alignItems: "center", justifyContent: "center", flex: "0 0 auto", marginTop: 2 }}
+          >
+            <AnimatePresence mode="wait">
+              {consent && (
+                <motion.span
+                  key="check"
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 20 }}
+                >✓</motion.span>
+              )}
+            </AnimatePresence>
+          </motion.div>
           <div>
             <Mono color={RED} size={11} weight={800}>// Consent — Required</Mono>
             <div style={{ height: 4 }} />
@@ -825,7 +863,7 @@ function Step04({ form, onBack, onSubmit, isEditing, isPastDeadline, isSubmittin
               I confirm all team members consent to this submission, the repo is public, and this project was built within the 24-hour HackXperience window.
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <div style={{ marginTop: 10, marginBottom: isPastDeadline ? 8 : 14 }}>
