@@ -37,12 +37,13 @@ export async function PUT(req: NextRequest, { params }: RouteContext) {
       pitch:               body.pitch,
       tech_stack:          body.techStack ?? [],
       thumbnail_url:       body.thumbnailUrl ?? null,
-      github_url:          body.githubUrl,
-      live_url:            body.liveUrl || null,
-      pitch_deck_url:      body.pitchDeckUrl,
-      pitch_deck_file_url: body.pitchDeckFileUrl ?? null,
-      members:             body.members ?? [],
-      notes:               body.notes || null,
+      github_repo_url:       body.githubRepoUrl,
+      live_demo_url:         body.liveDemoUrl || null,
+      pitch_deck_share_url:  body.pitchDeckShareUrl,
+      pitch_deck_upload_url: body.pitchDeckUploadUrl ?? null,
+      demo_video_url:        body.demoVideoUrl || null,
+      members:               body.members ?? [],
+      notes:                 body.notes || null,
     })
     .eq("edit_token", token)
     .select("id, edit_token")
@@ -71,11 +72,12 @@ function dbToForm(row: Record<string, unknown>) {
     pitch:            row.pitch,
     techStack:        row.tech_stack,
     thumbnailUrl:     row.thumbnail_url,
-    githubUrl:        row.github_url,
-    liveUrl:          row.live_url ?? "",
-    pitchDeckUrl:     row.pitch_deck_url,
-    pitchDeckFileUrl: row.pitch_deck_file_url,
-    members:          row.members,
+    githubRepoUrl:      row.github_repo_url,
+    liveDemoUrl:        row.live_demo_url ?? "",
+    pitchDeckShareUrl:  row.pitch_deck_share_url,
+    pitchDeckUploadUrl: row.pitch_deck_upload_url,
+    demoVideoUrl:       row.demo_video_url ?? "",
+    members:            row.members,
     notes:            row.notes ?? "",
   };
 }

@@ -15,10 +15,11 @@ CREATE TABLE IF NOT EXISTS submissions (
   thumbnail_url TEXT,
 
   -- Step 02: Assets
-  github_url         TEXT NOT NULL,
-  live_url           TEXT,
-  pitch_deck_url     TEXT NOT NULL,
-  pitch_deck_file_url TEXT,
+  github_repo_url       TEXT NOT NULL,
+  live_demo_url         TEXT,
+  pitch_deck_share_url  TEXT NOT NULL,
+  pitch_deck_upload_url TEXT,
+  demo_video_url        TEXT,
 
   -- Step 03: Team manifest (stored as JSON array)
   members JSONB NOT NULL DEFAULT '[]',

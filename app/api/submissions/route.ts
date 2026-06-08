@@ -15,12 +15,13 @@ export async function POST(req: NextRequest) {
       pitch:               body.pitch,
       tech_stack:          body.techStack ?? [],
       thumbnail_url:       body.thumbnailUrl ?? null,
-      github_url:          body.githubUrl,
-      live_url:            body.liveUrl || null,
-      pitch_deck_url:      body.pitchDeckUrl,
-      pitch_deck_file_url: body.pitchDeckFileUrl ?? null,
-      members:             body.members ?? [],
-      notes:               body.notes || null,
+      github_repo_url:       body.githubRepoUrl,
+      live_demo_url:         body.liveDemoUrl || null,
+      pitch_deck_share_url:  body.pitchDeckShareUrl,
+      pitch_deck_upload_url: body.pitchDeckUploadUrl ?? null,
+      demo_video_url:        body.demoVideoUrl || null,
+      members:               body.members ?? [],
+      notes:                 body.notes || null,
     })
     .select("id, edit_token")
     .single();

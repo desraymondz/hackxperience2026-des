@@ -59,11 +59,12 @@ interface FormState {
   description: string;
   pitch: string;
   techStack: string[];
-  githubUrl: string;
-  liveUrl: string;
-  pitchDeckUrl: string;
+  githubRepoUrl: string;
+  liveDemoUrl: string;
+  pitchDeckShareUrl: string;
   pitchDeckFile: File | null;
-  pitchDeckFileUrl: string | null; // URL from Storage (populated from DB)
+  pitchDeckUploadUrl: string | null; // URL from Storage (populated from DB)
+  demoVideoUrl: string;
   thumbnailFile: File | null;
   thumbnailUrl: string | null;     // URL from Storage (populated from DB)
   members: Member[];
@@ -110,7 +111,7 @@ function isValidUrl(url: string): boolean {
 function validateStep(step: number, form: FormState): boolean {
   switch (step) {
     case 0: return !!(form.projectName.trim() && form.teamId.trim() && form.track && form.description.trim() && form.pitch.trim());
-    case 1: return isValidUrl(form.githubUrl) && isValidUrl(form.pitchDeckUrl) && (form.liveUrl === "" || isValidUrl(form.liveUrl));
+    case 1: return isValidUrl(form.githubRepoUrl) && isValidUrl(form.pitchDeckShareUrl) && (form.liveDemoUrl === "" || isValidUrl(form.liveDemoUrl)) && (form.demoVideoUrl === "" || isValidUrl(form.demoVideoUrl));
     case 2: return form.members.length > 0 && form.members.every(m => m.name.trim() && m.studentId.trim() && m.role.trim() && m.email.trim());
     default: return true;
   }
@@ -638,26 +639,26 @@ function Step02({ form, setForm, onNext, onBack }: { form: FormState; setForm: (
 
   return (
     <>
-      <StepHeader n="02" title="ASSETS" status="Link your repo, pitch deck URL, and upload your deck" />
+      <StepHeader n="02" title="ASSETS" status="Link your repo, pitch deck, and demo video" />
       <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
         <div>
           <FieldLabel required hint="MUST BE PUBLIC">GitHub Repo URL</FieldLabel>
-          <SInput value={form.githubUrl} onChange={set("githubUrl")} onBlur={touch("githubUrl")} placeholder="https://github.com/your-org/your-repo" />
-          {touched.githubUrl && form.githubUrl && !isValidUrl(form.githubUrl) && (
+          <SInput value={form.githubRepoUrl} onChange={set("githubRepoUrl")} onBlur={touch("githubRepoUrl")} placeholder="https://github.com/your-org/your-repo" />
+          {touched.githubRepoUrl && form.githubRepoUrl && !isValidUrl(form.githubRepoUrl) && (
             <Mono color={RED} size={10} style={{ display: "block", marginTop: 5 }}>// Invalid URL — must start with https://</Mono>
           )}
         </div>
         <div>
-          <FieldLabel>Live URL</FieldLabel>
-          <SInput value={form.liveUrl} onChange={set("liveUrl")} onBlur={touch("liveUrl")} placeholder="https://your-project.vercel.app" />
-          {touched.liveUrl && form.liveUrl && !isValidUrl(form.liveUrl) && (
+          <FieldLabel hint="OPTIONAL">Live Demo URL</FieldLabel>
+          <SInput value={form.liveDemoUrl} onChange={set("liveDemoUrl")} onBlur={touch("liveDemoUrl")} placeholder="https://your-project.vercel.app" />
+          {touched.liveDemoUrl && form.liveDemoUrl && !isValidUrl(form.liveDemoUrl) && (
             <Mono color={RED} size={10} style={{ display: "block", marginTop: 5 }}>// Invalid URL — must start with https://</Mono>
           )}
         </div>
         <div>
-          <FieldLabel required>Pitch Deck URL</FieldLabel>
-          <SInput value={form.pitchDeckUrl} onChange={set("pitchDeckUrl")} onBlur={touch("pitchDeckUrl")} placeholder="https://drive.google.com/… or Canva / Slides link" />
-          {touched.pitchDeckUrl && form.pitchDeckUrl && !isValidUrl(form.pitchDeckUrl) && (
+          <FieldLabel required hint="GOOGLE DRIVE / CANVA / SLIDES SHARE LINK">Pitch Deck Share Link</FieldLabel>
+          <SInput value={form.pitchDeckShareUrl} onChange={set("pitchDeckShareUrl")} onBlur={touch("pitchDeckShareUrl")} placeholder="https://drive.google.com/… or Canva / Slides link" />
+          {touched.pitchDeckShareUrl && form.pitchDeckShareUrl && !isValidUrl(form.pitchDeckShareUrl) && (
             <Mono color={RED} size={10} style={{ display: "block", marginTop: 5 }}>// Invalid URL — must start with https://</Mono>
           )}
         </div>
@@ -697,6 +698,13 @@ function Step02({ form, setForm, onNext, onBack }: { form: FormState; setForm: (
               </>
             )}
           </motion.div>
+        </div>
+        <div>
+          <FieldLabel hint="YOUTUBE / LOOM / GOOGLE DRIVE · OPTIONAL">Demo Video URL</FieldLabel>
+          <SInput value={form.demoVideoUrl} onChange={set("demoVideoUrl")} onBlur={touch("demoVideoUrl")} placeholder="https://youtube.com/… or Loom / Google Drive link" />
+          {touched.demoVideoUrl && form.demoVideoUrl && !isValidUrl(form.demoVideoUrl) && (
+            <Mono color={RED} size={10} style={{ display: "block", marginTop: 5 }}>// Invalid URL — must start with https://</Mono>
+          )}
         </div>
       </div>
       <FormFooter onNext={onNext} onBack={onBack} nextLabel="Next: Team →" disabled={!validateStep(1, form)} />
@@ -826,10 +834,11 @@ function Step04({ form, onBack, onSubmit, isEditing, isPastDeadline, isSubmittin
         </RBlock>
 
         <RBlock n="02" title="ASSETS">
-          <RRow label="Repo" value={form.githubUrl} mono />
-          <RRow label="Live URL" value={form.liveUrl} mono />
-          <RRow label="Pitch Deck URL" value={form.pitchDeckUrl} mono />
+          <RRow label="Repo" value={form.githubRepoUrl} mono />
+          <RRow label="Live Demo URL" value={form.liveDemoUrl} mono />
+          <RRow label="Pitch Deck Share Link" value={form.pitchDeckShareUrl} mono />
           <RRow label="Deck File" value={form.pitchDeckFile ? form.pitchDeckFile.name : ""} mono />
+          <RRow label="Video Demo URL" value={form.demoVideoUrl} mono />
         </RBlock>
 
         <RBlock n="03" title="TEAM_MANIFEST">
@@ -1249,8 +1258,8 @@ function SubmissionLanding({ tick, onStart, hasDraft, isPastDeadline, isBeforeOp
 
 const INITIAL_FORM: FormState = {
   projectName: "", teamId: "", track: "", description: "", pitch: "",
-  techStack: [], githubUrl: "", liveUrl: "", pitchDeckUrl: "",
-  pitchDeckFile: null, pitchDeckFileUrl: null,
+  techStack: [], githubRepoUrl: "", liveDemoUrl: "", pitchDeckShareUrl: "",
+  pitchDeckFile: null, pitchDeckUploadUrl: null, demoVideoUrl: "",
   thumbnailFile: null, thumbnailUrl: null,
   members: [{ id: "initial", name: "", studentId: "", role: "", email: "" }],
   notes: "",
@@ -1370,7 +1379,7 @@ export default function SubmitPage() {
       // 1. Upload files to Supabase Storage (if selected)
       // Preserve existing URLs when no new file is chosen
       let thumbnailUrl: string | null = form.thumbnailUrl ?? null;
-      let pitchDeckFileUrl: string | null = form.pitchDeckFileUrl ?? null;
+      let pitchDeckUploadUrl: string | null = form.pitchDeckUploadUrl ?? null;
 
       if (form.thumbnailFile) {
         const ext = form.thumbnailFile.name.split(".").pop();
@@ -1392,7 +1401,7 @@ export default function SubmitPage() {
           .upload(path, form.pitchDeckFile, { upsert: true });
         if (!error) {
           const { data } = supabaseBrowser.storage.from("submission-assets").getPublicUrl(path);
-          pitchDeckFileUrl = data.publicUrl;
+          pitchDeckUploadUrl = data.publicUrl;
         }
       }
 
@@ -1400,7 +1409,7 @@ export default function SubmitPage() {
       const payload = {
         ...serializeForm(form),
         thumbnailUrl,
-        pitchDeckFileUrl,
+        pitchDeckUploadUrl,
       };
 
       // 3. POST (create) or PUT (update)

@@ -93,8 +93,8 @@ export default function GalleryPage() {
             teamName: item.team_id,
             tags: item.tech_stack || [],
             links: {
-              github: item.github_url,
-              demo: item.live_url
+              github: item.github_repo_url,
+              demo: item.live_demo_url
             },
             rank: item.rank || null,
             createdAt: item.submitted_at
