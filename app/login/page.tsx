@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { supabaseBrowser } from "@/lib/supabase-browser";
@@ -35,7 +35,7 @@ function normalizeRole(value: unknown): PortalRole | null {
   return null;
 }
 
-export default function LoginPage() {
+function LoginPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const roleFromQuery = normalizeRole(searchParams.get("role")) ?? "admin";
@@ -475,5 +475,13 @@ export default function LoginPage() {
         </motion.div>
       </div>
     </>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginPageContent />
+    </Suspense>
   );
 }

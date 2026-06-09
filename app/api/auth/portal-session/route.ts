@@ -13,6 +13,10 @@ type UserRoleRow = {
   role: string;
 };
 
+type JudgeRow = {
+  id: number;
+};
+
 function normalizeRole(value: unknown): PortalRole | null {
   if (typeof value !== "string") return null;
   const role = value.trim().toLowerCase();
@@ -51,10 +55,28 @@ export async function POST(request: NextRequest) {
     return response;
   }
 
-  const numericRoleId = Number(matchedRole.id);
-  const portalUserId = Number.isFinite(numericRoleId) ? numericRoleId : 0;
   const derivedFromEmail = usernameFromSupabaseEmail(authUser.user.email);
   const portalUsername = requestedUsername || derivedFromEmail || authUser.user.id;
+  const numericRoleId = Number(matchedRole.id);
+  let portalUserId = Number.isFinite(numericRoleId) ? numericRoleId : 0;
+
+  if (role === "judge") {
+    const { data: judgeRow, error: judgeError } = await supabaseServer
+      .from("judges")
+      .select("id")
+      .ilike("username", portalUsername)
+      .maybeSingle<JudgeRow>();
+
+    if (judgeError) {
+      return NextResponse.json({ error: judgeError.message }, { status: 500 });
+    }
+    if (!judgeRow) {
+      return NextResponse.json({ error: "Judge profile not found for this account." }, { status: 403 });
+    }
+
+    portalUserId = judgeRow.id;
+  }
+
   const portalToken = buildSessionToken({
     userId: portalUserId,
     username: portalUsername,
