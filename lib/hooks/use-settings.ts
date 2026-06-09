@@ -10,6 +10,7 @@ export type GlobalSettings = {
   max_team_size: number;
   max_file_size: number;
   deadline: string;
+  active_tracks: string[];
   updated_at: string;
 };
 
@@ -25,6 +26,7 @@ const DEFAULT_SETTINGS: GlobalSettings = {
   max_team_size: 5,
   max_file_size: 10,
   deadline: "",
+  active_tracks: [],
   updated_at: "",
 };
 
@@ -45,6 +47,9 @@ function normalizeSettings(value: Partial<GlobalSettings> | undefined): GlobalSe
       ? Math.max(1, Math.round(next.max_file_size))
       : DEFAULT_SETTINGS.max_file_size,
     deadline: typeof next.deadline === "string" ? next.deadline : DEFAULT_SETTINGS.deadline,
+    active_tracks: Array.isArray(next.active_tracks)
+      ? next.active_tracks.filter((item): item is string => typeof item === "string")
+      : DEFAULT_SETTINGS.active_tracks,
     updated_at: typeof next.updated_at === "string" ? next.updated_at : DEFAULT_SETTINGS.updated_at,
   };
 }

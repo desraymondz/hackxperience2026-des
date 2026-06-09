@@ -553,6 +553,7 @@ function Step01({
   setForm,
   onNext,
   maxTeamSize,
+  tracks,
   maxFileSizeMb,
   thumbnailError,
   setThumbnailError,
@@ -561,6 +562,7 @@ function Step01({
   setForm: (f: FormState) => void;
   onNext: () => void;
   maxTeamSize: number;
+  tracks: string[];
   maxFileSizeMb: number;
   thumbnailError: string | null;
   setThumbnailError: (message: string | null) => void;
@@ -595,7 +597,7 @@ function Step01({
                 style={{ width: "100%", height: 44, background: "#fff", border: `1.5px solid ${DARK_BG}`, padding: "0 36px 0 14px", fontFamily: FM, fontSize: 13, color: form.track ? DARK_BG : MUTED, appearance: "none", outline: "none", cursor: "pointer", boxSizing: "border-box" }}
               >
                 <option value="">Select track…</option>
-                {TRACKS.map(t => <option key={t} value={t}>{t}</option>)}
+                {tracks.map(t => <option key={t} value={t}>{t}</option>)}
               </select>
               <Mono color={MUTED} size={12} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}>▾</Mono>
             </div>
@@ -1372,6 +1374,7 @@ export default function SubmitPage() {
   const maxFileSizeMb = settings.max_file_size;
   const isSubmissionOpen = settings.submission_status;
   const isResubmissionOpen = settings.resubmission_status;
+  const trackOptions = settings.active_tracks.length > 0 ? settings.active_tracks : TRACKS;
   const isPastDeadline = deadlineAt !== null && nowMs > deadlineAt.getTime();
 
   // Load from DB (via token) or localStorage draft on mount
@@ -1641,6 +1644,7 @@ export default function SubmitPage() {
                         setForm={setForm}
                         onNext={goNext}
                         maxTeamSize={maxTeamSize}
+                        tracks={trackOptions}
                         maxFileSizeMb={maxFileSizeMb}
                         thumbnailError={thumbnailUploadError}
                         setThumbnailError={setThumbnailUploadError}

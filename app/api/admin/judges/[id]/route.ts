@@ -1,7 +1,5 @@
-import { randomUUID } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { normalizePortalUsername, toSupabaseAuthEmail } from "@/lib/auth/portal-identity";
-import { hashPasswordSha256 } from "@/lib/auth/password";
+import { normalizePortalUsername, toSupabaseAuthEmail, usernameFromSupabaseEmail } from "@/lib/auth/portal-identity";
 import { requireRole } from "@/lib/auth/route-guard";
 import { supabaseServer } from "@/lib/supabase-server";
 
@@ -9,9 +7,10 @@ type RouteContext = {
   params: Promise<{ id: string }>;
 };
 
-type JudgeRow = {
-  id: number;
-  username: string;
+type JudgeRoleRow = {
+  id: number | string;
+  user_id: string;
+  role: string;
 };
 
 type AuthUserListItem = {
@@ -27,9 +26,14 @@ function isAuthDuplicateError(message: string | undefined) {
   return normalized.includes("already") || normalized.includes("duplicate");
 }
 
-async function findAuthUserByEmail(email: string): Promise<AuthUserListItem | null> {
+function isMissingTableError(error: { code?: string; message?: string } | null | undefined) {
+  if (!error) return false;
+  const message = (error.message ?? "").toLowerCase();
+  return error.code === "42P01" || error.code === "PGRST205" || message.includes("could not find the table");
+}
+
+async function findAuthUserById(userId: string): Promise<AuthUserListItem | null> {
   let page = 1;
-  const normalizedEmail = email.toLowerCase();
 
   for (let checkedPages = 0; checkedPages < AUTH_MAX_PAGES; checkedPages += 1) {
     const { data, error } = await supabaseServer.auth.admin.listUsers({
@@ -39,9 +43,7 @@ async function findAuthUserByEmail(email: string): Promise<AuthUserListItem | nu
 
     if (error) throw new Error(error.message);
 
-    const user = (data.users as AuthUserListItem[]).find(
-      (candidate) => (candidate.email ?? "").toLowerCase() === normalizedEmail,
-    );
+    const user = (data.users as AuthUserListItem[]).find((candidate) => candidate.id === userId);
     if (user) return user;
 
     if (!data.nextPage) return null;
@@ -49,6 +51,15 @@ async function findAuthUserByEmail(email: string): Promise<AuthUserListItem | nu
   }
 
   return null;
+}
+
+async function findJudgeRoleById(id: number) {
+  return supabaseServer
+    .from("user_roles")
+    .select("id,user_id,role")
+    .eq("id", id)
+    .eq("role", "judge")
+    .maybeSingle<JudgeRoleRow>();
 }
 
 export async function PATCH(request: NextRequest, { params }: RouteContext) {
@@ -61,16 +72,11 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
     return NextResponse.json({ error: "Invalid judge id." }, { status: 400 });
   }
 
-  const { data: existingJudge, error: existingJudgeError } = await supabaseServer
-    .from("judges")
-    .select("id,username")
-    .eq("id", judgeId)
-    .maybeSingle<JudgeRow>();
-
-  if (existingJudgeError) {
-    return NextResponse.json({ error: existingJudgeError.message }, { status: 500 });
+  const { data: judgeRole, error: judgeRoleError } = await findJudgeRoleById(judgeId);
+  if (judgeRoleError) {
+    return NextResponse.json({ error: judgeRoleError.message }, { status: 500 });
   }
-  if (!existingJudge) {
+  if (!judgeRole) {
     return NextResponse.json({ error: "Judge not found." }, { status: 404 });
   }
 
@@ -82,41 +88,17 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
     return NextResponse.json({ error: "No valid fields to update." }, { status: 400 });
   }
 
-  const currentAuthEmail = toSupabaseAuthEmail(existingJudge.username);
-  let authUser: AuthUserListItem | null = null;
-  try {
-    authUser = await findAuthUserByEmail(currentAuthEmail);
-  } catch (authLookupError) {
-    return NextResponse.json(
-      { error: authLookupError instanceof Error ? authLookupError.message : "Unable to load auth user." },
-      { status: 500 },
-    );
-  }
-
-  if (!authUser) {
-    return NextResponse.json(
-      { error: "Linked auth user not found for this judge account." },
-      { status: 404 },
-    );
-  }
-
   const authUpdatePayload: { email?: string; password?: string; email_confirm?: boolean } = {};
-  const judgeUpdatePayload: { username?: string; password?: string } = {};
-
   if (nextUsername) {
     authUpdatePayload.email = toSupabaseAuthEmail(nextUsername);
     authUpdatePayload.email_confirm = true;
-    judgeUpdatePayload.username = nextUsername;
   }
-
   if (nextPassword) {
     authUpdatePayload.password = nextPassword;
-    // Keep legacy non-null password field populated without storing active credentials.
-    judgeUpdatePayload.password = hashPasswordSha256(randomUUID());
   }
 
   const { error: authUpdateError } = await supabaseServer.auth.admin.updateUserById(
-    authUser.id,
+    judgeRole.user_id,
     authUpdatePayload,
   );
 
@@ -127,24 +109,10 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
     return NextResponse.json({ error: authUpdateError.message }, { status: 500 });
   }
 
-  const { data, error } = await supabaseServer
-    .from("judges")
-    .update(judgeUpdatePayload)
-    .eq("id", judgeId)
-    .select("id,username")
-    .maybeSingle<JudgeRow>();
+  const authUser = await findAuthUserById(judgeRole.user_id).catch(() => null);
+  const username = nextUsername || usernameFromSupabaseEmail(authUser?.email) || judgeRole.user_id;
 
-  if (error) {
-    if (error.code === "23505") {
-      return NextResponse.json({ error: "Judge username already exists." }, { status: 409 });
-    }
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-  if (!data) {
-    return NextResponse.json({ error: "Judge not found." }, { status: 404 });
-  }
-
-  return NextResponse.json({ judge: data });
+  return NextResponse.json({ judge: { id: judgeId, username } });
 }
 
 export async function DELETE(request: NextRequest, { params }: RouteContext) {
@@ -157,45 +125,27 @@ export async function DELETE(request: NextRequest, { params }: RouteContext) {
     return NextResponse.json({ error: "Invalid judge id." }, { status: 400 });
   }
 
-  const { data: existingJudge, error: existingJudgeError } = await supabaseServer
-    .from("judges")
-    .select("id,username")
-    .eq("id", judgeId)
-    .maybeSingle<JudgeRow>();
-
-  if (existingJudgeError) {
-    return NextResponse.json({ error: existingJudgeError.message }, { status: 500 });
+  const { data: judgeRole, error: judgeRoleError } = await findJudgeRoleById(judgeId);
+  if (judgeRoleError) {
+    return NextResponse.json({ error: judgeRoleError.message }, { status: 500 });
   }
-  if (!existingJudge) {
+  if (!judgeRole) {
     return NextResponse.json({ error: "Judge not found." }, { status: 404 });
   }
 
-  const authEmail = toSupabaseAuthEmail(existingJudge.username);
-  let authUser: AuthUserListItem | null = null;
-  try {
-    authUser = await findAuthUserByEmail(authEmail);
-  } catch (authLookupError) {
-    return NextResponse.json(
-      { error: authLookupError instanceof Error ? authLookupError.message : "Unable to load auth user." },
-      { status: 500 },
-    );
+  const { error: authDeleteError } = await supabaseServer.auth.admin.deleteUser(judgeRole.user_id);
+  if (authDeleteError) {
+    return NextResponse.json({ error: authDeleteError.message }, { status: 500 });
   }
 
-  if (authUser) {
-    const roleDelete = await supabaseServer
-      .from("user_roles")
-      .delete()
-      .eq("user_id", authUser.id)
-      .eq("role", "judge");
+  const { error: roleDeleteError } = await supabaseServer
+    .from("user_roles")
+    .delete()
+    .eq("id", judgeId)
+    .eq("role", "judge");
 
-    if (roleDelete.error) {
-      return NextResponse.json({ error: roleDelete.error.message }, { status: 500 });
-    }
-
-    const { error: authDeleteError } = await supabaseServer.auth.admin.deleteUser(authUser.id);
-    if (authDeleteError) {
-      return NextResponse.json({ error: authDeleteError.message }, { status: 500 });
-    }
+  if (roleDeleteError) {
+    return NextResponse.json({ error: roleDeleteError.message }, { status: 500 });
   }
 
   const scoreDelete = await supabaseServer
@@ -203,23 +153,9 @@ export async function DELETE(request: NextRequest, { params }: RouteContext) {
     .delete()
     .eq("judges_id", judgeId);
 
-  if (scoreDelete.error) {
+  if (scoreDelete.error && !isMissingTableError(scoreDelete.error)) {
     return NextResponse.json({ error: scoreDelete.error.message }, { status: 500 });
   }
 
-  const { data, error } = await supabaseServer
-    .from("judges")
-    .delete()
-    .eq("id", judgeId)
-    .select("id")
-    .maybeSingle<{ id: number }>();
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-  if (!data) {
-    return NextResponse.json({ error: "Judge not found." }, { status: 404 });
-  }
-
-  return NextResponse.json({ ok: true, id: data.id });
+  return NextResponse.json({ ok: true, id: judgeId });
 }

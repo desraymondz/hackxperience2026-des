@@ -29,7 +29,7 @@ function buildMetrics(all: AdminSubmission[]): AdminMetric[] {
     { key: "pending", label: "PENDING", value: String(pending), helper: "awaiting review", tone: "amber" },
     { key: "approved", label: "APPROVED", value: String(approved), helper: "cleared for showcase", tone: "emerald" },
     { key: "rejected", label: "REJECTED", value: String(rejected), helper: "returned to team", tone: "red" },
-    { key: "deadline", label: "DEADLINE_COUNTDOWN", value: "00.00.00", suffix: "s", helper: "until close", tone: "neutral" },
+    { key: "deadline_countdown", label: "DEADLINE_COUNTDOWN", value: "00.00.00.00", helper: "until close", tone: "neutral" },
   ];
 }
 
@@ -299,8 +299,12 @@ function JudgeAccountsPanel({
 
   async function confirmEdit() {
     if (!editing || !editing.username.trim()) return;
-    await onUpdate(editing.id, { username: editing.username.trim() });
-    setEditing(null);
+    try {
+      await onUpdate(editing.id, { username: editing.username.trim() });
+      setEditing(null);
+    } catch {
+      // Keep the row open so the admin can fix and retry.
+    }
   }
 
   function cancelEdit() {
@@ -319,8 +323,12 @@ function JudgeAccountsPanel({
 
   async function confirmAdd() {
     if (!adding || !adding.username.trim() || !adding.password) return;
-    await onCreate({ username: adding.username.trim(), password: adding.password });
-    setAdding(null);
+    try {
+      await onCreate({ username: adding.username.trim(), password: adding.password });
+      setAdding(null);
+    } catch {
+      // Keep the row open so the admin can fix and retry.
+    }
   }
 
   function cancelAdd() {
@@ -477,7 +485,7 @@ export default function SettingsClient() {
   const [judges, setJudges] = useState<AdminJudge[]>([]);
   const [error, setError] = useState("");
   const [sessionUser, setSessionUser] = useState("admin");
-  const [sessionStart] = useState(() => Date.now());
+  const [sessionStart, setSessionStart] = useState(() => Date.now());
   const [durationNow, setDurationNow] = useState(() => Date.now());
 
   useEffect(() => {
@@ -518,6 +526,10 @@ export default function SettingsClient() {
     if (sessionResult.status === "fulfilled") {
       const username = sessionResult.value?.session?.username;
       if (typeof username === "string" && username) setSessionUser(username);
+      const issuedAt = sessionResult.value?.session?.iat;
+      if (typeof issuedAt === "number" && Number.isFinite(issuedAt)) {
+        setSessionStart(issuedAt * 1000);
+      }
     }
   }, []);
 
@@ -558,29 +570,38 @@ export default function SettingsClient() {
   }, [activeTracks, patchSettings]);
 
   const handleCreateJudge = useCallback(async (payload: { username: string; password: string }) => {
+    setError("");
     try {
       const response = await createAdminJudge(payload);
       setJudges((prev) => [...prev, response.judge]);
     } catch (createError) {
-      setError(createError instanceof Error ? createError.message : "Unable to create judge.");
+      const message = createError instanceof Error ? createError.message : "Unable to create judge.";
+      setError(message);
+      throw new Error(message);
     }
   }, []);
 
   const handleUpdateJudge = useCallback(async (id: number, payload: { username?: string; password?: string }) => {
+    setError("");
     try {
       const response = await updateAdminJudge(id, payload);
       setJudges((prev) => prev.map((judge) => judge.id === id ? response.judge : judge));
     } catch (updateError) {
-      setError(updateError instanceof Error ? updateError.message : "Unable to update judge.");
+      const message = updateError instanceof Error ? updateError.message : "Unable to update judge.";
+      setError(message);
+      throw new Error(message);
     }
   }, []);
 
   const handleDeleteJudge = useCallback(async (id: number) => {
+    setError("");
     try {
       await deleteAdminJudge(id);
       setJudges((prev) => prev.filter((judge) => judge.id !== id));
     } catch (deleteError) {
-      setError(deleteError instanceof Error ? deleteError.message : "Unable to delete judge.");
+      const message = deleteError instanceof Error ? deleteError.message : "Unable to delete judge.";
+      setError(message);
+      throw new Error(message);
     }
   }, []);
 

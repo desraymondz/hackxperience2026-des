@@ -109,7 +109,7 @@ function formatDeadlineCountdown(value: Date | null, nowMs: number): {
 } {
   if (!value) {
     return {
-      value: "00.00.00",
+      value: "00.00.00.00",
       helper: "until close",
       tone: "neutral",
     };
@@ -118,7 +118,7 @@ function formatDeadlineCountdown(value: Date | null, nowMs: number): {
   const diff = value.getTime() - nowMs;
   if (diff <= 0) {
     return {
-      value: "00.00.00",
+      value: "00.00.00.00",
       helper: "closed",
       tone: "red",
     };
@@ -127,9 +127,10 @@ function formatDeadlineCountdown(value: Date | null, nowMs: number): {
   const days = Math.floor(diff / 86400000);
   const hours = Math.floor((diff % 86400000) / 3600000);
   const minutes = Math.floor((diff % 3600000) / 60000);
+  const seconds = Math.floor((diff % 60000) / 1000);
 
   return {
-    value: [days, hours, minutes].map((part) => String(part).padStart(2, "0")).join("."),
+    value: [days, hours, minutes, seconds].map((part) => String(part).padStart(2, "0")).join("."),
     helper: "until close",
     tone: "neutral",
   };
@@ -300,6 +301,7 @@ export function AdminShellFrame({ children }: { children: ReactNode }) {
         ? {
           ...metric,
           value: deadlineMetric.value,
+          suffix: undefined,
           helper: deadlineMetric.helper,
           tone: deadlineMetric.tone,
         }

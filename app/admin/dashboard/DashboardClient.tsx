@@ -64,6 +64,64 @@ function buildMetrics(submissions: AdminSubmission[]): AdminMetric[] {
   ];
 }
 
+function scoreLabel(score: number | null) {
+  return typeof score === "number" ? `${score}` : "";
+}
+
+function scoredAverage(submission: AdminSubmission) {
+  const numericScores = submission.scores
+    .map((score) => score.score)
+    .filter((score): score is number => typeof score === "number");
+
+  if (numericScores.length === 0) return null;
+  return Math.round(numericScores.reduce((total, score) => total + score, 0) / numericScores.length);
+}
+
+function escapeCsv(value: string) {
+  return `"${value.replace(/"/g, "\"\"")}"`;
+}
+
+function makeCsv(rows: string[][]) {
+  return rows.map((row) => row.map((cell) => escapeCsv(cell)).join(",")).join("\n");
+}
+
+function buildScoresCsv(submissions: AdminSubmission[], judgeIds: string[]) {
+  const header = ["Project", "Team", ...judgeIds.map((judgeId) => judgeId.toUpperCase()), "Average Score"];
+  const rows = submissions.map((submission) => [
+    submission.projectName,
+    submission.teamName,
+    ...judgeIds.map((judgeId) => scoreLabel(submission.scores.find((score) => score.judgeId === judgeId)?.score ?? null)),
+    scoreLabel(scoredAverage(submission)),
+  ]);
+  return makeCsv([header, ...rows]);
+}
+
+function buildProjectsCsv(submissions: AdminSubmission[]) {
+  const header = ["Project", "Team", "Team ID", "Track", "Status", "Submitted At", "GitHub URL", "Live URL", "Pitch Deck URL"];
+  const rows = submissions.map((submission) => [
+    submission.projectName,
+    submission.teamName,
+    submission.teamId ?? "",
+    submission.track,
+    submission.status.toUpperCase(),
+    submission.submittedAt,
+    submission.githubUrl ?? "",
+    submission.liveUrl ?? "",
+    submission.pitchDeckUrl ?? "",
+  ]);
+  return makeCsv([header, ...rows]);
+}
+
+function downloadCsv(filename: string, csv: string) {
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 function SectionHeader({ title }: { title: string }) {
   return (
     <div className={styles.sectionHeader}>
@@ -98,7 +156,9 @@ function ToggleRow({
 }
 
 function TrackChart({ submissions }: { submissions: AdminSubmission[] }) {
-  const counts = HACKX_TRACKS.map((track) => ({
+  const dynamicTracks = Array.from(new Set(submissions.map((submission) => submission.track).filter(Boolean)));
+  const trackOrder = Array.from(new Set([...HACKX_TRACKS, ...dynamicTracks]));
+  const counts = trackOrder.map((track) => ({
     track,
     count: submissions.filter((submission) => submission.track === track).length,
   }));
@@ -205,6 +265,7 @@ export default function DashboardClient({ initialState }: { initialState: Dashbo
   const [data, setData] = useState<AdminSubmission[]>(
     initialState === "empty" ? emptySubmissions : []
   );
+  const [judgeIds, setJudgeIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(initialState !== "empty");
   const [error, setError] = useState("");
   const [viewingId, setViewingId] = useState<string | null>(null);
@@ -223,6 +284,7 @@ export default function DashboardClient({ initialState }: { initialState: Dashbo
     try {
       const payload = await fetchAdminSubmissions();
       setData(payload.submissions);
+      setJudgeIds(payload.judgeIds);
     } catch (loadError) {
       setError(loadError instanceof Error ? loadError.message : "Unable to load submissions.");
     } finally {
@@ -293,6 +355,16 @@ export default function DashboardClient({ initialState }: { initialState: Dashbo
     }
   }
 
+  function handleExportScoresCsv() {
+    const csv = buildScoresCsv(data, judgeIds);
+    downloadCsv("hackxperience-dashboard-scores.csv", csv);
+  }
+
+  function handleExportProjectsCsv() {
+    const csv = buildProjectsCsv(data);
+    downloadCsv("hackxperience-projects-list.csv", csv);
+  }
+
   return (
     <>
       <AdminShellConfig value={{ metrics: shellMetrics }} />
@@ -321,10 +393,10 @@ export default function DashboardClient({ initialState }: { initialState: Dashbo
               enabled={allowResubmissions}
               onToggle={toggleAllowResubmissions}
             />
-            <button type="button" className={styles.exportButton}>
+            <button type="button" className={styles.exportButton} onClick={handleExportScoresCsv}>
               [ EXPORT SCORES CSV ]
             </button>
-            <button type="button" className={styles.exportButton}>
+            <button type="button" className={styles.exportButton} onClick={handleExportProjectsCsv}>
               [ EXPORT PROJECTS CSV ]
             </button>
           </div>
