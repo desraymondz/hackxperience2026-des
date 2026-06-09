@@ -111,24 +111,34 @@ export async function GET(request: NextRequest) {
     scoreRowsBySubmission.set(row.submission_id, bucket);
   }
 
-  let judgeLookup: Array<{ id: JudgeIdentifier; key: string; judgeId: string }> = [];
+  const usernameByJudgeKey = new Map<string, string>();
+  const orderedJudgeUsernames: string[] = [];
   if (!judgeRolesResult.error) {
     try {
       const authUsers = await listAuthUsersById();
-      judgeLookup = ((judgeRolesResult.data ?? []) as JudgeRoleRow[])
-        .map((roleRow) => {
-          const id = typeof roleRow.id === "string" ? roleRow.id.trim() : roleRow.id;
-          if (id === "" || id === null || id === undefined) return null;
+      for (const roleRow of (judgeRolesResult.data ?? []) as JudgeRoleRow[]) {
+        const roleId = typeof roleRow.id === "string" ? roleRow.id.trim() : roleRow.id;
+        if (roleId === "" || roleId === null || roleId === undefined) continue;
 
-          const authUser = authUsers.get(roleRow.user_id);
-          const username =
-            usernameFromSupabaseEmail(authUser?.email) ||
-            authUser?.email ||
-            `judge_${String(id)}`;
+        const roleKey = normalizeJudgeKey(roleId);
+        const authUserId = typeof roleRow.user_id === "string" ? roleRow.user_id.trim() : "";
+        const authUser = authUsers.get(authUserId);
+        const username =
+          usernameFromSupabaseEmail(authUser?.email) ||
+          authUser?.email ||
+          `judge_${String(roleId)}`;
 
-          return { id, key: normalizeJudgeKey(id), judgeId: username };
-        })
-        .filter((entry): entry is { id: JudgeIdentifier; key: string; judgeId: string } => Boolean(entry));
+        if (!orderedJudgeUsernames.includes(username)) {
+          orderedJudgeUsernames.push(username);
+        }
+
+        // Primary key for current schema (judges_scores.judge_id -> auth.users.id).
+        if (authUserId) {
+          usernameByJudgeKey.set(authUserId, username);
+        }
+        // Backward compatibility for older schema that keyed scores by user_roles.id.
+        usernameByJudgeKey.set(roleKey, username);
+      }
     } catch (authError) {
       return NextResponse.json(
         { error: authError instanceof Error ? authError.message : "Unable to load auth users." },
@@ -139,42 +149,27 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: judgeRolesResult.error.message }, { status: 500 });
   }
 
-  const legacyJudgeIds = Array.from(new Set(scoreRows.map((row) => row.judges_id)))
-    .filter((judgeId) => !judgeLookup.some((judge) => judge.key === normalizeJudgeKey(judgeId)));
+  const unresolvedJudgeKeys = Array.from(new Set(scoreRows.map((row) => normalizeJudgeKey(row.judges_id))))
+    .filter((judgeKey) => !usernameByJudgeKey.has(judgeKey));
 
-  const judgeColumns =
-    judgeLookup.length > 0
-      ? [
-          ...judgeLookup,
-          ...legacyJudgeIds.map((judgeId) => ({
-            id: judgeId,
-            key: normalizeJudgeKey(judgeId),
-            judgeId: String(judgeId),
-          })),
-        ]
-      : legacyJudgeIds.map((judgeId) => ({
-          id: judgeId,
-          key: normalizeJudgeKey(judgeId),
-          judgeId: String(judgeId),
-        }));
-
-  const judgeIds = judgeColumns.map((judge) => judge.judgeId);
+  const judgeIds = [...orderedJudgeUsernames, ...unresolvedJudgeKeys];
 
   const adminSubmissions = submissions.map((submission) => {
     const rows = scoreRowsBySubmission.get(submission.id) ?? [];
+    const rowByJudgeUsername = new Map<string, JudgeScoreRow>();
 
-    const scores =
-      judgeColumns.length > 0
-        ? judgeColumns.map((judge) => {
-            const row = rows.find(
-              (candidate) => normalizeJudgeKey(candidate.judges_id) === judge.key,
-            );
-            return { judgeId: judge.judgeId, score: totalScore(row) };
-          })
-        : rows.map((row) => ({
-            judgeId: String(row.judges_id),
-            score: totalScore(row),
-          }));
+    for (const row of rows) {
+      const judgeKey = normalizeJudgeKey(row.judges_id);
+      const judgeUsername = usernameByJudgeKey.get(judgeKey) ?? judgeKey;
+      if (!rowByJudgeUsername.has(judgeUsername)) {
+        rowByJudgeUsername.set(judgeUsername, row);
+      }
+    }
+
+    const scores = judgeIds.map((judgeId) => ({
+      judgeId,
+      score: totalScore(rowByJudgeUsername.get(judgeId)),
+    }));
 
     return mapSubmissionToAdminView(submission, scores);
   });

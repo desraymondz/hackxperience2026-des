@@ -19,6 +19,7 @@ type SettingsPayload = {
 type AggregateRow = {
   id: string;
   projectName: string;
+  teamName: string;
   judgeUsername: string;
   aveScore: number;
 };
@@ -73,9 +74,10 @@ function escapeCsv(value: string) {
 }
 
 function buildCsv(rows: AggregateRow[]) {
-  const header = ["Project", "Judge Username", "Ave Score"];
+  const header = ["Project Name", "Team Name", "Judge Username", "Ave Score"];
   const values = rows.map((row) => [
     row.projectName,
+    row.teamName,
     row.judgeUsername.toUpperCase(),
     `${row.aveScore}%`,
   ]);
@@ -118,6 +120,7 @@ function buildAggregateRows(submissions: AdminSubmission[], overallMaxPoints: nu
         return {
           id: `${submission.id}:${score.judgeId}:${index}`,
           projectName: submission.projectName,
+          teamName: submission.teamName,
           judgeUsername: score.judgeId,
           aveScore: Math.round(normalizedPercent * 100) / 100,
         };
@@ -206,14 +209,18 @@ export default function ResultsClient() {
 
       <section className={styles.tablePanel}>
         <div className={styles.tableGrid}>
-          <div className={styles.tableHead}>PROJECT</div>
+          <div className={styles.tableHead}>PROJECT_NAME</div>
+          <div className={styles.tableHead}>TEAM_NAME</div>
           <div className={styles.tableHead}>JUDGE_USERNAME</div>
           <div className={styles.tableHead}>AVE_SCORE</div>
 
           {aggregateRows.map((row) => (
             <div className={styles.tableRow} key={row.id}>
-              <div className={`${styles.tableCell} ${styles.projectCell}`} data-label="PROJECT">
+              <div className={`${styles.tableCell} ${styles.projectCell}`} data-label="PROJECT_NAME">
                 <span className={styles.projectName}>{row.projectName}</span>
+              </div>
+              <div className={styles.tableCell} data-label="TEAM_NAME">
+                {row.teamName}
               </div>
               <div className={styles.tableCell} data-label="JUDGE_USERNAME">
                 {row.judgeUsername}
@@ -227,8 +234,11 @@ export default function ResultsClient() {
 
           {aggregateRows.length === 0 ? (
             <div className={styles.tableRow}>
-              <div className={`${styles.tableCell} ${styles.projectCell}`} data-label="PROJECT">
+              <div className={`${styles.tableCell} ${styles.projectCell}`} data-label="PROJECT_NAME">
                 <span className={styles.projectName}>NO SCORED PROJECTS YET</span>
+              </div>
+              <div className={styles.tableCell} data-label="TEAM_NAME">
+                -
               </div>
               <div className={styles.tableCell} data-label="JUDGE_USERNAME">
                 -
