@@ -153,7 +153,7 @@ export default function SubmissionViewOverlay({
                     <img
                       src={submission.thumbnailUrl}
                       alt={`${submission.projectName} thumbnail`}
-                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                      style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
                     />
                   ) : (
                     <>

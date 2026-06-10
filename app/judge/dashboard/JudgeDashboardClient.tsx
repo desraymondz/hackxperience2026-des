@@ -398,7 +398,7 @@ export default function JudgeDashboardClient() {
                         }}
                       >
                         <div className="r-project-thumb" style={{ flexShrink: 0 }}>
-                          <PlaceholderThumb />
+                          <PlaceholderThumb url={p.thumbnailUrl} alt={`${p.name} thumbnail`} />
                         </div>
 
                         <div style={{ flex: 1, minWidth: 0 }}>

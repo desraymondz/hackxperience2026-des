@@ -198,7 +198,7 @@ function ThumbnailPreview({ file, url: urlProp }: { file?: File | null; url?: st
     <img
       src={src}
       alt="Thumbnail preview"
-      style={{ width: "100%", aspectRatio: "16 / 9", objectFit: "cover", display: "block" }}
+      style={{ width: "100%", aspectRatio: "16 / 9", objectFit: "contain", display: "block" }}
     />
   );
 }
