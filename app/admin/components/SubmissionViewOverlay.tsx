@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { HACKX_TRACKS, type AdminSubmission, type SubmissionStatus } from "@/lib/types";
 import editStyles from "./SubmissionEditOverlay.module.css";
@@ -364,12 +365,13 @@ export default function SubmissionViewOverlay({
                   <motion.button
                     type="button"
                     className={styles.footerDelete}
+                    aria-label="Delete submission"
                     onClick={() => onDelete(submission.id)}
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.96 }}
                     transition={SPRING}
                   >
-                    DELETE
+                    <Trash2 aria-hidden="true" />
                   </motion.button>
                 </div>
                 <motion.button

@@ -405,17 +405,24 @@
 }
 
 .footerDelete {
+  width: 30px;
   height: 30px;
-  padding: 0 14px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   background: #1f1f1f;
   border: 0.5px solid #cc0000;
   color: #cc0000;
-  font-family: var(--font-admin-mono), monospace;
-  font-size: 12px;
-  line-height: 1;
   cursor: pointer;
-  white-space: nowrap;
   transition: background 0.15s, border-color 0.15s;
+}
+
+.footerDelete svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
 .footerDelete:hover {

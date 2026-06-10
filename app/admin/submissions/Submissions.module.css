@@ -269,20 +269,21 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-  background: #1a1a1a;
-  border: 1px solid #1a1a1a;
+  background: #3a9e6a;
+  border: 1px solid #3a9e6a;
   color: #ffffff;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s, transform 0.1s;
 }
 
 .approveAction:hover {
-  background: #3a3a3a;
-  border-color: #888888;
+  background: #2e8057;
+  border-color: #2e8057;
   transform: scale(1.08);
 }
 
 .approveAction:active {
+  background: #256648;
   transform: scale(0.93);
   transition-duration: 0.05s;
 }
@@ -355,21 +356,24 @@
 }
 
 .deleteAction {
+  width: 22px;
   height: 22px;
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 8px;
+  padding: 0;
   background: #ffffff;
   border: 1px solid #cc0000;
   color: #cc0000;
-  font-family: var(--font-admin-mono), monospace;
-  font-size: 10px;
-  line-height: 13px;
   cursor: pointer;
-  white-space: nowrap;
   transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.deleteAction svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
 }
 
 .deleteAction:hover {

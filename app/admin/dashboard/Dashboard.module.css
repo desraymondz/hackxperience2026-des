@@ -460,19 +460,19 @@
 }
 
 .approveAction {
-  background: #1a1a1a;
-  border-color: #1a1a1a;
+  background: #3a9e6a;
+  border-color: #3a9e6a;
   color: #ffffff;
 }
 
 .approveAction:hover {
-  background: #3a3a3a;
-  border-color: #888888;
+  background: #2e8057;
+  border-color: #2e8057;
   color: #ffffff;
 }
 
 .approveAction:active {
-  background: #262626;
+  background: #256648;
 }
 
 .rejectAction {

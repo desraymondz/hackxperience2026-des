@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, ChevronDown, Search, X } from "lucide-react";
+import { Check, ChevronDown, Search, Trash2, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AdminShellConfig, type AdminMetric } from "../components/AdminShell";
 import SubmissionViewOverlay, { type EditDraft } from "../components/SubmissionViewOverlay";
@@ -107,8 +107,8 @@ function RowActions({
       <button type="button" className={styles.viewAction} onClick={() => onViewClick(submission)}>
         VIEW
       </button>
-      <button type="button" className={styles.deleteAction} onClick={() => onDeleteClick(submission)}>
-        DELETE
+      <button type="button" className={styles.deleteAction} aria-label="Delete submission" onClick={() => onDeleteClick(submission)}>
+        <Trash2 aria-hidden="true" />
       </button>
     </div>
   );

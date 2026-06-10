@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, LogOut, Plus, X } from "lucide-react";
+import { Check, LogOut, Plus, Trash2, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AdminShellConfig, type AdminMetric } from "../components/AdminShell";
@@ -400,8 +400,8 @@ function JudgeAccountsPanel({
                   <button type="button" className={styles.editBtn} onClick={() => startEdit(judge)}>
                     EDIT
                   </button>
-                  <button type="button" className={styles.deleteBtn} onClick={() => void onDelete(judge.id)}>
-                    DELETE
+                  <button type="button" className={styles.deleteBtn} aria-label="Delete judge" onClick={() => void onDelete(judge.id)}>
+                    <Trash2 aria-hidden="true" />
                   </button>
                 </div>
               </div>
