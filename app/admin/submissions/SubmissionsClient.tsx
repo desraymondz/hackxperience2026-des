@@ -39,7 +39,18 @@ function buildMetrics(all: AdminSubmission[]): AdminMetric[] {
   ];
 }
 
-function Thumbnail() {
+function Thumbnail({ url, alt }: { url?: string | null; alt?: string }) {
+  if (url) {
+    return (
+      <span className={styles.thumbnail}>
+        <img
+          src={url}
+          alt={alt ?? "Project thumbnail"}
+          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+        />
+      </span>
+    );
+  }
   return (
     <span className={styles.thumbnail} aria-hidden="true">
       <span className={styles.thumbnailLineA} />
@@ -337,7 +348,7 @@ export default function SubmissionsClient({ filter }: { filter: SubmissionFilter
             visible.map((s) => (
               <div className={styles.tableRow} key={s.id}>
                 <div className={styles.tableCell} data-label="THUMBNAIL">
-                  <Thumbnail />
+                  <Thumbnail url={s.thumbnailUrl} alt={`${s.projectName} thumbnail`} />
                 </div>
                 <div className={styles.tableCell} data-label="PROJECT">{s.projectName}</div>
                 <div className={styles.tableCell} data-label="TEAM">{s.teamName}</div>

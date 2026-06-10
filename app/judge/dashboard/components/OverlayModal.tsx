@@ -62,7 +62,7 @@ export function OverlayModal({ project, onClose }: { project: JudgeProject; onCl
               <img
                 src={project.thumbnailUrl}
                 alt={`${project.name} thumbnail`}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
               />
             ) : (
               <>
