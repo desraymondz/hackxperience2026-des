@@ -10,6 +10,9 @@ import SubmissionViewOverlay, { type EditDraft } from "../components/SubmissionV
 import styles from "./Dashboard.module.css";
 
 type DashboardState = "empty" | "populated";
+type TrackFilter = "" | (typeof HACKX_TRACKS)[number];
+type StatusFilter = "" | SubmissionStatus;
+type SortDir = "asc" | "desc";
 
 const statusLabels: Record<SubmissionStatus, string> = {
   pending: "PENDING",
@@ -220,9 +223,76 @@ function SubmissionActions({ status, onViewClick }: { status: SubmissionStatus; 
 }
 
 function RecentSubmissionsTable({ submissions, onView }: { submissions: AdminSubmission[]; onView: (id: string) => void }) {
+  const [search, setSearch] = useState("");
+  const [trackFilter, setTrackFilter] = useState<TrackFilter>("");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("");
+  const [sortDir, setSortDir] = useState<SortDir>("desc");
+
+  const displayed = useMemo(() => {
+    let result = submissions;
+    if (trackFilter) result = result.filter((s) => s.track === trackFilter);
+    if (statusFilter) result = result.filter((s) => s.status === statusFilter);
+    if (search.trim()) {
+      const q = search.trim().toLowerCase();
+      result = result.filter(
+        (s) =>
+          s.projectName.toLowerCase().includes(q) ||
+          s.teamName.toLowerCase().includes(q)
+      );
+    }
+    return [...result]
+      .sort((a, b) => {
+        const ta = new Date(a.submittedAt).getTime() || 0;
+        const tb = new Date(b.submittedAt).getTime() || 0;
+        return sortDir === "desc" ? tb - ta : ta - tb;
+      })
+      .slice(0, 5);
+  }, [submissions, trackFilter, statusFilter, search, sortDir]);
+
   return (
     <section className={styles.tablePanel}>
-      <SectionHeader title="RECENT_SUBMISSIONS" />
+      <div className={styles.tablePanelTop}>
+        <span className={styles.sectionHeaderText}>&gt; RECENT_SUBMISSIONS</span>
+        <a href="/admin/submissions" className={styles.viewAllBtn}>VIEW ALL →</a>
+      </div>
+
+      <div className={styles.tableToolbar}>
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search project or team..."
+          className={styles.searchInput}
+        />
+        <select
+          value={trackFilter}
+          onChange={(e) => setTrackFilter(e.target.value as TrackFilter)}
+          className={styles.filterSelect}
+        >
+          <option value="">ALL TRACKS</option>
+          {HACKX_TRACKS.map((t) => (
+            <option key={t} value={t}>{t}</option>
+          ))}
+        </select>
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
+          className={styles.filterSelect}
+        >
+          <option value="">ALL STATUS</option>
+          <option value="pending">PENDING</option>
+          <option value="approved">APPROVED</option>
+          <option value="rejected">REJECTED</option>
+        </select>
+        <button
+          type="button"
+          onClick={() => setSortDir((d) => (d === "desc" ? "asc" : "desc"))}
+          className={styles.sortBtn}
+        >
+          DATE {sortDir === "desc" ? "↓ DESC" : "↑ ASC"}
+        </button>
+      </div>
+
       <div className={styles.tableFrame}>
         <div className={styles.tableGrid}>
           <div className={styles.tableHead}>THUMBNAIL</div>
@@ -235,8 +305,10 @@ function RecentSubmissionsTable({ submissions, onView }: { submissions: AdminSub
 
           {submissions.length === 0 ? (
             <div className={styles.emptyRow}>[ NO SUBMISSIONS YET ]</div>
+          ) : displayed.length === 0 ? (
+            <div className={styles.emptyRow}>[ NO RESULTS MATCH FILTERS ]</div>
           ) : (
-            submissions.map((submission) => (
+            displayed.map((submission) => (
               <div className={styles.tableRow} key={submission.id}>
                 <div className={styles.tableCell} data-label="THUMBNAIL">
                   <Thumbnail />
