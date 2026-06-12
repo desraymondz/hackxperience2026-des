@@ -3,6 +3,7 @@ import { requireRole } from "@/lib/auth/route-guard";
 import { verifyRoleMapping } from "@/lib/auth/role-mapping";
 import { supabaseServer } from "@/lib/supabase-server";
 import { totalScore, type JudgeScoreRow } from "@/lib/server/portal-data";
+import { insertSubmissionLog } from "@/lib/server/activity-log";
 import {
   type JudgeScoresIdColumn,
   normalizeJudgeScoreRows,
@@ -90,9 +91,9 @@ export async function PUT(request: NextRequest, { params }: RouteContext) {
 
   const submissionCheck = await supabaseServer
     .from("submissions")
-    .select("id,status")
+    .select("id,status,project_name")
     .eq("id", submissionId)
-    .maybeSingle<{ id: string; status: string }>();
+    .maybeSingle<{ id: string; status: string; project_name: string | null }>();
 
   if (submissionCheck.error) {
     return NextResponse.json({ error: submissionCheck.error.message }, { status: 500 });
@@ -162,8 +163,17 @@ export async function PUT(request: NextRequest, { params }: RouteContext) {
     return NextResponse.json({ error: lastErrorMessage }, { status: 500 });
   }
 
+  const scoreTotal = totalScore(savedRow);
+
+  void insertSubmissionLog({
+    submissionId,
+    action: "SCORED",
+    performedBy: auth.session.username,
+    note: `Judge ${auth.session.username} scored project ${submissionCheck.data.project_name ?? submissionId}`,
+  }).catch(() => {});
+
   return NextResponse.json({
     ok: true,
-    total: totalScore(savedRow),
+    total: scoreTotal,
   });
 }

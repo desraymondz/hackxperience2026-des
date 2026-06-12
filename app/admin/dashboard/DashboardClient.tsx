@@ -1,10 +1,11 @@
 "use client";
 
 import { Check, Trash2, X } from "lucide-react";
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AdminShellConfig, type AdminMetric } from "../components/AdminShell";
 import { usePortalSettings } from "../components/PortalSettingsContext";
-import { HACKX_TRACKS, type AdminSubmission, type SubmissionStatus } from "@/lib/types";
+import { HACKX_TRACKS, type AdminSubmission, type SubmissionScore, type SubmissionStatus } from "@/lib/types";
 import { deleteAdminSubmission, fetchAdminSubmissions, updateAdminSubmission } from "@/lib/client/admin-api";
 import SubmissionViewOverlay, { type EditDraft } from "../components/SubmissionViewOverlay";
 import styles from "./Dashboard.module.css";
@@ -67,63 +68,6 @@ function buildMetrics(submissions: AdminSubmission[]): AdminMetric[] {
   ];
 }
 
-function scoreLabel(score: number | null) {
-  return typeof score === "number" ? `${score}` : "";
-}
-
-function scoredAverage(submission: AdminSubmission) {
-  const numericScores = submission.scores
-    .map((score) => score.score)
-    .filter((score): score is number => typeof score === "number");
-
-  if (numericScores.length === 0) return null;
-  return Math.round(numericScores.reduce((total, score) => total + score, 0) / numericScores.length);
-}
-
-function escapeCsv(value: string) {
-  return `"${value.replace(/"/g, "\"\"")}"`;
-}
-
-function makeCsv(rows: string[][]) {
-  return rows.map((row) => row.map((cell) => escapeCsv(cell)).join(",")).join("\n");
-}
-
-function buildScoresCsv(submissions: AdminSubmission[], judgeIds: string[]) {
-  const header = ["Project", "Team", ...judgeIds.map((judgeId) => judgeId.toUpperCase()), "Average Score"];
-  const rows = submissions.map((submission) => [
-    submission.projectName,
-    submission.teamName,
-    ...judgeIds.map((judgeId) => scoreLabel(submission.scores.find((score) => score.judgeId === judgeId)?.score ?? null)),
-    scoreLabel(scoredAverage(submission)),
-  ]);
-  return makeCsv([header, ...rows]);
-}
-
-function buildProjectsCsv(submissions: AdminSubmission[]) {
-  const header = ["Project", "Team", "Team ID", "Track", "Status", "Submitted At", "GitHub URL", "Live URL", "Pitch Deck URL"];
-  const rows = submissions.map((submission) => [
-    submission.projectName,
-    submission.teamName,
-    submission.teamId ?? "",
-    submission.track,
-    submission.status.toUpperCase(),
-    submission.submittedAt,
-    submission.githubUrl ?? "",
-    submission.liveUrl ?? "",
-    submission.pitchDeckUrl ?? "",
-  ]);
-  return makeCsv([header, ...rows]);
-}
-
-function downloadCsv(filename: string, csv: string) {
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  link.click();
-  URL.revokeObjectURL(url);
-}
 
 function SectionHeader({ title }: { title: string }) {
   return (
@@ -158,32 +102,88 @@ function ToggleRow({
   );
 }
 
+const HEART_PIXELS = [
+  [0, 1, 1, 0, 1, 1, 0],
+  [1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1],
+  [0, 1, 1, 1, 1, 1, 0],
+  [0, 0, 1, 1, 1, 0, 0],
+  [0, 0, 0, 1, 0, 0, 0],
+] as const;
+
+function PixelHeart({ count, maxCount }: { count: number; maxCount: number }) {
+  const state =
+    count === 0         ? "dim" :
+    count === maxCount  ? "top" :
+                          "mid";
+  const pixelColor =
+    state === "dim" ? "#3a1010" :
+    state === "top" ? "#ff3333" :
+                      "#cc0000";
+  return (
+    <svg
+      width={14}
+      height={12}
+      viewBox="0 0 7 6"
+      shapeRendering="crispEdges"
+      style={{ display: "block", imageRendering: "pixelated" }}
+      className={state === "top" ? styles.heartGlow : undefined}
+      aria-hidden="true"
+    >
+      {HEART_PIXELS.map((row, y) =>
+        row.map((on, x) => {
+          if (!on) return null;
+          return <rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} fill={pixelColor} />;
+        })
+      )}
+    </svg>
+  );
+}
+
+function HpTrackRow({ track, count, maxCount }: { track: string; count: number; maxCount: number }) {
+  const targetPct = maxCount === 0 ? 0 : (count / maxCount) * 100;
+  const [ghostPct, setGhostPct] = useState(0);
+  const [fillPct, setFillPct] = useState(0);
+
+  useEffect(() => {
+    const gId = setTimeout(() => setGhostPct(targetPct), 50);
+    const fId = setTimeout(() => setFillPct(targetPct), 200);
+    return () => {
+      clearTimeout(gId);
+      clearTimeout(fId);
+    };
+  }, [targetPct]);
+
+  return (
+    <div className={styles.hpRow}>
+      <PixelHeart count={count} maxCount={maxCount} />
+      <div className={styles.hpInfo}>
+        <span className={styles.hpLabel}>{track}</span>
+        <div className={styles.hpBarOuter}>
+          <div className={styles.hpGhost} style={{ width: `${ghostPct}%` }} />
+          <div className={styles.hpFill} style={{ width: `${fillPct}%` }}>
+            {count > 0 && <span className={styles.hpCount}>{count}</span>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function TrackChart({ submissions }: { submissions: AdminSubmission[] }) {
-  const dynamicTracks = Array.from(new Set(submissions.map((submission) => submission.track).filter(Boolean)));
+  const dynamicTracks = Array.from(new Set(submissions.map((s) => s.track).filter(Boolean)));
   const trackOrder = Array.from(new Set([...HACKX_TRACKS, ...dynamicTracks]));
   const counts = trackOrder.map((track) => ({
     track,
-    count: submissions.filter((submission) => submission.track === track).length,
+    count: submissions.filter((s) => s.track === track).length,
   }));
-  const maxCount = Math.max(1, ...counts.map((item) => item.count));
+  const maxCount = Math.max(0, ...counts.map((c) => c.count));
 
   return (
-    <div className={styles.chartWrap}>
-      {counts.map((item) => {
-        const pct = item.count === 0 ? 0 : Math.max(16, Math.round((item.count / maxCount) * 80));
-        return (
-          <div className={styles.trackColumn} key={item.track}>
-            <div className={styles.barArea}>
-              <span className={styles.barValue} style={{ bottom: `calc(${pct}% + 14px)` }}>
-                {item.count}
-              </span>
-              <span className={styles.bar} style={{ height: `${pct}%` }} />
-              <span className={styles.baseline} />
-            </div>
-            <span className={styles.trackLabel}>{item.track}</span>
-          </div>
-        );
-      })}
+    <div className={styles.hpWrap}>
+      {counts.map(({ track, count }) => (
+        <HpTrackRow key={track} track={track} count={count} maxCount={maxCount} />
+      ))}
     </div>
   );
 }
@@ -233,7 +233,7 @@ function SubmissionActions({
 }) {
   return (
     <div className={styles.actions}>
-      {status === "pending" ? (
+      {(status === "pending" || status === "rejected") ? (
         <button
           type="button"
           className={`${styles.iconAction} ${styles.approveAction}`}
@@ -244,15 +244,17 @@ function SubmissionActions({
           <Check aria-hidden="true" />
         </button>
       ) : null}
-      <button
-        type="button"
-        className={`${styles.iconAction} ${styles.rejectAction}`}
-        aria-label="Reject submission"
-        disabled={busy}
-        onClick={onReject}
-      >
-        <X aria-hidden="true" />
-      </button>
+      {(status === "pending" || status === "approved") ? (
+        <button
+          type="button"
+          className={`${styles.iconAction} ${styles.rejectAction}`}
+          aria-label="Reject submission"
+          disabled={busy}
+          onClick={onReject}
+        >
+          <X aria-hidden="true" />
+        </button>
+      ) : null}
       <button
         type="button"
         className={styles.textAction}
@@ -322,6 +324,67 @@ function DeleteConfirmModal({
   );
 }
 
+type ScoreTarget = { projectName: string; scores: SubmissionScore[] };
+
+function ScoreModal({ target, onClose }: { target: ScoreTarget; onClose: () => void }) {
+  function avg(vals: (number | null | undefined)[]): number | null {
+    const valid = vals.filter((v): v is number => typeof v === "number");
+    return valid.length > 0 ? valid.reduce((a, b) => a + b, 0) / valid.length : null;
+  }
+
+  const scored = target.scores.filter((s) => s.score !== null);
+  const hasScores = scored.length > 0;
+  const overallAvg = avg(scored.map((s) => s.score));
+  const techAvg    = avg(scored.map((s) => s.technicalExecution));
+  const probAvg    = avg(scored.map((s) => s.problemSolutionFit));
+  const innoAvg    = avg(scored.map((s) => s.innovationCreativity));
+  const presAvg    = avg(scored.map((s) => s.presentationQuality));
+
+  return (
+    <div className={styles.scoreOverlay} onClick={onClose}>
+      <div className={styles.scoreModal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.scoreModalHeader}>
+          <span className={styles.scoreModalTitle}>&gt; SCORE_BREAKDOWN</span>
+          <button type="button" className={styles.scoreModalClose} onClick={onClose}>[ X ]</button>
+        </div>
+        <div className={styles.scoreModalProject}>// {target.projectName}</div>
+        {!hasScores ? (
+          <div className={styles.scoreNoData}>[ NO SCORES SUBMITTED ]</div>
+        ) : (
+          <>
+            <div className={styles.scoreOverallRow}>
+              <span className={styles.scoreOverallLabel}>OVERALL_AVG</span>
+              <span className={styles.scoreOverallValue}>{overallAvg?.toFixed(2) ?? "--"}</span>
+            </div>
+            <div className={styles.scoreSeparator} />
+            <div className={styles.scoreCriteriaList}>
+              <div className={styles.scoreCriteriaRow}>
+                <span className={styles.scoreCriteriaLabel}>TECH_EXECUTION</span>
+                <span className={styles.scoreCriteriaValue}>{techAvg?.toFixed(2) ?? "--"}</span>
+              </div>
+              <div className={styles.scoreCriteriaRow}>
+                <span className={styles.scoreCriteriaLabel}>PROB_SOLUTION_FIT</span>
+                <span className={styles.scoreCriteriaValue}>{probAvg?.toFixed(2) ?? "--"}</span>
+              </div>
+              <div className={styles.scoreCriteriaRow}>
+                <span className={styles.scoreCriteriaLabel}>INNOVATION</span>
+                <span className={styles.scoreCriteriaValue}>{innoAvg?.toFixed(2) ?? "--"}</span>
+              </div>
+              <div className={styles.scoreCriteriaRow}>
+                <span className={styles.scoreCriteriaLabel}>PRESENTATION</span>
+                <span className={styles.scoreCriteriaValue}>{presAvg?.toFixed(2) ?? "--"}</span>
+              </div>
+            </div>
+            <div className={styles.scoreJudgeCount}>
+              // {scored.length} JUDGE{scored.length === 1 ? "" : "S"} SCORED
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function RecentSubmissionsTable({
   submissions,
   onView,
@@ -345,6 +408,7 @@ function RecentSubmissionsTable({
     projectName: string;
     teamName: string;
   } | null>(null);
+  const [scoreTarget, setScoreTarget] = useState<ScoreTarget | null>(null);
 
   const displayed = useMemo(() => {
     let result = submissions;
@@ -442,6 +506,7 @@ function RecentSubmissionsTable({
             <div className={styles.tableHead}>TRACK</div>
             <div className={styles.tableHead}>STATUS</div>
             <div className={styles.tableHead}>SUBMITTED</div>
+            <div className={styles.tableHead}>SCORE</div>
             <div className={styles.tableHead}>ACTIONS</div>
 
             {submissions.length === 0 ? (
@@ -461,6 +526,15 @@ function RecentSubmissionsTable({
                     <StatusBadge status={submission.status} />
                   </div>
                   <div className={styles.tableCell} data-label="SUBMITTED">{submission.submittedAt}</div>
+                  <div className={styles.tableCell} data-label="SCORE">
+                    <button
+                      type="button"
+                      className={styles.textAction}
+                      onClick={() => setScoreTarget({ projectName: submission.projectName, scores: submission.scores ?? [] })}
+                    >
+                      VIEW
+                    </button>
+                  </div>
                   <div className={styles.tableCell} data-label="ACTIONS">
                     <SubmissionActions
                       status={submission.status}
@@ -493,6 +567,12 @@ function RecentSubmissionsTable({
           onCancel={() => setDeleteTarget(null)}
         />
       )}
+      {scoreTarget && (
+        <ScoreModal
+          target={scoreTarget}
+          onClose={() => setScoreTarget(null)}
+        />
+      )}
     </>
   );
 }
@@ -502,7 +582,6 @@ export default function DashboardClient({ initialState }: { initialState: Dashbo
   const [data, setData] = useState<AdminSubmission[]>(
     initialState === "empty" ? emptySubmissions : []
   );
-  const [judgeIds, setJudgeIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(initialState !== "empty");
   const [error, setError] = useState("");
   const [viewingId, setViewingId] = useState<string | null>(null);
@@ -521,7 +600,6 @@ export default function DashboardClient({ initialState }: { initialState: Dashbo
     try {
       const payload = await fetchAdminSubmissions();
       setData(payload.submissions);
-      setJudgeIds(payload.judgeIds);
     } catch (loadError) {
       setError(loadError instanceof Error ? loadError.message : "Unable to load submissions.");
     } finally {
@@ -592,14 +670,14 @@ export default function DashboardClient({ initialState }: { initialState: Dashbo
     }
   }
 
-  function handleExportScoresCsv() {
-    const csv = buildScoresCsv(data, judgeIds);
-    downloadCsv("hackxperience-dashboard-scores.csv", csv);
+  async function handleExportScoresXlsx() {
+    const { exportScoresXlsx } = await import("@/lib/client/export-xlsx");
+    await exportScoresXlsx(data, "hackxperience-scores.xlsx");
   }
 
-  function handleExportProjectsCsv() {
-    const csv = buildProjectsCsv(data);
-    downloadCsv("hackxperience-projects-list.csv", csv);
+  async function handleExportProjectsXlsx() {
+    const { exportProjectsXlsx } = await import("@/lib/client/export-xlsx");
+    await exportProjectsXlsx(data, "hackxperience-projects-list.xlsx");
   }
 
   return (
@@ -609,6 +687,10 @@ export default function DashboardClient({ initialState }: { initialState: Dashbo
       <header className={styles.contentHeader}>
         <h2>&gt; DASHBOARD_OVERVIEW</h2>
         <p>{error ? `// ${error.toUpperCase()}` : (loading ? "// LOADING LIVE SUBMISSIONS" : "// REAL-TIME SUBMISSION STATUS")}</p>
+        <div className={styles.tabStrip}>
+          <span className={`${styles.tab} ${styles.tabActive}`} aria-current="page">OVERVIEW</span>
+          <Link href="/admin/dashboard/activity-logs" className={styles.tab}>ACTIVITY LOGS</Link>
+        </div>
       </header>
 
       <div className={styles.dashboardGrid}>
@@ -630,11 +712,11 @@ export default function DashboardClient({ initialState }: { initialState: Dashbo
               enabled={allowResubmissions}
               onToggle={toggleAllowResubmissions}
             />
-            <button type="button" className={styles.exportButton} onClick={handleExportScoresCsv}>
-              [ EXPORT SCORES CSV ]
+            <button type="button" className={styles.exportButton} onClick={handleExportScoresXlsx}>
+              [ EXPORT SCORES XLSX ]
             </button>
-            <button type="button" className={styles.exportButton} onClick={handleExportProjectsCsv}>
-              [ EXPORT PROJECTS CSV ]
+            <button type="button" className={styles.exportButton} onClick={handleExportProjectsXlsx}>
+              [ EXPORT PROJECTS XLSX ]
             </button>
           </div>
         </section>

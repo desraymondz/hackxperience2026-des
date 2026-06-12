@@ -166,10 +166,18 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const scores = judgeIds.map((judgeId) => ({
-      judgeId,
-      score: totalScore(rowByJudgeUsername.get(judgeId)),
-    }));
+    const scores = judgeIds.map((judgeId) => {
+      const row = rowByJudgeUsername.get(judgeId);
+      return {
+        judgeId,
+        score: totalScore(row),
+        technicalExecution:  row?.technical_execution  ?? null,
+        problemSolutionFit:  row?.problem_solution_fit  ?? null,
+        innovationCreativity: row?.innovation_creativity ?? null,
+        presentationQuality:  row?.presentation_quality  ?? null,
+        comments: row?.private_comment ?? null,
+      };
+    });
 
     return mapSubmissionToAdminView(submission, scores);
   });

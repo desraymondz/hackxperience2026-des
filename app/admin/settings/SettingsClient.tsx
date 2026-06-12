@@ -48,24 +48,79 @@ function Toggle({ on, onToggle, label }: { on: boolean; onToggle: () => void; la
   );
 }
 
+function toDatetimeLocalValue(iso: string | null | undefined): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function DeadlineRow({
+  deadline,
+  onSave,
+}: {
+  deadline: string | null | undefined;
+  onSave: (isoString: string) => void;
+}) {
+  const [localVal, setLocalVal] = useState(() => toDatetimeLocalValue(deadline));
+
+  useEffect(() => {
+    setLocalVal(toDatetimeLocalValue(deadline));
+  }, [deadline]);
+
+  return (
+    <div className={styles.configRow}>
+      <span className={styles.configLabel}>
+        DEADLINE
+        <span className={styles.configSub}>// SUBMISSION CLOSE (LOCAL TIMEZONE)</span>
+      </span>
+      <div className={styles.deadlineControl}>
+        <input
+          type="datetime-local"
+          className={styles.deadlineInput}
+          value={localVal}
+          onChange={(e) => setLocalVal(e.target.value)}
+          aria-label="Submission deadline"
+        />
+        <button
+          type="button"
+          className={styles.deadlineSaveBtn}
+          disabled={!localVal}
+          onClick={() => {
+            if (!localVal) return;
+            onSave(new Date(localVal).toISOString());
+          }}
+        >
+          SET
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function SubmissionConfigPanel({
   submissionsOpen,
   allowResubmissions,
   maxTeamSize,
   maxFileSizeMb,
+  deadline,
   onToggleSubmissionsOpen,
   onToggleResubmissions,
   onMaxTeamSizeChange,
   onMaxFileSizeChange,
+  onDeadlineSave,
 }: {
   submissionsOpen: boolean;
   allowResubmissions: boolean;
   maxTeamSize: number;
   maxFileSizeMb: number;
+  deadline: string | null | undefined;
   onToggleSubmissionsOpen: () => void;
   onToggleResubmissions: () => void;
   onMaxTeamSizeChange: (next: number) => void;
   onMaxFileSizeChange: (next: number) => void;
+  onDeadlineSave: (isoString: string) => void;
 }) {
   function parsePositiveInt(raw: string, max: number) {
     const value = parseInt(raw, 10);
@@ -143,6 +198,10 @@ function SubmissionConfigPanel({
             <span className={styles.inputUnit}>MB</span>
           </div>
         </div>
+
+        <div className={styles.divider} />
+
+        <DeadlineRow deadline={deadline} onSave={onDeadlineSave} />
       </div>
     </section>
   );
@@ -627,8 +686,10 @@ export default function SettingsClient() {
           onToggleResubmissions={toggleAllowResubmissions}
           maxTeamSize={settings?.max_team_size ?? 5}
           maxFileSizeMb={settings?.max_file_size ?? 10}
+          deadline={settings?.deadline}
           onMaxTeamSizeChange={(next) => void patchSettings({ max_team_size: next })}
           onMaxFileSizeChange={(next) => void patchSettings({ max_file_size: next })}
+          onDeadlineSave={(iso) => void patchSettings({ deadline: iso })}
         />
 
         <JudgingCriteriaPanel

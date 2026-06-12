@@ -18,6 +18,12 @@ export type TeamMember = {
 export type SubmissionScore = {
   judgeId: string;
   score: number | null;
+  // Individual scoring criteria — populated by the admin API, absent in mock data.
+  technicalExecution?: number | null;
+  problemSolutionFit?: number | null;
+  innovationCreativity?: number | null;
+  presentationQuality?: number | null;
+  comments?: string | null;
 };
 
 /**

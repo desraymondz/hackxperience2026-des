@@ -1,0 +1,403 @@
+/* ── Header ──────────────────────────────────────────────── */
+
+.contentHeader {
+  margin: -26px -24px 24px -26px;
+  padding: 26px 26px 0;
+  background: #1a1a1a;
+  border-top: 3px solid #cc0000;
+  border-bottom: 1px solid #3a0808;
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+}
+
+.contentHeader h2,
+.contentHeader p {
+  margin: 0;
+  font-weight: 400;
+}
+
+.contentHeader h2 {
+  color: #cc0000;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.contentHeader p {
+  margin-top: 3px;
+  color: #888888;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* ── Realtime pill ───────────────────────────────────────── */
+
+.realtimePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.realtimePillConnecting {
+  border-color: #3a3a3a;
+  color: #888888;
+}
+
+.realtimePillLive {
+  border-color: #3a9e6a;
+  color: #3a9e6a;
+}
+
+.realtimePillError {
+  border-color: #cc0000;
+  color: #cc0000;
+}
+
+.realtimeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.realtimePillLive .realtimeDot {
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+
+/* ── Tab strip ───────────────────────────────────────────── */
+
+.tabStrip {
+  display: flex;
+  margin: 0 -26px;
+  padding: 0 26px;
+  border-top: 1px solid #3a0808;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 16px;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.04em;
+  color: #888888;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+
+.tab:hover {
+  color: #f5f0e8;
+}
+
+.tabActive {
+  color: #cc0000;
+  border-bottom-color: #cc0000;
+  cursor: default;
+}
+
+/* ── Table panel ─────────────────────────────────────────── */
+
+.tablePanel {
+  background: #ffffff;
+  border: 1px solid #cc0000;
+  box-shadow: 4px 4px 0 0 #cc0000;
+}
+
+.tablePanelTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px 14px;
+  border-bottom: 1px solid #cc0000;
+}
+
+.sectionHeaderText {
+  color: #cc0000;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* ── Toolbar ─────────────────────────────────────────────── */
+
+.tableToolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px 10px;
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 180px;
+  height: 30px;
+  padding: 0 10px;
+  background: #ffffff;
+  border: 1px solid #1a1a1a;
+  color: #1a1a1a;
+  font-size: 11px;
+  line-height: 16px;
+  font-family: var(--font-admin-mono), monospace;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.searchInput::placeholder {
+  color: #888888;
+}
+
+.searchInput:focus {
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.filterSelect {
+  height: 30px;
+  padding: 0 26px 0 8px;
+  background: #ffffff;
+  border: 1px solid #1a1a1a;
+  color: #1a1a1a;
+  font-size: 11px;
+  line-height: 16px;
+  font-family: var(--font-admin-mono), monospace;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%231a1a1a'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  transition: border-color 0.15s;
+}
+
+.filterSelect:focus {
+  border-color: #cc0000;
+}
+
+/* ── Table ───────────────────────────────────────────────── */
+
+.tableFrame {
+  overflow-x: auto;
+}
+
+.tableGrid {
+  min-width: 700px;
+  display: grid;
+  grid-template-columns: 148px 180px 1fr 200px;
+}
+
+.tableHead {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid #cc0000;
+  background: #1a1a1a;
+  color: #888888;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.tableRow {
+  display: contents;
+}
+
+.tableCell {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e0d8;
+  color: #1a1a1a;
+  font-size: 11px;
+  line-height: 15px;
+  overflow-wrap: anywhere;
+}
+
+/* ── Action badges ───────────────────────────────────────── */
+
+.actionBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  padding: 3px 10px;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.toneGreen {
+  color: #ffffff;
+  background: #3a9e6a;
+  border: 1px solid #3a9e6a;
+}
+
+.toneRed {
+  color: #ffffff;
+  background: #cc0000;
+  border: 1px solid #cc0000;
+}
+
+.toneAmber {
+  color: #9a6500;
+  background: transparent;
+  border: 1px solid #e59c00;
+}
+
+.toneNeutral {
+  color: #1a1a1a;
+  background: transparent;
+  border: 1px solid #1a1a1a;
+}
+
+/* ── Empty / loading ─────────────────────────────────────── */
+
+.emptyRow {
+  grid-column: 1 / -1;
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #e5e0d8;
+  color: #888888;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .searchInput,
+  .filterSelect {
+    height: 44px;
+    min-height: 44px;
+  }
+
+  .tableFrame {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 768px) {
+  .contentHeader {
+    margin: -20px -16px 18px;
+    padding: 22px 16px 0;
+  }
+
+  .headerRow {
+    padding-bottom: 10px;
+  }
+
+  .tabStrip {
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .tablePanelTop,
+  .tableToolbar {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .tablePanel {
+    overflow: visible;
+    box-shadow: 2px 2px 0 0 #cc0000;
+  }
+
+  .tableFrame {
+    overflow: visible;
+  }
+
+  .tableGrid {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .tableHead {
+    display: none;
+  }
+
+  .tableRow {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid #e5e0d8;
+    background: #ffffff;
+    box-shadow: 2px 2px 0 0 #cc0000;
+  }
+
+  .tableCell {
+    min-height: 0;
+    padding: 0;
+    border-bottom: 0;
+    display: block;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .tableCell::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 3px;
+    color: #888888;
+    font-size: 10px;
+    line-height: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .searchInput {
+    min-width: 100%;
+    flex-basis: 100%;
+  }
+
+  .filterSelect {
+    flex: 1;
+  }
+
+  .realtimePill {
+    font-size: 9px;
+    padding: 3px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tablePanelTop,
+  .tableToolbar {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}

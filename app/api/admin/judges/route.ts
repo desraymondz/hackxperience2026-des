@@ -8,6 +8,7 @@ import {
   usernameFromSupabaseEmail,
 } from "@/lib/auth/portal-identity";
 import { resolveLegacyJudgeId } from "@/lib/server/judge-scores";
+import { insertSubmissionLog } from "@/lib/server/activity-log";
 
 type JudgeRoleRow = {
   id: number | string;
@@ -189,6 +190,13 @@ export async function POST(request: NextRequest) {
       { status: 500 },
     );
   }
+
+  void insertSubmissionLog({
+    submissionId: null,
+    action: "JUDGE_CREATED",
+    performedBy: auth.session.username,
+    note: `Admin ${auth.session.username} created judge account for ${username}`,
+  }).catch(() => {});
 
   return NextResponse.json({ judge: { id: judgeId, username } }, { status: 201 });
 }

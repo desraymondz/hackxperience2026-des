@@ -171,6 +171,65 @@
   margin-left: 4px;
 }
 
+/* ── Deadline date/time input ─────────────────── */
+
+.deadlineControl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.deadlineInput {
+  height: 30px;
+  padding: 0 8px;
+  background: #ffffff;
+  border: 1px solid #1a1a1a;
+  color: #1a1a1a;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  line-height: 16px;
+  box-shadow: 2px 2px 0 0 #888888;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.deadlineInput:hover:not(:focus) {
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.deadlineInput:focus {
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.deadlineSaveBtn {
+  flex-shrink: 0;
+  height: 30px;
+  padding: 0 12px;
+  background: #1a1a1a;
+  border: 1px solid #cc0000;
+  color: #cc0000;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.deadlineSaveBtn:hover:not(:disabled) {
+  background: #cc0000;
+  color: #ffffff;
+}
+
+.deadlineSaveBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
 /* ── Criteria rows ────────────────────────────── */
 
 .criteriaRow {
@@ -845,6 +904,22 @@
 
   .configRow > div {
     width: 100%;
+  }
+
+  .deadlineControl {
+    width: 100%;
+  }
+
+  .deadlineInput {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .deadlineSaveBtn {
+    min-height: 44px;
+    font-size: 13px;
   }
 
   .panelFooter {

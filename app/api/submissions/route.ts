@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase-server";
+import { insertSubmissionLog } from "@/lib/server/activity-log";
 
 // POST /api/submissions — create a new submission
 export async function POST(req: NextRequest) {
@@ -38,6 +39,13 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  void insertSubmissionLog({
+    submissionId: data.id,
+    action: "SUBMITTED",
+    performedBy: `team:${body.teamId ?? ""}`,
+    note: `Team ${body.teamId ?? ""} submitted project ${body.projectName ?? ""}`,
+  }).catch(() => {});
 
   return NextResponse.json({ id: data.id, editToken: data.edit_token }, { status: 201 });
 }

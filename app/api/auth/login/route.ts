@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase-server";
 import { buildSessionToken, PORTAL_SESSION_COOKIE, sessionCookieOptions, type PortalRole } from "@/lib/auth/session";
 import { verifyPassword } from "@/lib/auth/password";
+import { insertSubmissionLog } from "@/lib/server/activity-log";
 
 type LoginRow = {
   id: number;
@@ -60,5 +61,13 @@ export async function POST(request: NextRequest) {
   });
 
   response.cookies.set(PORTAL_SESSION_COOKIE, token, sessionCookieOptions());
+
+  void insertSubmissionLog({
+    submissionId: null,
+    action: "LOGIN",
+    performedBy: role === "admin" ? `admin:${data.username}` : `judge:${data.username}`,
+    note: `${role === "admin" ? "Admin" : "Judge"} "${data.username}" logged in`,
+  }).catch(() => {});
+
   return response;
 }

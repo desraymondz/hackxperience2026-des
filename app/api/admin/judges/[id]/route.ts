@@ -3,6 +3,7 @@ import { normalizePortalUsername, toSupabaseAuthEmail, usernameFromSupabaseEmail
 import { requireRole } from "@/lib/auth/route-guard";
 import { supabaseServer } from "@/lib/supabase-server";
 import { resolveJudgeScoresIdColumn } from "@/lib/server/judge-scores";
+import { insertSubmissionLog } from "@/lib/server/activity-log";
 
 type RouteContext = {
   params: Promise<{ id: string }>;
@@ -151,6 +152,10 @@ export async function DELETE(request: NextRequest, { params }: RouteContext) {
     return NextResponse.json({ error: "Judge not found." }, { status: 404 });
   }
 
+  // Capture username before the auth user is deleted so the log note is meaningful.
+  const authUserForLog = await findAuthUserById(judgeRole.user_id).catch(() => null);
+  const judgeUsername = usernameFromSupabaseEmail(authUserForLog?.email) || judgeId;
+
   const { error: authDeleteError } = await supabaseServer.auth.admin.deleteUser(judgeRole.user_id);
   if (authDeleteError) {
     return NextResponse.json({ error: authDeleteError.message }, { status: 500 });
@@ -184,6 +189,13 @@ export async function DELETE(request: NextRequest, { params }: RouteContext) {
   if (scoreDelete.error && !isMissingTableError(scoreDelete.error)) {
     return NextResponse.json({ error: scoreDelete.error.message }, { status: 500 });
   }
+
+  void insertSubmissionLog({
+    submissionId: null,
+    action: "JUDGE_DELETED",
+    performedBy: auth.session.username,
+    note: `Admin ${auth.session.username} deleted judge account ${judgeUsername}`,
+  }).catch(() => {});
 
   return NextResponse.json({ ok: true, id: judgeId });
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireRole } from "@/lib/auth/route-guard";
 import { supabaseServer } from "@/lib/supabase-server";
 import { mapUiStatusToDb } from "@/lib/server/portal-data";
+import { insertSubmissionLog } from "@/lib/server/activity-log";
 import type { SubmissionStatus } from "@/lib/types";
 
 type RouteContext = {
@@ -67,8 +68,8 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
     .from("submissions")
     .update(updatePayload)
     .eq("id", id)
-    .select("id,status")
-    .maybeSingle();
+    .select("id,status,project_name")
+    .maybeSingle<{ id: string; status: string; project_name: string | null }>();
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -77,11 +78,18 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
     return NextResponse.json({ error: "Submission not found." }, { status: 404 });
   }
 
+  const projectName = data.project_name ?? id;
+
   try {
     await insertAdminLog({
       submissionId: id,
-      action: nextStatus ? `STATUS_${nextStatus.toUpperCase()}` : "UPDATED",
-      performedBy: `admin:${auth.session.username}`,
+      action: nextStatus ? nextStatus.toUpperCase() : "PROJECT_EDITED",
+      performedBy: auth.session.username,
+      note: nextStatus === "rejected"
+        ? `Admin ${auth.session.username} rejected project ${projectName}`
+        : !nextStatus
+          ? `Admin ${auth.session.username} edited project ${projectName}`
+          : null,
     });
   } catch {
     // Intentionally ignore non-critical audit failures here to avoid breaking UX.
@@ -95,6 +103,14 @@ export async function DELETE(request: NextRequest, { params }: RouteContext) {
   if (!auth.ok) return auth.response;
 
   const { id } = await params;
+
+  // Fetch project name before cascade so the log note is meaningful.
+  const { data: submissionForLog } = await supabaseServer
+    .from("submissions")
+    .select("project_name")
+    .eq("id", id)
+    .maybeSingle<{ project_name: string | null }>();
+  const projectName = submissionForLog?.project_name ?? id;
 
   const deleteScores = await supabaseServer
     .from("judges_scores")
@@ -125,6 +141,14 @@ export async function DELETE(request: NextRequest, { params }: RouteContext) {
   if (!data) {
     return NextResponse.json({ error: "Submission not found." }, { status: 404 });
   }
+
+  // submission_id must be null here — the FK row no longer exists.
+  void insertSubmissionLog({
+    submissionId: null,
+    action: "PROJECT_DELETED",
+    performedBy: auth.session.username,
+    note: `Admin ${auth.session.username} deleted project ${projectName}`,
+  }).catch(() => {});
 
   return NextResponse.json({ ok: true, id: data.id });
 }

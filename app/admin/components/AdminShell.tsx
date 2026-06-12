@@ -276,6 +276,39 @@ function MetricCard({ metric }: { metric: AdminMetric }) {
   );
 }
 
+function CountdownMetricCard({ metric }: { metric: AdminMetric }) {
+  const parts = metric.value.split(".");
+  const [d, h, m, s] = parts.length === 4 ? parts : ["00", "00", "00", "00"];
+
+  return (
+    <article className={`${styles.metricCard} ${toneClassNames[metric.tone]}`}>
+      <div className={styles.metricLabel}>{metric.label}</div>
+      <div className={styles.countdownRow}>
+        <div className={styles.countdownSegment}>
+          <span className={styles.metricValue}>{d}</span>
+          <span className={styles.countdownUnit}>DAYS</span>
+        </div>
+        <span className={styles.metricValue} aria-hidden="true">:</span>
+        <div className={styles.countdownSegment}>
+          <span className={styles.metricValue}>{h}</span>
+          <span className={styles.countdownUnit}>HRS</span>
+        </div>
+        <span className={styles.metricValue} aria-hidden="true">:</span>
+        <div className={styles.countdownSegment}>
+          <span className={styles.metricValue}>{m}</span>
+          <span className={styles.countdownUnit}>MIN</span>
+        </div>
+        <span className={styles.metricValue} aria-hidden="true">:</span>
+        <div className={styles.countdownSegment}>
+          <span className={styles.metricValue}>{s}</span>
+          <span className={styles.countdownUnit}>SEC</span>
+        </div>
+      </div>
+      <div className={styles.metricHelper}>{metric.helper}</div>
+    </article>
+  );
+}
+
 export function AdminShellFrame({ children }: { children: ReactNode }) {
   const { settings, deadlineAt } = useSettings();
   const pathname = usePathname();
@@ -411,9 +444,11 @@ export function AdminShellFrame({ children }: { children: ReactNode }) {
       </section>
 
       <section className={styles.metrics} aria-label="Portal metrics">
-        {metrics.map((metric) => (
-          <MetricCard key={metric.key} metric={metric} />
-        ))}
+        {metrics.map((metric) =>
+          metric.key === "deadline_countdown" || metric.key === "deadline"
+            ? <CountdownMetricCard key={metric.key} metric={metric} />
+            : <MetricCard key={metric.key} metric={metric} />
+        )}
       </section>
 
       <div className={styles.body}>

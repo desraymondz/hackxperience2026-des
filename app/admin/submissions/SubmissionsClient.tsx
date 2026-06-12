@@ -5,7 +5,7 @@ import { Check, ChevronDown, Search, Trash2, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AdminShellConfig, type AdminMetric } from "../components/AdminShell";
 import SubmissionViewOverlay, { type EditDraft } from "../components/SubmissionViewOverlay";
-import type { AdminSubmission, SubmissionStatus } from "@/lib/types";
+import type { AdminSubmission, SubmissionScore, SubmissionStatus } from "@/lib/types";
 import { deleteAdminSubmission, fetchAdminSubmissions, updateAdminSubmission } from "@/lib/client/admin-api";
 import styles from "./Submissions.module.css";
 
@@ -159,6 +159,67 @@ function DeleteModal({
   );
 }
 
+type ScoreTarget = { projectName: string; scores: SubmissionScore[] };
+
+function ScoreModal({ target, onClose }: { target: ScoreTarget; onClose: () => void }) {
+  function avg(vals: (number | null | undefined)[]): number | null {
+    const valid = vals.filter((v): v is number => typeof v === "number");
+    return valid.length > 0 ? valid.reduce((a, b) => a + b, 0) / valid.length : null;
+  }
+
+  const scored = target.scores.filter((s) => s.score !== null);
+  const hasScores = scored.length > 0;
+  const overallAvg = avg(scored.map((s) => s.score));
+  const techAvg    = avg(scored.map((s) => s.technicalExecution));
+  const probAvg    = avg(scored.map((s) => s.problemSolutionFit));
+  const innoAvg    = avg(scored.map((s) => s.innovationCreativity));
+  const presAvg    = avg(scored.map((s) => s.presentationQuality));
+
+  return (
+    <div className={styles.scoreOverlay} onClick={onClose}>
+      <div className={styles.scoreModal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.scoreModalHeader}>
+          <span className={styles.scoreModalTitle}>&gt; SCORE_BREAKDOWN</span>
+          <button type="button" className={styles.scoreModalClose} onClick={onClose}>[ X ]</button>
+        </div>
+        <div className={styles.scoreModalProject}>// {target.projectName}</div>
+        {!hasScores ? (
+          <div className={styles.scoreNoData}>[ NO SCORES SUBMITTED ]</div>
+        ) : (
+          <>
+            <div className={styles.scoreOverallRow}>
+              <span className={styles.scoreOverallLabel}>OVERALL_AVG</span>
+              <span className={styles.scoreOverallValue}>{overallAvg?.toFixed(2) ?? "--"}</span>
+            </div>
+            <div className={styles.scoreSeparator} />
+            <div className={styles.scoreCriteriaList}>
+              <div className={styles.scoreCriteriaRow}>
+                <span className={styles.scoreCriteriaLabel}>TECH_EXECUTION</span>
+                <span className={styles.scoreCriteriaValue}>{techAvg?.toFixed(2) ?? "--"}</span>
+              </div>
+              <div className={styles.scoreCriteriaRow}>
+                <span className={styles.scoreCriteriaLabel}>PROB_SOLUTION_FIT</span>
+                <span className={styles.scoreCriteriaValue}>{probAvg?.toFixed(2) ?? "--"}</span>
+              </div>
+              <div className={styles.scoreCriteriaRow}>
+                <span className={styles.scoreCriteriaLabel}>INNOVATION</span>
+                <span className={styles.scoreCriteriaValue}>{innoAvg?.toFixed(2) ?? "--"}</span>
+              </div>
+              <div className={styles.scoreCriteriaRow}>
+                <span className={styles.scoreCriteriaLabel}>PRESENTATION</span>
+                <span className={styles.scoreCriteriaValue}>{presAvg?.toFixed(2) ?? "--"}</span>
+              </div>
+            </div>
+            <div className={styles.scoreJudgeCount}>
+              // {scored.length} JUDGE{scored.length === 1 ? "" : "S"} SCORED
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function SubmissionsClient({ filter }: { filter: SubmissionFilter }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [trackFilter, setTrackFilter] = useState("all");
@@ -166,6 +227,7 @@ export default function SubmissionsClient({ filter }: { filter: SubmissionFilter
     filter === "all" ? "all" : filter,
   );
   const [pendingDelete, setPendingDelete] = useState<AdminSubmission | null>(null);
+  const [scoreTarget, setScoreTarget] = useState<ScoreTarget | null>(null);
   const [viewingId, setViewingId] = useState<string | null>(null);
   const [data, setData] = useState<AdminSubmission[]>([]);
   const [loading, setLoading] = useState(true);
@@ -340,6 +402,7 @@ export default function SubmissionsClient({ filter }: { filter: SubmissionFilter
           <div className={styles.tableHead}>TRACK</div>
           <div className={styles.tableHead}>STATUS</div>
           <div className={styles.tableHead}>SUBMITTED</div>
+          <div className={styles.tableHead}>SCORE</div>
           <div className={styles.tableHead}>ACTIONS</div>
 
           {visible.length === 0 ? (
@@ -357,6 +420,15 @@ export default function SubmissionsClient({ filter }: { filter: SubmissionFilter
                   <StatusBadge status={s.status} />
                 </div>
                 <div className={styles.tableCell} data-label="SUBMITTED">{s.submittedAt}</div>
+                <div className={styles.tableCell} data-label="SCORE">
+                  <button
+                    type="button"
+                    className={styles.viewAction}
+                    onClick={() => setScoreTarget({ projectName: s.projectName, scores: s.scores ?? [] })}
+                  >
+                    VIEW
+                  </button>
+                </div>
                 <div className={styles.tableCell} data-label="ACTIONS">
                   <RowActions
                     submission={s}
@@ -381,6 +453,12 @@ export default function SubmissionsClient({ filter }: { filter: SubmissionFilter
           />
         )}
       </AnimatePresence>
+      {scoreTarget && (
+        <ScoreModal
+          target={scoreTarget}
+          onClose={() => setScoreTarget(null)}
+        />
+      )}
 
       <SubmissionViewOverlay
         submission={viewingSubmission}

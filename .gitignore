@@ -50,3 +50,7 @@ next-env.d.ts
 
 # claude code local settings
 .claude/settings.local.json
+
+# supabase
+/supabase/entire_schema.sql
+/supabase/migrations/20260612000000_create_activity_logs.sql
