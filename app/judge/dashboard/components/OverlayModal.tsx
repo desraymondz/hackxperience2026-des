@@ -37,7 +37,7 @@ export function OverlayModal({ project, onClose }: { project: JudgeProject; onCl
         {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "13px 22px", background: C.contentBg, borderBottom: `1px solid ${C.darkRed}`, flexShrink: 0, position: "relative" }}>
           <RedBar />
-          <span style={{ fontFamily: FM, fontSize: 13, color: C.red, letterSpacing: "0.04em", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginRight: 12 }}>
+          <span style={{ fontFamily: FM, fontSize: 16, color: C.red, letterSpacing: "0.04em", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginRight: 12 }}>
             &gt; {project.name} // {project.teamName}
           </span>
           <motion.button
@@ -45,9 +45,9 @@ export function OverlayModal({ project, onClose }: { project: JudgeProject; onCl
             whileHover={{ scale: 1.15 }}
             whileTap={{ scale: 0.88 }}
             transition={SPRING}
-            style={{ width: 20, height: 20, background: C.panelBg, border: `0.5px solid ${C.red}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", padding: 0, flexShrink: 0 }}
+            style={{ width: 20, height: 20, background: C.contentBg, border: `0.5px solid ${C.offWhite}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", padding: 0, flexShrink: 0 }}
           >
-            <span style={{ fontFamily: FM, fontSize: 12, fontWeight: 100, color: C.red, lineHeight: 1 }}>×</span>
+            <span style={{ fontFamily: FM, fontSize: 20, fontWeight: 100, color: C.offWhite, lineHeight: 1 }}>×</span>
           </motion.button>
         </div>
 
@@ -71,7 +71,7 @@ export function OverlayModal({ project, onClose }: { project: JudgeProject; onCl
                   <line x1="100%" y1="0" x2="0" y2="100%" stroke="rgba(204,0,0,0.07)" strokeWidth="1" />
                 </svg>
                 <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <span style={{ fontFamily: FM, fontSize: 11, color: C.muted, letterSpacing: "0.1em" }}>[ PROJECT THUMBNAIL ]</span>
+                  <span style={{ fontFamily: FM, fontSize: 14, color: C.muted, letterSpacing: "0.1em" }}>[ PROJECT THUMBNAIL ]</span>
                 </div>
               </>
             )}
@@ -91,7 +91,7 @@ export function OverlayModal({ project, onClose }: { project: JudgeProject; onCl
 
           {/* Tech stack */}
           <div>
-            <div style={{ fontFamily: FM, fontSize: 11, color: C.red, letterSpacing: "0.08em", marginBottom: 10 }}>TECH STACK</div>
+            <div style={{ fontFamily: FM, fontSize: 14, color: C.red, letterSpacing: "0.08em", marginBottom: 10 }}>TECH STACK</div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               {project.techStack.map(t => (
                 <motion.span
@@ -99,7 +99,7 @@ export function OverlayModal({ project, onClose }: { project: JudgeProject; onCl
                   whileHover={{ scale: 1.06 }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ duration: 0.12 }}
-                  style={{ padding: "6px 10px", background: "#241818", border: "1px solid #5E1010", fontFamily: FM, fontSize: 12, color: C.red, display: "inline-block", cursor: "default" }}
+                  style={{ padding: "6px 10px", background: "#241818", border: "1px solid #5E1010", fontFamily: FM, fontSize: 15, color: C.red, display: "inline-block", cursor: "default" }}
                 >
                   {t}
                 </motion.span>
@@ -121,7 +121,7 @@ export function OverlayModal({ project, onClose }: { project: JudgeProject; onCl
 
           {/* Members */}
           <div>
-            <div style={{ fontFamily: FM, fontSize: 11, color: C.red, letterSpacing: "0.08em", marginBottom: 14 }}>TEAM MEMBERS</div>
+            <div style={{ fontFamily: FM, fontSize: 14, color: C.red, letterSpacing: "0.08em", marginBottom: 14 }}>TEAM MEMBERS</div>
             {project.members.map((m, i) => (
               <div key={i}>
                 <div style={{ display: "flex", alignItems: "center", gap: 20, padding: "10px 0" }}>
@@ -129,15 +129,15 @@ export function OverlayModal({ project, onClose }: { project: JudgeProject; onCl
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
-                    <div style={{ fontFamily: FM, fontSize: 13, color: C.offWhite }}>{m.name}</div>
-                    <div style={{ fontFamily: FM, fontSize: 11, color: C.muted2, marginTop: 2, wordBreak: "break-all" }}>{m.email.toUpperCase()}</div>
+                    <div style={{ fontFamily: FM, fontSize: 16, color: C.offWhite }}>{m.name}</div>
+                    <div style={{ fontFamily: FM, fontSize: 14, color: C.muted2, marginTop: 2, wordBreak: "break-all" }}>{m.email.toUpperCase()}</div>
                     {m.role ? (
-                      <div style={{ fontFamily: FM, fontSize: 11, color: C.muted2, marginTop: 2 }}>
+                      <div style={{ fontFamily: FM, fontSize: 14, color: C.muted2, marginTop: 2 }}>
                         ROLE: {m.role.toUpperCase()}
                       </div>
                     ) : null}
                     {m.studentId ? (
-                      <div style={{ fontFamily: FM, fontSize: 11, color: C.muted2, marginTop: 2, wordBreak: "break-all" }}>
+                      <div style={{ fontFamily: FM, fontSize: 14, color: C.muted2, marginTop: 2, wordBreak: "break-all" }}>
                         STUDENT ID: {m.studentId.toUpperCase()}
                       </div>
                     ) : null}
@@ -159,12 +159,12 @@ export function OverlayModal({ project, onClose }: { project: JudgeProject; onCl
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 24 }}>
             <div>
-              <div style={{ fontFamily: FM, fontSize: 11, color: C.red, letterSpacing: "0.08em", marginBottom: 5 }}>SUBMITTED AT</div>
-              <div style={{ fontFamily: FM, fontSize: 11, color: C.red }}>{fmtDate(project.submittedAt)}</div>
+              <div style={{ fontFamily: FM, fontSize: 14, color: C.red, letterSpacing: "0.08em", marginBottom: 5 }}>SUBMITTED AT</div>
+              <div style={{ fontFamily: FM, fontSize: 14, color: C.muted2 }}>{fmtDate(project.submittedAt)}</div>
             </div>
             <div>
-              <div style={{ fontFamily: FM, fontSize: 11, color: C.red, letterSpacing: "0.08em", marginBottom: 5 }}>LAST UPDATED</div>
-              <div style={{ fontFamily: FM, fontSize: 11, color: C.red }}>{fmtDate(project.updatedAt)}</div>
+              <div style={{ fontFamily: FM, fontSize: 14, color: C.red, letterSpacing: "0.08em", marginBottom: 5 }}>LAST UPDATED</div>
+              <div style={{ fontFamily: FM, fontSize: 14, color: C.muted2 }}>{fmtDate(project.updatedAt)}</div>
             </div>
           </div>
         </div>
@@ -176,7 +176,7 @@ export function OverlayModal({ project, onClose }: { project: JudgeProject; onCl
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             transition={SPRING}
-            style={{ height: 32, padding: "0 16px", background: "#1F1F1F", border: `1px solid ${C.offWhite}`, fontFamily: FM, fontSize: 12, color: C.offWhite, cursor: "pointer", letterSpacing: "0.06em" }}
+            style={{ height: 32, padding: "0 16px", background: "#1F1F1F", border: `1px solid ${C.offWhite}`, fontFamily: FM, fontSize: 15, color: C.offWhite, cursor: "pointer", letterSpacing: "0.06em" }}
           >
             CLOSE
           </motion.button>

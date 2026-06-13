@@ -221,19 +221,19 @@ export default function JudgeDashboardClient() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", minWidth: 0 }}>
-          <span style={{ fontFamily: FB, fontSize: 22, color: C.offWhite, letterSpacing: "0.02em", whiteSpace: "nowrap" }}>
+          <span style={{ fontFamily: FB, fontSize: 26, color: C.offWhite, letterSpacing: "0.02em", whiteSpace: "nowrap" }}>
             HACK<span style={{ color: C.red }}>X</span>JUDGE
           </span>
-          <span className="r-topbar-status" style={{ fontFamily: FM, fontSize: 12, color: C.red, margin: "0 10px" }}>|</span>
-          <span className="r-topbar-status" style={{ fontFamily: FM, fontSize: 11, color: C.muted, letterSpacing: "0.06em", whiteSpace: "nowrap" }}>COMMAND_CENTER · 2026</span>
+          <span className="r-topbar-status" style={{ fontFamily: FM, fontSize: 15, color: C.red, margin: "0 10px" }}>|</span>
+          <span className="r-topbar-status" style={{ fontFamily: FM, fontSize: 14, color: C.muted, letterSpacing: "0.06em", whiteSpace: "nowrap" }}>COMMAND_CENTER · 2026</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-          <span className="r-topbar-status" style={{ fontFamily: FM, fontSize: 11, color: C.muted, whiteSpace: "nowrap" }}>
+          <span className="r-topbar-status" style={{ fontFamily: FM, fontSize: 14, color: C.muted, whiteSpace: "nowrap" }}>
             SUBMISSION: <span style={{ color: C.red }}>{submissionOpen ? "OPEN" : "CLOSED"}</span>
           </span>
-          <span className="r-topbar-email" style={{ fontFamily: FM, fontSize: 11, color: C.muted, whiteSpace: "nowrap" }}>&gt; {sessionUser}</span>
+          <span className="r-topbar-email" style={{ fontFamily: FM, fontSize: 14, color: C.muted, whiteSpace: "nowrap" }}>&gt; {sessionUser}</span>
           <motion.button className="r-topbar-logout" onClick={handleLogout} whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} transition={SPRING}
-            style={{ height: 24, padding: "0 10px", background: "transparent", border: `1px solid ${C.red}`, fontFamily: FM, fontSize: 11, color: C.red, cursor: "pointer", letterSpacing: "0.06em", whiteSpace: "nowrap" }}>
+            style={{ height: 24, padding: "0 10px", background: "transparent", border: `1px solid ${C.red}`, fontFamily: FM, fontSize: 14, color: C.red, cursor: "pointer", letterSpacing: "0.06em", whiteSpace: "nowrap" }}>
             LOGOUT
           </motion.button>
           <button
@@ -261,13 +261,13 @@ export default function JudgeDashboardClient() {
         <div style={{ position: "relative" }}>
           <span
             className="r-hero-badge"
-            style={{ display: "inline-flex", alignItems: "center", height: 22, padding: "0 10px", background: C.red, color: C.offWhite, fontFamily: FM, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", marginBottom: 10 }}
+            style={{ display: "inline-flex", alignItems: "center", height: 22, padding: "0 10px", background: C.red, color: C.offWhite, fontFamily: FM, fontSize: 13, fontWeight: 700, letterSpacing: "0.1em", marginBottom: 10 }}
           >
             // MODULE_02 · SCORING
           </span>
           <h1
             className="r-hero-h1"
-            style={{ fontFamily: FB, fontSize: 42, lineHeight: "50px", margin: "0 0 10px", color: C.offWhite }}
+            style={{ fontFamily: FB, fontSize: 46, lineHeight: "54px", margin: "0 0 10px", color: C.offWhite }}
           >
             PROJECT <span style={{ color: C.red }}>SUBMISSION</span> PORTAL
           </h1>
@@ -278,8 +278,8 @@ export default function JudgeDashboardClient() {
               { label: "DEADLINE",   value: formatDeadline(deadlineAt),     vc: C.red      },
             ].map(({ label, value, vc }) => (
               <div key={label}>
-                <div style={{ fontFamily: FM, fontSize: 10, color: C.muted, letterSpacing: "0.06em" }}>{label}</div>
-                <div style={{ fontFamily: FM, fontSize: 11, color: vc, marginTop: 2 }}>{value}</div>
+                <div style={{ fontFamily: FM, fontSize: 13, color: C.muted, letterSpacing: "0.06em" }}>{label}</div>
+                <div style={{ fontFamily: FM, fontSize: 14, color: vc, marginTop: 2 }}>{value}</div>
               </div>
             ))}
           </div>
@@ -295,9 +295,9 @@ export default function JudgeDashboardClient() {
           style={{ width: 230, flexShrink: 0, background: C.topbarBg, borderRight: `1px solid ${C.darkRed}` }}
         >
           <div style={{ paddingTop: 20 }}>
-            <div style={{ fontFamily: FM, fontSize: 10, color: C.muted, paddingLeft: 32, marginBottom: 6, letterSpacing: "0.1em" }}>JUDGING</div>
+            <div style={{ fontFamily: FM, fontSize: 13, color: C.muted, paddingLeft: 32, marginBottom: 6, letterSpacing: "0.1em" }}>JUDGING</div>
             <div style={{ background: C.darkRed, borderLeft: `3px solid ${C.red}`, padding: "13px 0 13px 30px" }}>
-              <span style={{ fontFamily: FM, fontSize: 12, color: C.white, letterSpacing: "0.06em" }}>◆ SCORE PROJECTS</span>
+              <span style={{ fontFamily: FM, fontSize: 15, color: C.white, letterSpacing: "0.06em" }}>◆ SCORE PROJECTS</span>
             </div>
           </div>
         </aside>
@@ -310,13 +310,13 @@ export default function JudgeDashboardClient() {
             style={{ background: C.contentBg, borderBottom: `1px solid ${C.darkRed}`, padding: "18px 28px 16px", position: "relative" }}
           >
             <RedBar />
-            <div style={{ fontFamily: FM, fontSize: 13, color: C.red, letterSpacing: "0.06em", marginBottom: 3 }}>&gt; SCORE_PROJECTS</div>
-            <div style={{ fontFamily: FM, fontSize: 10, color: C.muted, letterSpacing: "0.06em", marginBottom: 3 }}>// JUDGE VIEW — SCORE APPROVED SUBMISSIONS</div>
-            <div style={{ fontFamily: FM, fontSize: 10, color: C.muted, letterSpacing: "0.04em" }}>
+            <div style={{ fontFamily: FM, fontSize: 16, color: C.red, letterSpacing: "0.06em", marginBottom: 3 }}>&gt; SCORE_PROJECTS</div>
+            <div style={{ fontFamily: FM, fontSize: 13, color: C.muted, letterSpacing: "0.06em", marginBottom: 3 }}>// JUDGE VIEW — SCORE APPROVED SUBMISSIONS</div>
+            <div style={{ fontFamily: FM, fontSize: 13, color: C.muted, letterSpacing: "0.04em" }}>
               SCORED: <span style={{ color: C.white, fontWeight: 700 }}>{scoredCount}</span> / {projectsData.length} PROJECTS
             </div>
             {loadError ? (
-              <div style={{ fontFamily: FM, fontSize: 10, color: C.red, letterSpacing: "0.04em", marginTop: 4 }}>
+              <div style={{ fontFamily: FM, fontSize: 13, color: C.red, letterSpacing: "0.04em", marginTop: 4 }}>
                 // {loadError.toUpperCase()}
               </div>
             ) : null}
@@ -341,7 +341,7 @@ export default function JudgeDashboardClient() {
                   style={{
                     padding: "5px 18px",
                     fontFamily: FM,
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 700,
                     letterSpacing: "0.1em",
                     textTransform: "uppercase" as const,
@@ -358,20 +358,22 @@ export default function JudgeDashboardClient() {
                   {track === "ALL" ? "ALL_TRACKS" : track}
                 </motion.button>
               ))}
-              <span
-                className="r-filter-count"
-                style={{ marginLeft: "auto", fontFamily: FM, fontSize: 10, color: C.muted, fontWeight: 700, letterSpacing: "0.1em", whiteSpace: "nowrap" as const }}
-              >
-                {projects.length} RECORDS_FOUND
-              </span>
             </div>
 
+            {/* Project Counter */}
+            <span
+              className="r-filter-count"
+              style={{ fontFamily: FM, fontSize: 13, color: C.muted, fontWeight: 700, letterSpacing: "0.1em", whiteSpace: "nowrap" as const }}
+            >
+              {projects.length} RECORDS_FOUND
+            </span>
+
             {loading ? (
-              <div style={{ fontFamily: FM, fontSize: 12, color: C.muted, textAlign: "center", paddingTop: 40, letterSpacing: "0.06em" }}>
+              <div style={{ fontFamily: FM, fontSize: 16, color: C.muted, textAlign: "center", paddingTop: 40, letterSpacing: "0.06em" }}>
                 [ LOADING PROJECTS... ]
               </div>
             ) : projects.length === 0 ? (
-              <div style={{ fontFamily: FM, fontSize: 12, color: C.muted, textAlign: "center", paddingTop: 40, letterSpacing: "0.06em" }}>
+              <div style={{ fontFamily: FM, fontSize: 16, color: C.muted, textAlign: "center", paddingTop: 40, letterSpacing: "0.06em" }}>
                 [ NO APPROVED SUBMISSIONS TO SCORE YET ]
               </div>
             ) : (
@@ -403,10 +405,10 @@ export default function JudgeDashboardClient() {
                         </div>
 
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontFamily: FM, fontSize: 14, color: C.white, letterSpacing: "0.04em", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          <div style={{ fontFamily: FM, fontSize: 16, color: C.white, letterSpacing: "0.04em", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                             {p.name}
                           </div>
-                          <div style={{ fontFamily: FM, fontSize: 11, color: C.muted, marginTop: 4, letterSpacing: "0.03em" }}>
+                          <div style={{ fontFamily: FM, fontSize: 14, color: C.muted, marginTop: 4, letterSpacing: "0.03em" }}>
                             {p.teamName} · {p.category}
                           </div>
                         </div>
@@ -421,7 +423,7 @@ export default function JudgeDashboardClient() {
                             whileHover={{ scale: 1.04, borderColor: C.red }}
                             whileTap={{ scale: 0.96 }}
                             transition={SPRING}
-                            style={{ height: 36, padding: "0 14px", background: C.panelBg, border: `1px solid ${C.offWhite}`, fontFamily: FM, fontSize: 12, color: "#1A1A1A", cursor: "pointer", flexShrink: 0, letterSpacing: "0.06em", transition: "border-color 0.15s" }}
+                            style={{ height: 36, padding: "0 14px", background: C.panelBg, border: `1px solid ${C.offWhite}`, fontFamily: FM, fontSize: 15, color: "#1A1A1A", cursor: "pointer", flexShrink: 0, letterSpacing: "0.06em", transition: "border-color 0.15s" }}
                           >
                             VIEW
                           </motion.button>
@@ -432,10 +434,10 @@ export default function JudgeDashboardClient() {
                             transition={SPRING}
                             style={{ background: "none", border: "none", cursor: "pointer", flexShrink: 0, padding: "0 4px", display: "flex", alignItems: "baseline", gap: 1 }}
                           >
-                            <span style={{ fontFamily: FM, fontSize: 22, color: score.saved ? C.red : C.offWhite, fontWeight: 700, lineHeight: 1 }}>
+                            <span style={{ fontFamily: FM, fontSize: 26, color: score.saved ? C.red : C.offWhite, fontWeight: 700, lineHeight: 1 }}>
                               {score.savedTotal}
                             </span>
-                            <span style={{ fontFamily: FM, fontSize: 11, color: C.muted, lineHeight: 1 }}>
+                            <span style={{ fontFamily: FM, fontSize: 14, color: C.muted, lineHeight: 1 }}>
                               /{maxScoreTotal}
                             </span>
                           </motion.button>
@@ -509,7 +511,7 @@ export default function JudgeDashboardClient() {
                 borderBottom: `1px solid ${C.red}`,
                 display: "flex", alignItems: "center", justifyContent: "space-between",
               }}>
-                <span style={{ fontFamily: FB, fontSize: 20, color: C.offWhite }}>
+                <span style={{ fontFamily: FB, fontSize: 26, color: C.offWhite }}>
                   HACK<span style={{ color: C.red }}>X</span>JUDGE
                 </span>
                 <button
@@ -517,10 +519,10 @@ export default function JudgeDashboardClient() {
                   onClick={() => setMobileNavOpen(false)}
                   aria-label="Close navigation"
                   style={{
-                    background: "transparent", border: `1px solid ${C.red}`,
-                    color: C.red, width: 28, height: 28, cursor: "pointer",
+                    background: "transparent", border: `1px solid ${C.offWhite}`,
+                    color: C.offWhite, width: 28, height: 28, cursor: "pointer",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 18, lineHeight: 1, padding: 0, flexShrink: 0,
+                    fontSize: 30, lineHeight: 1, padding: 0, flexShrink: 0,
                   }}
                 >
                   ×
@@ -529,12 +531,12 @@ export default function JudgeDashboardClient() {
 
               {/* Nav */}
               <div style={{ flex: 1, paddingTop: 20 }}>
-                <div style={{ fontFamily: FM, fontSize: 10, color: C.muted, paddingLeft: 32, marginBottom: 6, letterSpacing: "0.1em" }}>JUDGING</div>
+                <div style={{ fontFamily: FM, fontSize: 14, color: C.muted, paddingLeft: 32, marginBottom: 6, letterSpacing: "0.1em" }}>JUDGING</div>
                 <div
                   style={{ background: C.darkRed, borderLeft: `3px solid ${C.red}`, padding: "13px 0 13px 30px", cursor: "pointer" }}
                   onClick={() => setMobileNavOpen(false)}
                 >
-                  <span style={{ fontFamily: FM, fontSize: 12, color: C.white, letterSpacing: "0.06em" }}>◆ SCORE PROJECTS</span>
+                  <span style={{ fontFamily: FM, fontSize: 15, color: C.white, letterSpacing: "0.06em" }}>◆ SCORE PROJECTS</span>
                 </div>
               </div>
 
@@ -548,7 +550,7 @@ export default function JudgeDashboardClient() {
                   style={{
                     width: "100%", height: 34,
                     background: "transparent", border: `1px solid ${C.red}`,
-                    fontFamily: FM, fontSize: 11, color: C.red, cursor: "pointer",
+                    fontFamily: FM, fontSize: 16, color: C.red, cursor: "pointer",
                     letterSpacing: "0.06em", display: "flex", alignItems: "center",
                     justifyContent: "center", gap: 8,
                   }}

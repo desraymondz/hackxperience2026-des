@@ -31,8 +31,8 @@ export function PlaceholderThumb({ url, alt }: { url?: string | null; alt?: stri
 export function FieldBlock({ label, value, muted = false }: { label: string; value: string; muted?: boolean }) {
   return (
     <div style={{ minWidth: 160, flex: 1 }}>
-      <div style={{ fontFamily: FM, fontSize: 11, color: C.red, letterSpacing: "0.08em", marginBottom: 5 }}>{label}</div>
-      <div style={{ fontFamily: FM, fontSize: 12, color: muted ? C.muted2 : C.offWhite, lineHeight: "18px", wordBreak: "break-word" }}>{value}</div>
+      <div style={{ fontFamily: FM, fontSize: 14, color: C.red, letterSpacing: "0.08em", marginBottom: 5 }}>{label}</div>
+      <div style={{ fontFamily: FM, fontSize: 15, color: muted ? C.muted2 : C.offWhite, lineHeight: "18px", wordBreak: "break-word" }}>{value}</div>
     </div>
   );
 }
