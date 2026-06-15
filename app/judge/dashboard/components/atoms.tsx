@@ -26,61 +26,11 @@ export function PlaceholderThumb({ url, alt, w, h }: { url?: string | null; alt?
   );
 }
 
-<<<<<<< HEAD
-export function FieldBlock({ label, value, muted = false, isUrl = false }: { label: string; value: string; muted?: boolean; isUrl?: boolean }) {
-  const content = isUrl ? (
-    <a
-      href={value}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{
-        fontFamily: FM, fontSize: 12, lineHeight: "18px",
-        color: muted ? C.muted2 : C.offWhite,
-        wordBreak: "break-all",
-        textDecoration: "underline",
-        textUnderlineOffset: 2,
-        textDecorationThickness: 1,
-        transition: "color 0.15s",
-      }}
-      onMouseEnter={(e) => { e.currentTarget.style.color = C.red; }}
-      onMouseLeave={(e) => { e.currentTarget.style.color = muted ? C.muted2 : C.offWhite; }}
-    >
-      {value}
-    </a>
-  ) : (
-    <span style={{ fontFamily: FM, fontSize: 12, color: muted ? C.muted2 : C.offWhite, lineHeight: "18px", wordBreak: "break-word" }}>{value}</span>
-  );
-
+export function FieldBlock({ label, value, muted = false }: { label: string; value: string; muted?: boolean }) {
   return (
     <div style={{ minWidth: 160, flex: 1 }}>
-<<<<<<< HEAD
-      <div style={{ fontFamily: FM, fontSize: 11, color: C.red, letterSpacing: "0.08em", marginBottom: 5 }}>{label}</div>
-      {content}
-=======
-export function FieldBlock({ label, value, href, muted = false }: { label: string; value: string; href?: string; muted?: boolean }) {
-  return (
-    <div style={{ minWidth: 160, flex: 1 }}>
-      <div style={{ fontFamily: FM, fontSize: 14, color: C.red, letterSpacing: "0.08em", marginBottom: 5 }}>{label}</div>
-      {href ? (
-        <a 
-          href={href}
-          target="_blank" // Opens link in new tab
-          rel="noopener noreferrer"
-          style={{ fontFamily: FM, fontSize: 15, color: C.offWhite, textDecoration: "underline", cursor: "pointer", lineHeight: "18px", wordBreak: "break-word" }}
-        >
-          {value}
-        </a>
-      ) : (
-        <div style={{ fontFamily: FM, fontSize: 15, color: muted ? C.muted2 : C.offWhite, lineHeight: "18px", wordBreak: "break-word" }}
-        >
-          {value}
-        </div>
-      )}
->>>>>>> judge_page_update1
-=======
       <div style={{ fontFamily: FM, fontSize: 11, color: C.primary, letterSpacing: "0.08em", marginBottom: 5 }}>{label}</div>
       <div style={{ fontFamily: FM, fontSize: 12, color: muted ? C.textMuted : C.textPrimary, lineHeight: "18px", wordBreak: "break-word" }}>{value}</div>
->>>>>>> origin/judge_page_redesign
     </div>
   );
 }

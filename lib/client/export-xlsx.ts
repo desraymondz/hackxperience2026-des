@@ -2,10 +2,11 @@
 
 import type { AdminSubmission } from "@/lib/types";
 
-type XlsxModule = typeof import("xlsx");
-type XlsxWorkbook = import("xlsx").WorkBook;
-type XlsxCell = string | number;
-type XlsxCols = NonNullable<import("xlsx").WorkSheet["!cols"]>;
+type WriteXlsxFile = typeof import("write-excel-file/browser").default;
+type ExcelFileContent = Blob | File | ArrayBuffer;
+type ExcelRow = import("write-excel-file/browser").Row;
+type ExcelSheet = import("write-excel-file/browser").Sheet<ExcelFileContent>;
+type ExcelCell = string | number;
 
 function numOrEmpty(v: number | null | undefined): number | string {
   return typeof v === "number" ? v : "";
@@ -15,24 +16,30 @@ function strOrEmpty(v: string | null | undefined): string {
   return typeof v === "string" ? v : "";
 }
 
-function createSheet(
-  xlsx: XlsxModule,
+function makeHeaderRow(
   headers: string[],
-  rows: XlsxCell[][],
+): ExcelRow {
+  return headers.map((header) => ({ value: header, fontWeight: "bold" as const }));
+}
+
+function createSheet(
+  sheet: string,
+  headers: string[],
+  rows: ExcelRow[],
   widths: number[],
-): import("xlsx").WorkSheet {
-  const ws = xlsx.utils.aoa_to_sheet([headers, ...rows]);
-  ws["!cols"] = widths.map((wch) => ({ wch })) as XlsxCols;
-  return ws;
+): ExcelSheet {
+  return {
+    sheet,
+    stickyRowsCount: 1,
+    columns: widths.map((width) => ({ width })),
+    data: [makeHeaderRow(headers), ...rows],
+  };
 }
 
 export async function exportScoresXlsx(
   submissions: AdminSubmission[],
   filename: string,
 ): Promise<void> {
-  const xlsx = await import("xlsx");
-  const wb = xlsx.utils.book_new();
-
   const aggregated = submissions
     .map((sub) => {
       const valid = sub.scores.filter(
@@ -46,16 +53,15 @@ export async function exportScoresXlsx(
     .filter((r): r is NonNullable<typeof r> => r !== null)
     .sort((a, b) => b.avg - a.avg || a.project.localeCompare(b.project));
 
-  const aggregateRows = aggregated.map((row) => [row.project, row.team, row.avg]);
-  const ws1 = createSheet(
-    xlsx,
+  const aggregateRows = aggregated.map((row): ExcelRow => [row.project, row.team, row.avg]);
+  const scoresOverviewSheet = createSheet(
+    "Aggregate Overview",
     ["Project Name", "Team Name", "Overall Average Score"],
     aggregateRows,
     [32, 26, 24],
   );
-  xlsx.utils.book_append_sheet(wb, ws1, "Aggregate Overview");
 
-  const detailedRows: XlsxCell[][] = [];
+  const detailedRows: ExcelRow[] = [];
 
   for (const sub of submissions) {
     for (const s of sub.scores) {
@@ -74,8 +80,8 @@ export async function exportScoresXlsx(
     }
   }
 
-  const ws2 = createSheet(
-    xlsx,
+  const detailedBreakdownSheet = createSheet(
+    "Detailed Judge Breakdown",
     [
       "Project Name",
       "Team Name",
@@ -90,19 +96,15 @@ export async function exportScoresXlsx(
     detailedRows,
     [32, 26, 22, 22, 24, 24, 24, 20, 44],
   );
-  xlsx.utils.book_append_sheet(wb, ws2, "Detailed Judge Breakdown");
 
-  await downloadWorkbook(xlsx, wb, filename);
+  await downloadWorkbook([scoresOverviewSheet, detailedBreakdownSheet], filename);
 }
 
 export async function exportProjectsXlsx(
   submissions: AdminSubmission[],
   filename: string,
 ): Promise<void> {
-  const xlsx = await import("xlsx");
-  const wb = xlsx.utils.book_new();
-
-  const rows = submissions.map((sub) => [
+  const rows = submissions.map((sub): ExcelRow => [
     sub.projectName,
     sub.teamName,
     strOrEmpty(sub.teamId),
@@ -114,8 +116,8 @@ export async function exportProjectsXlsx(
     strOrEmpty(sub.pitchDeckUrl),
   ]);
 
-  const ws = createSheet(
-    xlsx,
+  const projectsSheet = createSheet(
+    "Projects",
     [
       "Project Name",
       "Team Name",
@@ -130,24 +132,16 @@ export async function exportProjectsXlsx(
     rows,
     [32, 26, 16, 20, 14, 22, 40, 36, 36],
   );
-  xlsx.utils.book_append_sheet(wb, ws, "Projects");
 
-  await downloadWorkbook(xlsx, wb, filename);
+  await downloadWorkbook([projectsSheet], filename);
 }
 
 async function downloadWorkbook(
-  xlsx: XlsxModule,
-  wb: XlsxWorkbook,
+  sheets: ExcelSheet[],
   filename: string,
 ): Promise<void> {
-  const buffer = xlsx.write(wb, { bookType: "xlsx", type: "array" });
-  const blob = new Blob([buffer], {
-    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
+  const { default: writeXlsxFile } = (await import(
+    "write-excel-file/browser"
+  )) as { default: WriteXlsxFile };
+  await writeXlsxFile(sheets).toFile(filename);
 }

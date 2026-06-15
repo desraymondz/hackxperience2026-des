@@ -223,22 +223,6 @@ export default function JudgeDashboardClient() {
           padding: "0 32px", flexShrink: 0, position: "sticky", top: 0, zIndex: 20,
         }}
       >
-<<<<<<< HEAD
-        <div style={{ display: "flex", alignItems: "center", minWidth: 0 }}>
-          <span style={{ fontFamily: FB, fontSize: 26, color: C.offWhite, letterSpacing: "0.02em", whiteSpace: "nowrap" }}>
-            HACK<span style={{ color: C.red }}>X</span>JUDGE
-          </span>
-          <span className="r-topbar-status" style={{ fontFamily: FM, fontSize: 15, color: C.red, margin: "0 10px" }}>|</span>
-          <span className="r-topbar-status" style={{ fontFamily: FM, fontSize: 14, color: C.muted, letterSpacing: "0.06em", whiteSpace: "nowrap" }}>COMMAND_CENTER · 2026</span>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-          <span className="r-topbar-status" style={{ fontFamily: FM, fontSize: 14, color: C.muted, whiteSpace: "nowrap" }}>
-            SUBMISSION: <span style={{ color: C.red }}>{submissionOpen ? "OPEN" : "CLOSED"}</span>
-          </span>
-          <span className="r-topbar-email" style={{ fontFamily: FM, fontSize: 14, color: C.muted, whiteSpace: "nowrap" }}>&gt; {sessionUser}</span>
-          <motion.button className="r-topbar-logout" onClick={handleLogout} whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} transition={SPRING}
-            style={{ height: 24, padding: "0 10px", background: "transparent", border: `1px solid ${C.red}`, fontFamily: FM, fontSize: 14, color: C.red, cursor: "pointer", letterSpacing: "0.06em", whiteSpace: "nowrap" }}>
-=======
         {/* Left: Logo + subtitle */}
         <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
           <span style={{ fontFamily: FB, fontSize: 22, color: C.textPrimary, letterSpacing: "0.02em", whiteSpace: "nowrap" }}>
@@ -288,7 +272,6 @@ export default function JudgeDashboardClient() {
               cursor: "pointer", letterSpacing: "0.06em", whiteSpace: "nowrap",
             }}
           >
->>>>>>> origin/judge_page_redesign
             LOGOUT
           </motion.button>
 
@@ -323,21 +306,13 @@ export default function JudgeDashboardClient() {
         <div style={{ position: "relative" }}>
           <span
             className="r-hero-badge"
-<<<<<<< HEAD
-            style={{ display: "inline-flex", alignItems: "center", height: 22, padding: "0 10px", background: C.red, color: C.offWhite, fontFamily: FM, fontSize: 13, fontWeight: 700, letterSpacing: "0.1em", marginBottom: 10 }}
-=======
             style={{ display: "inline-flex", alignItems: "center", height: 22, padding: "0 10px", background: C.primary, color: C.white, fontFamily: FM, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", marginBottom: 10 }}
->>>>>>> origin/judge_page_redesign
           >
             // MODULE_02 · SCORING
           </span>
           <h1
             className="r-hero-h1"
-<<<<<<< HEAD
-            style={{ fontFamily: FB, fontSize: 46, lineHeight: "54px", margin: "0 0 10px", color: C.offWhite }}
-=======
             style={{ fontFamily: FB, fontSize: 42, lineHeight: "50px", margin: "0 0 10px", color: C.textPrimary }}
->>>>>>> origin/judge_page_redesign
           >
             PROJECT <span style={{ color: C.primary }}>SUBMISSION</span> PORTAL
           </h1>
@@ -348,13 +323,8 @@ export default function JudgeDashboardClient() {
               { label: "DEADLINE",   value: deadlineAt ? deadlineAt.toLocaleString("en-SG", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Singapore", timeZoneName: "short" }) : "--", vc: C.primary },
             ].map(({ label, value, vc }) => (
               <div key={label}>
-<<<<<<< HEAD
-                <div style={{ fontFamily: FM, fontSize: 13, color: C.muted, letterSpacing: "0.06em" }}>{label}</div>
-                <div style={{ fontFamily: FM, fontSize: 14, color: vc, marginTop: 2 }}>{value}</div>
-=======
                 <div style={{ fontFamily: FM, fontSize: 10, color: C.textMuted, letterSpacing: "0.06em" }}>{label}</div>
                 <div style={{ fontFamily: FM, fontSize: 11, color: vc, marginTop: 2 }}>{value}</div>
->>>>>>> origin/judge_page_redesign
               </div>
             ))}
           </div>
@@ -369,12 +339,6 @@ export default function JudgeDashboardClient() {
           className="r-sidebar"
           style={{ width: 200, flexShrink: 0, background: C.white, borderRight: "none", display: "flex", flexDirection: "column" }}
         >
-<<<<<<< HEAD
-          <div style={{ paddingTop: 20 }}>
-            <div style={{ fontFamily: FM, fontSize: 13, color: C.muted, paddingLeft: 32, marginBottom: 6, letterSpacing: "0.1em" }}>JUDGING</div>
-            <div style={{ background: C.darkRed, borderLeft: `3px solid ${C.red}`, padding: "13px 0 13px 30px" }}>
-              <span style={{ fontFamily: FM, fontSize: 15, color: C.white, letterSpacing: "0.06em" }}>◆ SCORE PROJECTS</span>
-=======
           <div style={{ paddingTop: 20, flex: 1 }}>
             {NAV_ITEMS.map((item) => (
               <div
@@ -405,7 +369,6 @@ export default function JudgeDashboardClient() {
             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
               <span style={{ fontFamily: FM, fontSize: 10, color: C.textMuted }}>?</span>
               <span style={{ fontFamily: FM, fontSize: 10, color: C.textMuted, letterSpacing: "0.04em" }}>NEED HELP?</span>
->>>>>>> origin/judge_page_redesign
             </div>
             <a
               href="#"
@@ -430,16 +393,6 @@ export default function JudgeDashboardClient() {
               boxShadow: "0 2px 8px rgba(0,0,0,0.04)"
             }}
           >
-<<<<<<< HEAD
-            <RedBar />
-            <div style={{ fontFamily: FM, fontSize: 16, color: C.red, letterSpacing: "0.06em", marginBottom: 3 }}>&gt; SCORE_PROJECTS</div>
-            <div style={{ fontFamily: FM, fontSize: 13, color: C.muted, letterSpacing: "0.06em", marginBottom: 3 }}>// JUDGE VIEW — SCORE APPROVED SUBMISSIONS</div>
-            <div style={{ fontFamily: FM, fontSize: 13, color: C.muted, letterSpacing: "0.04em" }}>
-              SCORED: <span style={{ color: C.white, fontWeight: 700 }}>{scoredCount}</span> / {projectsData.length} PROJECTS
-            </div>
-            {loadError ? (
-              <div style={{ fontFamily: FM, fontSize: 13, color: C.red, letterSpacing: "0.04em", marginTop: 4 }}>
-=======
             {/* Label + bar */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
               <div style={{ fontFamily: FM, fontSize: 10, color: C.textMuted, letterSpacing: "0.08em", textTransform: "uppercase" as const }}>
@@ -497,7 +450,6 @@ export default function JudgeDashboardClient() {
 
             {loadError && (
               <div style={{ fontFamily: FM, fontSize: 10, color: C.primary, letterSpacing: "0.04em", marginTop: 8 }}>
->>>>>>> origin/judge_page_redesign
                 // {loadError.toUpperCase()}
               </div>
             )}
@@ -561,20 +513,10 @@ export default function JudgeDashboardClient() {
                   whileTap={{ y: 1 }}
                   transition={{ duration: 0.1 }}
                   style={{
-<<<<<<< HEAD
-                    padding: "5px 18px",
-                    fontFamily: FM,
-                    fontSize: 12,
-                    fontWeight: 700,
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase" as const,
-                    border: "2px solid #1A1A1A",
-=======
                     padding: "4px 14px",
                     fontFamily: FM, fontSize: 10, fontWeight: 700,
                     letterSpacing: "0.08em", textTransform: "uppercase" as const,
                     border: `2px solid ${activeTrack === track ? C.primary : C.textPrimary}`,
->>>>>>> origin/judge_page_redesign
                     borderRadius: 9999,
                     background: activeTrack === track ? C.primary : C.bgPrimary,
                     color: activeTrack === track ? C.white : C.textPrimary,
@@ -586,25 +528,6 @@ export default function JudgeDashboardClient() {
                 >
                   {track === "ALL" ? "ALL TRACKS" : track}
                 </motion.button>
-<<<<<<< HEAD
-              ))}
-            </div>
-
-            {/* Project Counter */}
-            <span
-              className="r-filter-count"
-              style={{ fontFamily: FM, fontSize: 13, color: C.muted, fontWeight: 700, letterSpacing: "0.1em", whiteSpace: "nowrap" as const }}
-            >
-              {projects.length} RECORDS_FOUND
-            </span>
-
-            {loading ? (
-              <div style={{ fontFamily: FM, fontSize: 16, color: C.muted, textAlign: "center", paddingTop: 40, letterSpacing: "0.06em" }}>
-                [ LOADING PROJECTS... ]
-              </div>
-            ) : projects.length === 0 ? (
-              <div style={{ fontFamily: FM, fontSize: 16, color: C.muted, textAlign: "center", paddingTop: 40, letterSpacing: "0.06em" }}>
-=======
                 ))}
               </div>
             </div>
@@ -616,7 +539,6 @@ export default function JudgeDashboardClient() {
               </div>
             ) : filteredProjects.length === 0 ? (
               <div style={{ fontFamily: FM, fontSize: 12, color: C.textMuted, textAlign: "center", padding: "24px 0", letterSpacing: "0.06em" }}>
->>>>>>> origin/judge_page_redesign
                 [ NO APPROVED SUBMISSIONS TO SCORE YET ]
               </div>
             ) : (
@@ -634,66 +556,6 @@ export default function JudgeDashboardClient() {
                   const displayScore = score.saved ? score.savedTotal : liveTotal;
 
                   return (
-<<<<<<< HEAD
-                    <div key={p.id}>
-                      <motion.div
-                        onClick={() => setExpandedId(isExpanded ? null : p.id)}
-                        className="r-project-row"
-                        whileHover={{ boxShadow: SHADOW_LG }}
-                        transition={{ duration: 0.15 }}
-                        style={{
-                          display: "flex", alignItems: "center",
-                          background: C.darkRed,
-                          borderTop: `0.5px solid ${C.red}`,
-                          borderRight: `0.5px solid ${C.red}`,
-                          borderBottom: `0.5px solid ${C.red}`,
-                          borderLeft: `2px solid ${C.red}`,
-                          padding: "12px 16px 12px 15px", gap: 14,
-                          boxShadow: SHADOW,
-                        }}
-                      >
-                        <div className="r-project-thumb" style={{ flexShrink: 0 }}>
-                          <PlaceholderThumb url={p.thumbnailUrl} alt={`${p.name} thumbnail`} />
-                        </div>
-
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontFamily: FM, fontSize: 16, color: C.white, letterSpacing: "0.04em", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                            {p.name}
-                          </div>
-                          <div style={{ fontFamily: FM, fontSize: 14, color: C.muted, marginTop: 4, letterSpacing: "0.03em" }}>
-                            {p.teamName} · {p.category}
-                          </div>
-                        </div>
-
-                        {/* Actions — wrapped into a group so they move to next row on mobile */}
-                        <div className="r-project-actions" style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
-                          <motion.button
-                            onClick={(e) => {
-                              e.stopPropagation(); // prevents setExpandedId() from running
-                              setOverlayProject(p)
-                            }}
-                            whileHover={{ scale: 1.04, borderColor: C.red }}
-                            whileTap={{ scale: 0.96 }}
-                            transition={SPRING}
-                            style={{ height: 36, padding: "0 14px", background: C.panelBg, border: `1px solid ${C.offWhite}`, fontFamily: FM, fontSize: 15, color: "#1A1A1A", cursor: "pointer", flexShrink: 0, letterSpacing: "0.06em", transition: "border-color 0.15s" }}
-                          >
-                            VIEW
-                          </motion.button>
-                          <motion.button
-                            onClick={() => setExpandedId(isExpanded ? null : p.id)}
-                            whileHover={{ scale: 1.06 }}
-                            whileTap={{ scale: 0.94 }}
-                            transition={SPRING}
-                            style={{ background: "none", border: "none", cursor: "pointer", flexShrink: 0, padding: "0 4px", display: "flex", alignItems: "baseline", gap: 1 }}
-                          >
-                            <span style={{ fontFamily: FM, fontSize: 26, color: score.saved ? C.red : C.offWhite, fontWeight: 700, lineHeight: 1 }}>
-                              {score.savedTotal}
-                            </span>
-                            <span style={{ fontFamily: FM, fontSize: 14, color: C.muted, lineHeight: 1 }}>
-                              /{maxScoreTotal}
-                            </span>
-                          </motion.button>
-=======
                     <motion.div
                       key={p.id}
                       className="r-project-card"
@@ -758,7 +620,6 @@ export default function JudgeDashboardClient() {
                             <span style={{ fontFamily: FM, fontSize: 12, color: C.textMuted }}>—</span>
                           )}
                           <span style={{ fontFamily: FM, fontSize: 10, color: C.textMuted }}>/ {maxScoreTotal}</span>
->>>>>>> origin/judge_page_redesign
                         </div>
                         <div style={{ fontFamily: FM, fontSize: 9, color: C.textMuted, marginTop: 1 }}>
                           {score.saved ? "Scored" : "Not scored"}
@@ -980,28 +841,18 @@ export default function JudgeDashboardClient() {
                 borderBottom: `1px solid ${C.borderMedium}`,
                 display: "flex", alignItems: "center", justifyContent: "space-between",
               }}>
-<<<<<<< HEAD
-                <span style={{ fontFamily: FB, fontSize: 26, color: C.offWhite }}>
-                  HACK<span style={{ color: C.red }}>X</span>JUDGE
-=======
                 <span style={{ fontFamily: FB, fontSize: 20, color: C.textPrimary }}>
                   HACK<span style={{ color: C.primary }}>X</span>JUDGE
->>>>>>> origin/judge_page_redesign
                 </span>
                 <button
                   type="button"
                   onClick={() => setMobileNavOpen(false)}
                   aria-label="Close navigation"
                   style={{
-<<<<<<< HEAD
-                    background: "transparent", border: `1px solid ${C.offWhite}`,
-                    color: C.offWhite, width: 28, height: 28, cursor: "pointer",
-=======
                     background: "transparent", border: `1px solid ${C.primary}`,
                     color: C.primary, width: 28, height: 28, cursor: "pointer",
->>>>>>> origin/judge_page_redesign
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 30, lineHeight: 1, padding: 0, flexShrink: 0,
+                    fontSize: 18, lineHeight: 1, padding: 0, flexShrink: 0,
                   }}
                 >
                   ×
@@ -1009,15 +860,6 @@ export default function JudgeDashboardClient() {
               </div>
 
               {/* Nav */}
-<<<<<<< HEAD
-              <div style={{ flex: 1, paddingTop: 20 }}>
-                <div style={{ fontFamily: FM, fontSize: 14, color: C.muted, paddingLeft: 32, marginBottom: 6, letterSpacing: "0.1em" }}>JUDGING</div>
-                <div
-                  style={{ background: C.darkRed, borderLeft: `3px solid ${C.red}`, padding: "13px 0 13px 30px", cursor: "pointer" }}
-                  onClick={() => setMobileNavOpen(false)}
-                >
-                  <span style={{ fontFamily: FM, fontSize: 15, color: C.white, letterSpacing: "0.06em" }}>◆ SCORE PROJECTS</span>
-=======
               <div style={{ flex: 1, paddingTop: 12 }}>
                 {NAV_ITEMS.map((item) => (
                   <div
@@ -1055,7 +897,6 @@ export default function JudgeDashboardClient() {
                   <span style={{ fontFamily: FM, fontSize: 10, color: submissionOpen ? C.textSuccess : C.textMuted }}>
                     SUBMISSION {submissionOpen ? "OPEN" : "CLOSED"}
                   </span>
->>>>>>> origin/judge_page_redesign
                 </div>
               </div>
 
@@ -1068,13 +909,8 @@ export default function JudgeDashboardClient() {
                   transition={SPRING}
                   style={{
                     width: "100%", height: 34,
-<<<<<<< HEAD
-                    background: "transparent", border: `1px solid ${C.red}`,
-                    fontFamily: FM, fontSize: 16, color: C.red, cursor: "pointer",
-=======
                     background: "transparent", border: `1px solid ${C.primary}`,
                     fontFamily: FM, fontSize: 11, color: C.primary, cursor: "pointer",
->>>>>>> origin/judge_page_redesign
                     letterSpacing: "0.06em", display: "flex", alignItems: "center",
                     justifyContent: "center", gap: 8,
                   }}

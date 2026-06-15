@@ -43,15 +43,9 @@ export const RESPONSIVE_CSS = `
 
   /* Hero */
   @media (max-width: 768px) {
-<<<<<<< HEAD
-    .r-hero         { padding: 14px 20px 16px !important; }
-    .r-hero-h1      { font-size: 30px !important; line-height: 36px !important; margin-bottom: 10px !important; }
-    .r-hero-meta    { gap: 10px 20px !important; margin-top: 10px !important; }
-=======
     .r-hero      { padding: 14px 20px 16px !important; }
     .r-hero-h1   { font-size: 26px !important; line-height: 32px !important; margin-bottom: 10px !important; }
     .r-hero-meta { gap: 10px 20px !important; margin-top: 10px !important; }
->>>>>>> origin/judge_page_redesign
   }
 
   /* Body layout */
