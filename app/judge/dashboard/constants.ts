@@ -2,16 +2,23 @@
 
 // ── Colour tokens ─────────────────────────────────────────────────
 export const C = {
-  pageBg:    "#F5F0E8",
-  topbarBg:  "#1A1A1A",
-  contentBg: "#1A1A1A",
-  darkRed:   "#3A0808",
-  red:       "#CC0000",
-  panelBg:   "#FFFFFF",
-  muted:     "#888888",
-  muted2:    "#888888",
-  offWhite:  "#F5F0E8",
-  white:     "#FFFFFF",
+  // Backgrounds
+  bgPrimary:    "#FAFAFA", // Main page background
+  bgThumbnail:  "#F0EBE3", // Thumbnail placeholder
+
+  // Text
+  textPrimary:  "#1A1A1A", // Main text
+  textMuted:    "#555555", // Secondary text, labels
+  textSuccess:  "#22C55E", // Success states
+
+  // Borders
+  borderLight:  "#EAE3D8", // Dividers, subtle borders
+  borderMedium: "#D0C8BC", // Card borders, inputs
+  borderSuccess:"#22C55E", // Success borders
+
+  // Brands / Accents
+  primary:      "#CC0000", // Main accent red
+  white:        "#FFFFFF", // Pure white
 } as const;
 
 export const FM        = "var(--font-ibm-plex-mono), 'IBM Plex Mono', monospace";
@@ -36,9 +43,9 @@ export const RESPONSIVE_CSS = `
 
   /* Hero */
   @media (max-width: 768px) {
-    .r-hero         { padding: 14px 20px 16px !important; }
-    .r-hero-h1      { font-size: 26px !important; line-height: 32px !important; margin-bottom: 10px !important; }
-    .r-hero-meta    { gap: 10px 20px !important; margin-top: 10px !important; }
+    .r-hero      { padding: 14px 20px 16px !important; }
+    .r-hero-h1   { font-size: 26px !important; line-height: 32px !important; margin-bottom: 10px !important; }
+    .r-hero-meta { gap: 10px 20px !important; margin-top: 10px !important; }
   }
 
   /* Body layout */
@@ -49,20 +56,21 @@ export const RESPONSIVE_CSS = `
 
   /* Content areas */
   @media (max-width: 768px) {
-    .r-content-header { padding: 14px 16px 12px !important; }
-    .r-project-list   { padding: 16px !important; }
+    .r-progress-section { padding: 14px 16px !important; }
+    .r-queue-section    { padding: 0 16px 16px !important; }
+    .r-detail-section   { padding: 0 16px 16px !important; }
+    .r-stat-boxes       { gap: 12px !important; }
   }
 
-  /* Project rows — wrap at narrow widths */
+  /* Card carousel */
   @media (max-width: 520px) {
-    .r-project-row  { flex-wrap: wrap !important; gap: 8px 10px !important; padding: 10px 12px !important; }
-    .r-project-thumb { display: none !important; }
-    .r-project-actions { flex: 0 0 100% !important; justify-content: flex-end !important; }
+    .r-card-carousel { gap: 10px !important; }
+    .r-project-card  { width: 140px !important; min-width: 140px !important; }
   }
 
   /* Filter bar */
   @media (max-width: 520px) {
-    .r-filter-bar { gap: 8px !important; }
+    .r-filter-bar  { gap: 6px !important; flex-wrap: wrap !important; }
     .r-filter-count { display: none !important; }
   }
 
@@ -70,6 +78,12 @@ export const RESPONSIVE_CSS = `
   @media (max-width: 640px) {
     .r-scoring-panel  { padding: 16px 14px 18px !important; }
     .r-score-row      { padding: 8px 0 !important; }
+    .r-detail-left    { display: none !important; }
+  }
+
+  /* Stepper row responsive */
+  @media (max-width: 480px) {
+    .r-stepper-label { font-size: 10px !important; }
   }
 
   /* Overlay — full-screen on mobile */
@@ -82,4 +96,17 @@ export const RESPONSIVE_CSS = `
     }
     .r-overlay-body { padding: 16px !important; gap: 14px !important; }
   }
+
+  /* Progress bar animation */
+  @keyframes r-progress-fill {
+    from { width: 0%; }
+  }
+  .r-progress-bar-fill {
+    animation: r-progress-fill 0.8s ease-out forwards;
+  }
+
+  /* Scrollbar styling for card carousel */
+  .r-card-carousel::-webkit-scrollbar { height: 4px; }
+  .r-card-carousel::-webkit-scrollbar-track { background: transparent; }
+  .r-card-carousel::-webkit-scrollbar-thumb { background: #3A0808; border-radius: 2px; }
 `;
