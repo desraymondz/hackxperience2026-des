@@ -70,7 +70,7 @@
       </svg>
     };                                                                                                                                                          
                                                                                                                                                                 
-    function Card({ title, icon, children, style }: any) {                                                                                                      
+    function Card({ title, icon, children, style }: any) {
       return (
         <div style={{
           background: C.bgPrimary, border: `1px solid ${C.borderLight}`, borderRadius: 8, padding: "16px 20px", display: "flex", flexDirection: "column", gap: 12, ...style }}>
@@ -82,57 +82,55 @@
           <div style={{ fontFamily: FM, fontSize: 11, color: C.textPrimary, lineHeight: 1.6 }}>
             {children}
           </div>
-        </div>                                                                                                                                                  
-      );                                                                                                                                                        
-    }                                                                                                                                                           
+        </div>
+      );
+    }
                                                                                                                                                                 
-    function LinkRow({ label, url }: { label: string; url?: string | null }) {                                                                                  
-      if (!url) return null;                                                                                                                                    
-      return (                                                                                                                                                  
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 0", borderBottom: `1px solid ${C.bgPrimary}` }}>           
-          <div style={{ display: "flex", alignItems: "center", gap: 8, color: C.textPrimary, fontWeight: 600 }}>                                                    
-            <span style={{ color: C.primary }}>{Icons.link}</span>                                                                                                  
-            {label}                                                                                                                                             
-          </div>                                                                                                                                                
-          <a href={url} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: 6, color: C.textMuted, textDecoration: "none",
-  fontSize: 10 }}>                                                                                                                                              
-            <span style={{ maxWidth: 120, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{url.replace(/^https?:\/\//, '')}</span>        
-            {Icons.external}                                                                                                                                    
-          </a>                                                                                                                                                  
-        </div>                                                                                                                                                  
-      );                                                                                                                                                        
-    }                                                                                                                                                           
+    function LinkRow({ label, url }: { label: string; url?: string | null }) {
+      if (!url) return null;
+      return (
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 0", borderBottom: `1px solid ${C.bgPrimary}` }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, color: C.textPrimary, fontWeight: 600 }}>
+            <span style={{ color: C.primary }}>{Icons.link}</span>
+            {label}
+          </div>
+          <a href={url} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: 6, color: C.textMuted, textDecoration: "none", fontSize: 10 }}>
+            <span style={{ maxWidth: 120, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{url.replace(/^https?:\/\//, '')}</span>
+            {Icons.external}
+          </a>
+        </div>
+      );
+    }
                                                                                                                                                                 
-    function SummaryRow({ icon, label, value, badge }: { icon: React.ReactNode; label: string; value?: string; badge?: React.ReactNode }) {                     
-      return (                                                                                                                                                  
-        <div style={{ display: "flex", alignItems: "center", padding: "4px 0" }}>                                                                               
-          <div style={{ width: 140, display: "flex", alignItems: "center", gap: 8, color: C.textPrimary }}>                                                         
-            <span style={{ color: C.textMuted }}>{icon}</span>                                                                                                       
-            {label}                                                                                                                                             
-          </div>                                                                                                                                                
-          <div style={{ color: C.textPrimary, fontWeight: 600 }}>                                                                                                   
-            {badge ? badge : value}                                                                                                                             
-          </div>                                                                                                                                                
-        </div>                                                                                                                                                  
-      );                                                                                                                                                        
-    }                                                                                                                                                           
+    function SummaryRow({ icon, label, value, badge }: { icon: React.ReactNode; label: string; value?: string; badge?: React.ReactNode }) {
+      return (
+        <div style={{ display: "flex", alignItems: "center", padding: "4px 0" }}>
+          <div style={{ width: 140, display: "flex", alignItems: "center", gap: 8, color: C.textPrimary }}>
+            <span style={{ color: C.textMuted }}>{icon}</span>
+            {label}
+          </div>
+          <div style={{ color: C.textPrimary, fontWeight: 600 }}>
+            {badge ? badge : value}
+          </div>
+        </div>
+      );
+    }
                                                                                                                                                                 
-    export function OverlayModal({ project, onClose }: { project: JudgeProject; onClose: () => void }) {                                                        
-      return (                                                                                                                                                  
-        <motion.div                                                                                                                                             
-          initial={{ opacity: 0 }}                                                                                                                              
-          animate={{ opacity: 1 }}                                                                                                                              
-          exit={{ opacity: 0 }}                                                                                                                                 
-          transition={{ duration: 0.18 }}                                                                                                                       
-          className="r-overlay-backdrop"                                                                                                                        
-          style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center",     
-  padding: 20 }}                                                                                                                                                
-          onClick={e => { if (e.target === e.currentTarget) onClose(); }}                                                                                       
-        >                                                                                                                                                       
-          <style>{`                                                                                                                                             
-            .modal-top-grid { display: grid; grid-template-columns: 360px 1fr; gap: 20px; }                                                                     
-            @media (max-width: 1100px) {                                                                                                                        
-              .modal-top-grid { grid-template-columns: 1fr; }                                                                                                   
+    export function OverlayModal({ project, onClose }: { project: JudgeProject; onClose: () => void }) {
+      return (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.18 }}
+          className="r-overlay-backdrop"
+          style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
+          onClick={e => { if (e.target === e.currentTarget) onClose(); }}
+        >
+          <style>{`
+            .modal-top-grid { display: grid; grid-template-columns: 360px 1fr; gap: 20px; }
+            @media (max-width: 1100px) {
+              .modal-top-grid { grid-template-columns: 1fr; }
             }
           `}</style>
                                                                                                                                                                 
@@ -236,22 +234,27 @@
                 {/* Team Members */}
                 <Card title={`TEAM MEMBERS (${project.members.length})`} icon={Icons.users}>
                   <div style={{ display: "flex", flexDirection: "column", gap: 14, maxHeight: 180, overflowY: "auto", paddingRight: 4 }}>
-                    {project.members.map((m, i) => (
-                      <div key={i} style={{ display: "flex", gap: 12 }}>
-                        <div style={{ color: C.primary, fontWeight: 700, fontSize: 12, fontFamily: FM }}>{String(i + 1).padStart(2, "0")}</div>
-                        <div style={{ fontFamily: FM }}>
-                          <div style={{ color: C.textPrimary, fontWeight: 700, fontSize: 11 }}>{m.name}</div>
-                          <div style={{ color: C.textMuted, fontSize: 9, marginTop: 4, wordBreak: "break-all" }}>
-                            {m.email}{m.role ? `, ${m.role}` : ""}{m.studentId ? `, ${m.studentId}` : ""}
-                          </div>
-                          {i === 0 && (
-                            <div style={{ marginTop: 6, display: "inline-block", padding: "2px 6px", border: `1px solid ${C.primary}`, color: C.primary, fontSize: 8, fontWeight: 700, borderRadius: 4 }}>
-                              LEADER
+                    {project.members.map((m, i) => {
+                      const isLeader = m.role && m.role.toLowerCase().includes("leader");
+                      return (
+                        <div key={i} style={{ display: "flex", gap: 12 }}>
+                          <div style={{ color: C.primary, fontWeight: 700, fontSize: 12, fontFamily: FM }}>{String(i + 1).padStart(2, "0")}</div>
+                          <div style={{ fontFamily: FM }}>
+                            <div style={{ color: C.textPrimary, fontWeight: 700, fontSize: 11 }}>{m.name}</div>
+                            <div style={{ color: C.textMuted, fontSize: 9, marginTop: 4, wordBreak: "break-all", display: "flex", flexDirection: "column", gap: 4 }}>
+                              {m.studentId && <div>{m.studentId}</div>}
+                              {m.email && <div>{m.email}</div>}
+                              {m.role && !isLeader && <div>{m.role}</div>}
                             </div>
-                          )}
+                            {isLeader && (
+                              <div style={{ marginTop: 6, display: "inline-block", padding: "2px 6px", border: `1px solid ${C.primary}`, color: C.primary, fontSize: 8, fontWeight: 700, borderRadius: 4 }}>
+                                LEADER
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </Card>
                                                                                                                                                                 
