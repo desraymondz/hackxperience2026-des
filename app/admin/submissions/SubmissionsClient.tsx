@@ -290,6 +290,7 @@ function ScoreModal({ target, onClose }: { target: ScoreTarget; onClose: () => v
 
   const scored = target.scores.filter((s) => s.score !== null);
   const hasScores = scored.length > 0;
+  const commentsWithJudge = target.scores.filter((s) => s.comments?.trim());
   const overallAvg = avg(scored.map((s) => s.score));
   const techAvg    = avg(scored.map((s) => s.technicalExecution));
   const probAvg    = avg(scored.map((s) => s.problemSolutionFit));
@@ -331,6 +332,21 @@ function ScoreModal({ target, onClose }: { target: ScoreTarget; onClose: () => v
                   </div>
                 ))}
               </div>
+
+              <div className={styles.scoreCommentsDivider} />
+              <p className={styles.scoreCommentsHeader}>&gt; JUDGE_COMMENTS</p>
+              {commentsWithJudge.length === 0 ? (
+                <span className={styles.scoreCommentsEmpty}>[ NO FEEDBACK PROVIDED ]</span>
+              ) : (
+                <div className={styles.scoreCommentsList}>
+                  {commentsWithJudge.map((s) => (
+                    <div key={s.judgeId} className={styles.scoreCommentItem}>
+                      <p className={styles.scoreCommentJudge}>{`// ${s.judgeId}`}</p>
+                      <p className={styles.scoreCommentText}>{s.comments}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </>
           )}
         </div>
