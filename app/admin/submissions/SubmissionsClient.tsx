@@ -188,6 +188,53 @@ function ActionCell({
   );
 }
 
+function BulkDeleteModal({
+  count,
+  onConfirm,
+  onCancel,
+}: {
+  count: number;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  return (
+    <motion.div
+      className={styles.overlay}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.15 }}
+      onClick={onCancel}
+    >
+      <motion.div
+        className={styles.modal}
+        initial={{ opacity: 0, scale: 0.96, y: 8 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: 8 }}
+        transition={{ duration: 0.15 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={styles.modalAccent} />
+        <p className={styles.modalTitle}>[⌫] DELETE_SELECTED</p>
+        <p className={styles.modalWarning}>{`>> [ WARNING ] THIS ACTION CANNOT BE UNDONE`}</p>
+        <p className={styles.modalBody}>
+          {`>> ARE YOU SURE YOU WANT TO PERMANENTLY DELETE `}
+          <strong>{count}</strong>
+          {` PROJECT${count !== 1 ? "S" : ""}?`}
+        </p>
+        <div className={styles.modalButtons}>
+          <button type="button" className={styles.modalYes} onClick={onConfirm}>
+            [ CONFIRM_DELETE ]
+          </button>
+          <button type="button" className={styles.modalNo} onClick={onCancel}>
+            [ CANCEL ]
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 function DeleteModal({
   submission,
   onConfirm,
@@ -243,6 +290,7 @@ function ScoreModal({ target, onClose }: { target: ScoreTarget; onClose: () => v
 
   const scored = target.scores.filter((s) => s.score !== null);
   const hasScores = scored.length > 0;
+  const commentsWithJudge = target.scores.filter((s) => s.comments?.trim());
   const overallAvg = avg(scored.map((s) => s.score));
   const techAvg    = avg(scored.map((s) => s.technicalExecution));
   const probAvg    = avg(scored.map((s) => s.problemSolutionFit));
@@ -284,6 +332,21 @@ function ScoreModal({ target, onClose }: { target: ScoreTarget; onClose: () => v
                   </div>
                 ))}
               </div>
+
+              <div className={styles.scoreCommentsDivider} />
+              <p className={styles.scoreCommentsHeader}>&gt; JUDGE_COMMENTS</p>
+              {commentsWithJudge.length === 0 ? (
+                <span className={styles.scoreCommentsEmpty}>[ NO FEEDBACK PROVIDED ]</span>
+              ) : (
+                <div className={styles.scoreCommentsList}>
+                  {commentsWithJudge.map((s) => (
+                    <div key={s.judgeId} className={styles.scoreCommentItem}>
+                      <p className={styles.scoreCommentJudge}>{`// ${s.judgeId}`}</p>
+                      <p className={styles.scoreCommentText}>{s.comments}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </>
           )}
         </div>
@@ -307,6 +370,7 @@ export default function SubmissionsClient({ filter }: { filter: SubmissionFilter
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false);
 
   const viewingSubmission = useMemo(
     () => data.find((s) => s.id === viewingId) ?? null,
@@ -521,7 +585,7 @@ export default function SubmissionsClient({ filter }: { filter: SubmissionFilter
           <button
             type="button"
             className={styles.bulkDeleteBtn}
-            onClick={handleBulkDelete}
+            onClick={() => setBulkConfirmOpen(true)}
             disabled={bulkDeleting}
           >
             {bulkDeleting
@@ -636,6 +700,16 @@ export default function SubmissionsClient({ filter }: { filter: SubmissionFilter
       </section>
 
       <AnimatePresence>
+        {bulkConfirmOpen && (
+          <BulkDeleteModal
+            count={selectedIds.size}
+            onConfirm={() => {
+              setBulkConfirmOpen(false);
+              void handleBulkDelete();
+            }}
+            onCancel={() => setBulkConfirmOpen(false)}
+          />
+        )}
         {pendingDelete && (
           <DeleteModal
             submission={pendingDelete}
