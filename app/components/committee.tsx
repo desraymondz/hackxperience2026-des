@@ -18,7 +18,7 @@ interface Member {
   role: string;
   name: string;
   img: string | null;
-  frame?: "full" | "medium" | "tight" | "waist";
+  frame?: "full" | "medium" | "tight";
   scale?: number;
   objectPosition?: string;
 }
@@ -32,8 +32,6 @@ const PHOTO_FRAMES = {
   full: { scale: 1.72, objectPosition: "50% 36%" },
   medium: { scale: 1.1, objectPosition: "50% 42%" },
   tight: { scale: 1, objectPosition: "50% 46%" },
-  /** Outdoor full-body EXCO shots — crop to waist-up like Reynaldi */
-  waist: { scale: 2.4, objectPosition: "50% 34%" },
 } as const;
 
 function MemberPhoto({ member }: { member: Member }) {
@@ -85,13 +83,13 @@ const TEAMS: Team[] = [
   {
     label: "EXCO TEAM",
     members: [
-      { role: "PRESIDENT", name: "JAYADIPA FUKUTARO", img: "/committee/jayadipa-fukutaro.jpg", frame: "waist" },
-      { role: "VICE PRESIDENT", name: "MICHELLE CHAN", img: "/committee/michelle-chan.jpg", frame: "waist" },
+      { role: "PRESIDENT", name: "JAYADIPA FUKUTARO", img: "/committee/jayadipa-fukutaro.jpg" },
+      { role: "VICE PRESIDENT", name: "MICHELLE CHAN", img: "/committee/michelle-chan.jpg" },
       { role: "SECRETARY", name: "REYNALDI ARDIANTO WIYOGO", img: "/committee/reynaldi-ardianto.jpg", frame: "tight" },
-      { role: "TECHNICAL DIRECTOR", name: "YAN MEI WONG", img: "/committee/yan-mei-wong.jpg", frame: "waist", objectPosition: "50% 36%" },
-      { role: "TECHNICAL DIRECTOR", name: "DESMOND", img: "/committee/desmond.jpg", frame: "waist" },
-      { role: "MARKETING DIRECTOR", name: "VANNESS YANG", img: "/committee/vanness-yang.jpg", frame: "waist" },
-      { role: "PARTNERSHIPS DIRECTOR", name: "WINSTON FAUSTIN", img: "/committee/winston-faustin.jpg", frame: "waist" },
+      { role: "TECHNICAL DIRECTOR", name: "YAN MEI WONG", img: "/committee/yan-mei-wong.jpg", frame: "tight" },
+      { role: "TECHNICAL DIRECTOR", name: "DESMOND", img: "/committee/desmond.jpg" },
+      { role: "MARKETING DIRECTOR", name: "VANNESS YANG", img: "/committee/vanness-yang.jpg" },
+      { role: "PARTNERSHIPS DIRECTOR", name: "WINSTON FAUSTIN", img: "/committee/winston-faustin.jpg" },
     ],
   },
   {

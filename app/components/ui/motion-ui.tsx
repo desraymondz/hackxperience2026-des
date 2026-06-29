@@ -57,7 +57,13 @@ export function RevealItem({ children, className }: RevealItemProps) {
   if (reduceMotion) return <div className={className}>{children}</div>;
 
   return (
-    <motion.div className={className} variants={revealItemVariants}>
+    <motion.div
+      className={className}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-60px" }}
+      variants={revealItemVariants}
+    >
       {children}
     </motion.div>
   );
