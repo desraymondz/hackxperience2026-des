@@ -38,7 +38,7 @@ const Tracks: React.FC = () => {
           // TRACKS
         </h3>
         <p className="mt-3 text-sm md:text-base opacity-70 max-w-3xl" style={{ color: DARK_BG }}>
-          Pick the track that speaks to your team. Each has sub-tracks to guide your agentic build — you&apos;re free to explore within or across them.
+          Pick the track that speaks to your team. Each has sub-tracks to guide your agentic build, and you&apos;re free to explore within or across them.
         </p>
       </div>
 

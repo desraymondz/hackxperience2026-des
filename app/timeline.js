@@ -52,7 +52,7 @@ const JUDGES = [
     name: 'CHER LIM',
     role: 'AI EDUCATOR',
     company: 'SIM GLOBAL EDUCATION · WINE TREASURES',
-    bio: 'Educator at SIM Global Education teaching AI and machine learning across partner-university programs — deep learning, ML algorithm development, data visualization, and AI project modules. Teaching Excellence Award 2025 and 15-Year Lecturer Service Award recipient at SIM.',
+    bio: 'Educator at SIM Global Education teaching AI and machine learning across partner-university programs: deep learning, ML algorithm development, data visualization, and AI project modules. Teaching Excellence Award 2025 and 15-Year Lecturer Service Award recipient at SIM.',
     linkedin: 'https://www.linkedin.com/in/cher-l-812959/',
     img: '/judges/cher-lim.png',
   },

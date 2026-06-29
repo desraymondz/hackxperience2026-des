@@ -97,18 +97,13 @@ const FAQ_DATA: FaqCategory[] = [
         question: "WHAT ARE THE PRE-EVENTS?",
         answer: (
           <>
-            There are two pre-events leading up to the main hackathon:
+            The pre-hackathon workshop leading up to the main event:
             <ul className="list-disc pl-5 mt-2 space-y-1">
-              <li><strong>IT Club Project Showcase</strong> — 15 April 2026, 12PM–4PM @ SIM Student Hub, Blk B Level 1</li>
               <li><strong>Building Agentic AI: Microsoft Foundry Workshop</strong> — 17 July 2026, 7:00–10:00 PM @ SIM Campus</li>
             </ul>
-            <span className="block mt-2">Join our <TelegramLink /> for workshop time and registration updates.</span>
+            <span className="block mt-2">Join our <TelegramLink /> for room details and registration updates.</span>
           </>
         ),
-      },
-      {
-        question: "WHAT IS THE PROJECT SHOWCASE?",
-        answer: "Our IT Club subcommittees spent months building projects collaboratively. On 15 April, they showcase what they've built. Come get inspiration on what a typical project looks like, and consult with our subcommittees on tech stack, process, tips, and more.",
       },
       {
         question: "WHAT IS THE MICROSOFT FOUNDRY WORKSHOP ABOUT?",
@@ -172,7 +167,7 @@ const FAQ_DATA: FaqCategory[] = [
       },
       {
         question: "HOW WILL PROJECTS BE JUDGED?",
-        answer: "Teams present in a showcase format — 7 minutes pitch plus 3 minutes Q&A per team. Industry judges evaluate track prizes (Care Forward and Friction To Flow), sponsor choice awards, and community voting on the HackXperience voting page. See the Prizes section for full breakdown and judging criteria.",
+        answer: "Teams present in a showcase format — 7 minutes pitch plus 3 minutes Q&A per team. Industry judges evaluate track prizes (Care Forward and Friction To Flow), sponsor choice awards, and community voting on the HackXperience voting page. See the Prizes section for the full prize breakdown.",
       },
     ],
   },
@@ -183,7 +178,7 @@ const FAQ_DATA: FaqCategory[] = [
         question: "WHAT ARE THE PRIZES?",
         answer: (
           <>
-            Over $1,800 in prizes — track winners and runner-ups ($300 / $150 each), sponsor awards including Best Use of Microsoft Stack ($700), Best Entrepreneurial Award ($100), Community Choice ($50), and an informal Game Prize ($50, details TBC). See the full breakdown in the <a href="#prizes" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">Prizes section</a>.
+            Over S$1,800 in prizes (all amounts in SGD) — track winners and runner-ups (S$300 / S$150 each), sponsor awards including Best Use of Microsoft Stack (S$700), Best Entrepreneurial Award (S$100), Community Choice (S$50), and an informal Game Prize (S$50, details TBC). See the full breakdown in the <a href="#prizes" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">Prizes section</a>.
           </>
         ),
       },

@@ -2,8 +2,10 @@
 
 export const HACKATHON_THEME = {
   title: "AI for Living",
+  tagline:
+    "Ease the tension between work and life. Build agentic AI that helps us live better, not just keep up.",
   intro:
-    "In today's increasingly complex world, we are constantly juggled between two essential tasks: our work, and our life beyond it. HackXperience 2026 challenges you to ease that tension — through care that nurtures a healthier life, or automation that brings flow back into the workday.",
+    "In today's increasingly complex world, we are constantly juggled between two essential tasks: our work, and our life beyond it. HackXperience 2026 challenges you to ease that tension, through care that nurtures a healthier life, or automation that brings flow back into the workday.",
   closing:
     "Choose the side that speaks to your team, because at the end of the day, the question is simple: how can AI help us live better, not just keep up?",
 } as const;
@@ -26,7 +28,7 @@ export const HACKATHON_MAIN_TRACKS: readonly HackathonMainTrack[] = [
     name: "Care Forward",
     emoji: "👐",
     summary:
-      "Wellbeing isn't one thing — it's the mind staying steady and the body staying strong, both needing care every day. Reimagine care in our daily living environments and support a genuinely healthy lifestyle.",
+      "Wellbeing isn't one thing: it's the mind staying steady and the body staying strong, both needing care every day. Reimagine care in our daily living environments and support a genuinely healthy lifestyle.",
     subTracks: [
       {
         code: "1A",
@@ -65,7 +67,7 @@ export const HACKATHON_MAIN_TRACKS: readonly HackathonMainTrack[] = [
     name: "Friction To Flow",
     emoji: "🖥️",
     summary:
-      "Every workday carries its own friction — scattered tasks, mundane chores, schedules that spiral into chaos. Smooth that friction into flow with agentic AI.",
+      "Every workday carries its own friction: scattered tasks, mundane chores, schedules that spiral into chaos. Smooth that friction into flow with agentic AI.",
     subTracks: [
       {
         code: "2A",

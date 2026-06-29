@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 const SITE_URL = "https://hackxperience2026.vercel.app";
-const SITE_TITLE = "HackXperience 2026 — 2-Day Agentic Hackathon at SIM";
+const SITE_TITLE = "HackXperience 2026: 24-Hour Agentic Sprint Hackathon at SIM";
 const SITE_DESCRIPTION =
-  "Join HackXperience 2026, SIM IT Club's flagship 2-day agentic hackathon. Teams of 3–4 build and deploy agentic products around AI for Living — 24–25 July at SIM. Register by 16 July. Open to curious students.";
+  "Join HackXperience 2026, SIM IT Club's flagship 24-hour sprint hackathon. Teams of 3–4 build and deploy agentic products around AI for Living, 24–25 July at SIM. Register by 16 July. Open to curious students.";
 
 export const metadata: Metadata = {
   title: {
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     siteName: "HackXperience 2026",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    images: [{ url: "/hero-hackxperience-2026.png", width: 1200, height: 630, alt: "HackXperience 2026 — AI for Living" }],
+    images: [{ url: "/hero-hackxperience-2026.png", width: 1200, height: 630, alt: "HackXperience 2026: AI for Living" }],
   },
   twitter: {
     card: "summary_large_image",

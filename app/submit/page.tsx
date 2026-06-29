@@ -445,7 +445,7 @@ function PageHero({ tick, deadline }: { tick: Tick; deadline: Date | null }) {
           <span style={{ color: RED }}>PROJECT</span>
         </div>
         <div style={{ height: 14 }} />
-        <Mono color={MUTED} size={11} style={{ whiteSpace: "normal" }}>// 2-DAY HACKXPERIENCE 2026 · ONE RECORD PER TEAM · RESUBMIT UNTIL DEADLINE</Mono>
+        <Mono color={MUTED} size={11} style={{ whiteSpace: "normal" }}>// 24-HOUR HACKXPERIENCE 2026 · ONE RECORD PER TEAM · RESUBMIT UNTIL DEADLINE</Mono>
       </div>
       {deadline && (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 10 }}>
@@ -1143,7 +1143,7 @@ function Step04({ form, onBack, onSubmit, isEditing, isPastDeadline, resubmissio
             <Mono color={RED} size={11} weight={800}>// Consent — Required</Mono>
             <div style={{ height: 4 }} />
             <div style={{ fontFamily: FS, fontSize: 12.5, lineHeight: 1.55, color: DARK_BG }}>
-              I confirm all team members consent to this submission, the repo is public, and this project was built within the 2-day HackXperience window.
+              I confirm all team members consent to this submission, the repo is public, and this project was built within the 24-hour HackXperience window.
             </div>
           </div>
         </motion.div>

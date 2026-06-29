@@ -96,7 +96,7 @@ const Hero: React.FC = () => {
                 className="text-base md:text-xl leading-relaxed opacity-80 font-medium mb-6"
                 style={{ color: DARK_TEXT }}
               >
-                {HACKATHON_THEME.intro} {HACKATHON_THEME.closing}
+                {HACKATHON_THEME.tagline}
               </p>
 
               {/* Buttons */}

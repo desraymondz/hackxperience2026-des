@@ -14,7 +14,7 @@ const PastEvents: React.FC = () => {
   const eventData = {
     '2025': {
       title: <>HACK<wbr/><span style={{ color: RED }}>XPERIENCE</span></>,
-      desc: "In 2025, HackXperience brought 90+ builders together to ship 20 projects in a 24-hour sprint — all-in on practical execution and collaborative prototyping. The event earned SIM's 2025 Outstanding Event Award (Silver).",
+      desc: "In 2025, HackXperience brought 90+ builders together to ship 20 projects in a 24-hour sprint, all-in on practical execution and collaborative prototyping. The event earned SIM's 2025 Outstanding Event Award (Silver).",
       imgs: [
         "PastYear1.jpg",
         "PastYear2.jpg"

@@ -27,7 +27,7 @@ export default function TimelineCta() {
         {/* Subtitle — IBM Plex Mono, italic, muted white */}
         <p className="mx-auto mt-6 sm:mt-8 max-w-[560px] text-center italic text-[15px] sm:text-[17px] leading-[1.55] font-normal tracking-[0.02em] text-white/70">
           Join 100+ curious students on 24–25 July. Deploy agentic products
-          that matter — not just keep up with the trends.
+          that matter, not just keep up with the trends.
         </p>
 
         {/* CTA row */}

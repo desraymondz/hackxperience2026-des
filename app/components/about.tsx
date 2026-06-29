@@ -27,7 +27,7 @@ const About: React.FC = () => {
           </h2>
           
           <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-10 md:mb-12 opacity-80 font-medium">
-            Welcome to HackXperience — a 24-hour sprint hackathon for curious students to build and deploy agentic products. SIM IT Club&apos;s flagship event brings together 100+ participants on 24–25 July under the theme <strong>AI for Living</strong> — easing the tension between work and life through care or automation. Register your team of 3–4 by <strong>16 July 2026</strong>.
+            Welcome to HackXperience, a 24-hour sprint hackathon for curious students to build and deploy agentic products. SIM IT Club&apos;s flagship event brings together 100+ participants on 24–25 July under the theme <strong>AI for Living</strong>, easing the tension between work and life through care or automation. Register your team of 3–4 by <strong>16 July 2026</strong>.
           </p>
 
           <div className="grid md:grid-cols-2 gap-8 md:gap-10 pt-8 md:pt-10 border-t border-white/10">
@@ -35,17 +35,22 @@ const About: React.FC = () => {
               <h4 className="font-mono font-bold mb-3 uppercase tracking-widest text-xs sm:text-sm" style={{ color: RED }}>
                 // WHO SHOULD JOIN
               </h4>
-              <p className="text-sm md:text-base leading-relaxed" style={{ color: TEXT_DIM }}>
-                Curious students who want to build and deploy agentic products — web devs, AI engineers, designers, product thinkers, business analysts. Year 1 to Year 3. No minimum skill level, just the drive to ship something real in 24 hours.
-              </p>
+              <ul className="space-y-2 text-sm md:text-base leading-relaxed" style={{ color: TEXT_DIM }}>
+                <li className="flex gap-2"><span style={{ color: RED }} aria-hidden>›</span><span>Web devs, AI engineers, designers, product thinkers, business analysts</span></li>
+                <li className="flex gap-2"><span style={{ color: RED }} aria-hidden>›</span><span>Any SIM student, Year 1 to Year 3</span></li>
+                <li className="flex gap-2"><span style={{ color: RED }} aria-hidden>›</span><span>No minimum skill level, just the drive to ship in 24 hours</span></li>
+              </ul>
             </div>
             <div>
               <h4 className="font-mono font-bold mb-3 uppercase tracking-widest text-xs sm:text-sm" style={{ color: RED }}>
                 // WHAT YOU GET
               </h4>
-              <p className="text-sm md:text-base leading-relaxed" style={{ color: TEXT_DIM }}>
-                Pre-event workshops to get you hackathon-ready. On-site mentorship from industry professionals. A stage to demo your agentic build. And prizes worth fighting for.
-              </p>
+              <ul className="space-y-2 text-sm md:text-base leading-relaxed" style={{ color: TEXT_DIM }}>
+                <li className="flex gap-2"><span style={{ color: RED }} aria-hidden>›</span><span>Pre-event workshops to get you hackathon-ready</span></li>
+                <li className="flex gap-2"><span style={{ color: RED }} aria-hidden>›</span><span>On-site mentorship from industry professionals</span></li>
+                <li className="flex gap-2"><span style={{ color: RED }} aria-hidden>›</span><span>A stage to demo your agentic build</span></li>
+                <li className="flex gap-2"><span style={{ color: RED }} aria-hidden>›</span><span>Prizes worth fighting for</span></li>
+              </ul>
             </div>
           </div>
         </div>
@@ -53,7 +58,7 @@ const About: React.FC = () => {
         {/* Right Side Column (Stats Cards) */}
         <div className="flex flex-col gap-8 mt-4 lg:mt-0">
           
-          {/* 2D Card */}
+          {/* 24H Card */}
           <div 
             className="border-2 p-8 flex-1 flex flex-col justify-center"
             style={{ 
