@@ -173,7 +173,7 @@ function PreEventItem({ date, time, title, meta, isLast }) {
 
 export default function PreEvent() {
   return (
-    <section className="bg-[#1a1a1a] px-6 md:px-12 pt-14 sm:pt-20 pb-10 font-mono">
+    <section id="pre-events" className="bg-[#1a1a1a] px-6 md:px-12 pt-14 sm:pt-20 pb-10 font-mono scroll-mt-11">
       <div className="max-w-7xl mx-auto">
         <SectionHeader
           title="PRE_EVENTS"

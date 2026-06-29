@@ -1,0 +1,929 @@
+/* ── Section header ───────────────────────────── */
+
+.sectionHeader {
+  margin: -26px -24px 0 -26px;
+  min-height: 70px;
+  padding: 26px 26px 14px;
+  background: #f2ede5;
+  border-top: 3px solid #cc0000;
+  border-bottom: 1px solid #3a0808;
+}
+
+.sectionHeader h2,
+.sectionHeader p {
+  margin: 0;
+  font-weight: 400;
+}
+
+.sectionHeader h2 {
+  color: #cc0000;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.sectionHeader p {
+  margin-top: 3px;
+  color: #7a7669;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* ── Controls ─────────────────────────────────── */
+
+.controls {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) 180px 180px;
+  gap: 10px;
+  margin: 22px 0 16px;
+  align-items: center;
+}
+
+.searchField,
+.selectField {
+  position: relative;
+  min-width: 0;
+}
+
+.searchField input {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid #1d1c17;
+  background: #fef9f1;
+  color: #1d1c17;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 12px;
+  line-height: 16px;
+  box-shadow: 2px 2px 0 0 #7a7669;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.searchField input {
+  padding: 9px 14px 9px 34px;
+}
+
+.searchField input::placeholder {
+  color: #7a7669;
+}
+
+.searchField input:hover:not(:focus) {
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.searchField input:focus {
+  outline: none;
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translateY(-50%);
+  color: #7a7669;
+  pointer-events: none;
+  transition: color 0.15s;
+}
+
+.searchField:focus-within .searchIcon {
+  color: #cc0000;
+}
+
+
+/* ── Table ────────────────────────────────────── */
+
+.tablePanel {
+  background: #fef9f1;
+  border: 1px solid #cc0000;
+  box-shadow: 4px 4px 0 0 #cc0000;
+  overflow-x: auto;
+}
+
+.tableGrid {
+  min-width: 1150px;
+  display: grid;
+  grid-template-columns: 44px 122px minmax(170px, 1.4fr) minmax(170px, 1.4fr) 100px 120px 150px 100px 140px;
+  align-items: stretch;
+}
+
+.tableHead {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  border-bottom: 1px solid #cc0000;
+  background: #f2ede5;
+  color: #7a7669;
+  font-size: 11px;
+  line-height: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tableRow {
+  display: contents;
+}
+
+.tableCell {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 12px 14px;
+  border-bottom: 1px solid #d8d2c5;
+  color: #1d1c17;
+  font-size: 10px;
+  line-height: 13px;
+  overflow-wrap: anywhere;
+  transition: background 0.12s;
+}
+
+.thumbnail {
+  position: relative;
+  width: 87px;
+  height: 51px;
+  display: block;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #ede8e0;
+}
+
+.thumbnailLineA,
+.thumbnailLineB {
+  position: absolute;
+  left: -8px;
+  top: 25px;
+  width: 103px;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.thumbnailLineA { transform: rotate(30deg);  }
+.thumbnailLineB { transform: rotate(-30deg); }
+
+/* ── Status badges ────────────────────────────── */
+
+.badgeApproved,
+.badgePending,
+.badgeRejected {
+  min-width: 72px;
+  min-height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 8px;
+  color: #fef9f1;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 13px;
+  white-space: nowrap;
+}
+
+.badgeApproved {
+  background: var(--green);
+  border: 1px solid var(--green);
+}
+
+.badgePending {
+  background: #d97706;
+  border: 1px solid #d97706;
+}
+
+.badgeRejected {
+  background: #cc0000;
+  border: 1px solid #cc0000;
+}
+
+/* ── Checkbox column ──────────────────────────── */
+
+.checkCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+}
+
+.tableHead.checkCell {
+  min-height: 40px;
+}
+
+.checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border: 1.5px solid #7a7669;
+  background: #fef9f1;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.1s, background 0.1s;
+}
+
+.checkbox:hover {
+  border-color: #cc0000;
+}
+
+.checkbox:checked {
+  background: #cc0000;
+  border-color: #cc0000;
+}
+
+.checkbox:checked::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0px;
+  width: 5px;
+  height: 9px;
+  border: 1.5px solid #fef9f1;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.checkbox:indeterminate {
+  background: #cc0000;
+  border-color: #cc0000;
+}
+
+.checkbox:indeterminate::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 5px;
+  width: 8px;
+  height: 1.5px;
+  background: #fef9f1;
+}
+
+/* ── Bulk delete bar ──────────────────────────── */
+
+.bulkBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.bulkDeleteBtn {
+  height: 34px;
+  padding: 0 16px;
+  background: #fef9f1;
+  border: 1.5px solid #1d1c17;
+  color: #cc0000;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 0 #cc0000;
+  white-space: nowrap;
+  transition: background 0.12s, color 0.12s, box-shadow 0.12s;
+}
+
+.bulkDeleteBtn:hover:not(:disabled) {
+  background: #cc0000;
+  color: #fef9f1;
+}
+
+.bulkDeleteBtn:active:not(:disabled) {
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.bulkDeleteBtn:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.bulkCount {
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  color: #57534a;
+  letter-spacing: 0.03em;
+}
+
+/* ── Pagination ───────────────────────────────── */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-top: 1px solid #d0c8bc;
+  background: #fef9f1;
+  gap: 12px;
+}
+
+.paginationInfo {
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  color: #57534a;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.paginationBtn {
+  height: 26px;
+  padding: 0 10px;
+  background: #fef9f1;
+  border: 1px solid #d0c8bc;
+  color: #1d1c17;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.12s, color 0.12s;
+}
+
+.paginationBtn:hover:not(:disabled) {
+  border-color: #cc0000;
+  color: #cc0000;
+}
+
+.paginationBtn:disabled {
+  color: #a8a294;
+  border-color: #eae3d8;
+  cursor: default;
+}
+
+.paginationPage {
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 10px;
+  color: #1d1c17;
+  letter-spacing: 0.04em;
+  padding: 0 4px;
+  white-space: nowrap;
+}
+
+/* ── Action buttons ───────────────────────────── */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+
+.viewAction {
+  height: 22px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 9px;
+  background: #fef9f1;
+  border: 1px solid #1d1c17;
+  color: #1d1c17;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 10px;
+  line-height: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.viewAction:hover {
+  background: #f2ede5;
+  border-color: #cc0000;
+  color: #cc0000;
+}
+
+.viewAction:active {
+  background: #ede8e0;
+  transition-duration: 0.05s;
+}
+
+/* kebab trigger reuses .viewAction base; override only needed props */
+.kebabTrigger {
+  letter-spacing: 0.04em;
+}
+
+/* ── Kebab dropdown menu (portaled to document.body) ── */
+
+.kebabMenu {
+  position: fixed;
+  z-index: 200;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: #f2ede5;
+  border: 2px solid #cc0000;
+  min-width: 148px;
+}
+
+.kebabMenu li + li {
+  border-top: 1px solid rgba(26, 26, 26, 0.12);
+}
+
+.kebabItem {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #1d1c17;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  line-height: 15px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.1s, color 0.1s;
+}
+
+.kebabItem:hover {
+  background: #cc0000;
+  color: #fef9f1;
+}
+
+.kebabItemDanger {
+  color: #cc0000;
+}
+
+.kebabItemDanger:hover {
+  background: #cc0000;
+  color: #fef9f1;
+}
+
+/* ── Empty state ──────────────────────────────── */
+
+.emptyRow {
+  grid-column: 1 / -1;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #d8d2c5;
+  color: #7a7669;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* ── Delete confirmation modal ────────────────── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal {
+  position: relative;
+  width: min(507px, 100%);
+  background: #fef9f1;
+  border: 1px solid #cc0000;
+  box-shadow: 8px 8px 0 0 #cc0000;
+  padding: 28px 28px 24px;
+}
+
+.modalAccent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #cc0000;
+}
+
+.modalTitle {
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 24px;
+  line-height: 31px;
+  color: #cc0000;
+  margin: 0 0 6px;
+  font-weight: 400;
+}
+
+.modalWarning {
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 12px;
+  line-height: 16px;
+  color: #7a7669;
+  margin: 0 0 16px;
+  font-weight: 400;
+}
+
+.modalBody {
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 13px;
+  line-height: 17px;
+  color: #1d1c17;
+  margin: 0 0 24px;
+  font-weight: 400;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 18px;
+}
+
+.modalYes,
+.modalNo {
+  flex: 1;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 18px;
+  font-weight: 400;
+  cursor: pointer;
+  border: 1px solid;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.modalYes {
+  background: #cc0000;
+  border-color: #cc0000;
+  color: #fef9f1;
+}
+
+.modalYes:hover {
+  background: #aa0000;
+  border-color: #aa0000;
+}
+
+.modalNo {
+  background: #f2ede5;
+  border-color: #1d1c17;
+  color: #1d1c17;
+}
+
+.modalNo:hover {
+  background: #ddd6c8;
+  border-color: #d0c8bc;
+}
+
+/* ── Responsive ───────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .controls {
+    grid-template-columns: 1fr;
+  }
+
+  .searchField input {
+    min-height: 44px;
+  }
+
+  .tablePanel {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tableGrid {
+    min-width: 1170px;
+    grid-template-columns: 44px 122px minmax(170px, 1.4fr) minmax(170px, 1.4fr) 100px 120px 150px 100px 160px;
+  }
+
+  .actions {
+    gap: 8px;
+  }
+
+  .viewAction {
+    min-height: 44px;
+    padding: 0 14px;
+  }
+
+  .kebabItem {
+    padding: 11px 14px;
+    font-size: 13px;
+  }
+
+  .modalYes,
+  .modalNo {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchField input {
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .tablePanel {
+    padding: 14px;
+    overflow: visible;
+    box-shadow: 2px 2px 0 0 #cc0000;
+  }
+
+  .tableGrid {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tableHead {
+    display: none;
+  }
+
+  .tableRow {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid #d8d2c5;
+    background: #fef9f1;
+    box-shadow: 2px 2px 0 0 #cc0000;
+  }
+
+  .tableCell {
+    min-height: 0;
+    padding: 0;
+    border-bottom: 0;
+    display: block;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .tableCell::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 3px;
+    color: #7a7669;
+    font-size: 10px;
+    line-height: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .tableCell[data-label="THUMBNAIL"]::before {
+    display: none;
+  }
+
+  .tableCell[data-label="ACTIONS"] {
+    padding-top: 2px;
+  }
+
+  .thumbnail {
+    width: min(100%, 180px);
+    height: auto;
+    aspect-ratio: 87 / 51;
+  }
+
+  .actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .viewAction {
+    min-height: 44px;
+    height: auto;
+    padding: 0 14px;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 640px) {
+  .sectionHeader {
+    margin: -20px -16px 0;
+    padding: 22px 16px 14px;
+  }
+
+  .controls {
+    margin: 18px 0 14px;
+  }
+
+  .modal {
+    padding: 24px 18px 20px;
+    box-shadow: 4px 4px 0 0 #cc0000;
+  }
+
+  .modalTitle {
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .modalButtons {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* ── Score breakdown modal ────────────────────── */
+
+.scoreOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+
+.scoreModal {
+  width: min(560px, 100%);
+  background: #f2ede5;
+  border: 3px solid #cc0000;
+  box-shadow: 8px 8px 0 0 #cc0000;
+  font-family: var(--font-admin-mono), "IBM Plex Mono", "Courier New", monospace;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.scoreModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 2px solid #cc0000;
+}
+
+.scoreModalHeaderLabel {
+  color: #cc0000;
+  font-size: 11px;
+  line-height: 15px;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.scoreModalClose {
+  background: transparent;
+  border: 2px solid #cc0000;
+  color: #cc0000;
+  font-family: var(--font-admin-mono), "IBM Plex Mono", "Courier New", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 14px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.scoreModalClose:hover {
+  background: #cc0000;
+  color: #fef9f1;
+}
+
+.scoreModalBody {
+  padding: 28px 28px 32px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.scoreProjectTitle {
+  margin: 0 0 24px;
+  color: #1d1c17;
+  font-family: var(--font-admin-mono), "IBM Plex Mono", "Courier New", monospace;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.scoreOverallBlock {
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid rgba(26, 26, 26, 0.15);
+  background: rgba(204, 0, 0, 0.04);
+}
+
+.scoreOverallNumber {
+  color: #cc0000;
+  font-size: 52px;
+  line-height: 1;
+  font-weight: 700;
+  font-family: var(--font-admin-display), var(--font-admin-mono), monospace;
+  letter-spacing: -0.02em;
+}
+
+.scoreOverallSub {
+  color: #1d1c17;
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.1em;
+  margin-top: 6px;
+  opacity: 0.55;
+}
+
+.scoreJudgeCount {
+  margin-top: 6px;
+  color: #1d1c17;
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.06em;
+  opacity: 0.45;
+}
+
+.scoreDivider {
+  height: 1px;
+  background: rgba(26, 26, 26, 0.15);
+  margin-bottom: 20px;
+}
+
+.scoreCriteriaSection {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.scoreCriteriaRow {
+  display: flex;
+  align-items: baseline;
+}
+
+.scoreCriteriaLabel {
+  color: #1d1c17;
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.scoreCriteriaDots {
+  flex: 1;
+  min-width: 12px;
+  border-bottom: 1px dashed rgba(26, 26, 26, 0.3);
+  margin: 0 8px 3px;
+}
+
+.scoreCriteriaValue {
+  color: #1d1c17;
+  font-size: 14px;
+  line-height: 16px;
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+.scoreNoData {
+  padding: 40px 0;
+  text-align: center;
+  color: #1d1c17;
+  font-size: 13px;
+  line-height: 18px;
+  opacity: 0.5;
+}
+
+/* ── Judge comments section ───────────────────── */
+
+.scoreCommentsDivider {
+  height: 1px;
+  background: rgba(26, 26, 26, 0.15);
+  margin: 24px 0 20px;
+}
+
+.scoreCommentsHeader {
+  font-size: 11px;
+  line-height: 15px;
+  color: #cc0000;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+
+.scoreCommentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.scoreCommentItem {
+  border-left: 2px solid #cc0000;
+  padding-left: 12px;
+}
+
+.scoreCommentJudge {
+  font-size: 10px;
+  line-height: 14px;
+  color: #888888;
+  letter-spacing: 0.06em;
+  margin-bottom: 5px;
+}
+
+.scoreCommentText {
+  font-size: 12px;
+  line-height: 18px;
+  color: #1a1a1a;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.scoreCommentsEmpty {
+  font-size: 11px;
+  line-height: 15px;
+  color: #888888;
+  letter-spacing: 0.04em;
+}

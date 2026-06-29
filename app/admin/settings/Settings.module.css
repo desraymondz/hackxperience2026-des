@@ -1,0 +1,1199 @@
+/* ── Page header ──────────────────────────────── */
+
+.pageHeader {
+  margin: -26px -24px 24px -26px;
+  min-height: 70px;
+  padding: 26px 26px 14px;
+  background: #f2ede5;
+  border-top: 3px solid #cc0000;
+  border-bottom: 1px solid #3a0808;
+}
+
+.pageHeader h2,
+.pageHeader p {
+  margin: 0;
+  font-weight: 400;
+}
+
+.pageHeader h2 {
+  color: #cc0000;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.pageHeader p {
+  margin-top: 3px;
+  color: #7a7669;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* ── Grid layout ──────────────────────────────── */
+
+.settingsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.fullCol {
+  grid-column: 1 / -1;
+}
+
+/* ── Panel card ───────────────────────────────── */
+
+.panel {
+  background: #fef9f1;
+  border: 1px solid #cc0000;
+  box-shadow: 4px 4px 0 0 #cc0000;
+  display: flex;
+  flex-direction: column;
+}
+
+.panelHead {
+  min-height: 42px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  border-top: 3px solid #cc0000;
+  border-bottom: 1px solid #3a0808;
+  background: #f2ede5;
+}
+
+.panelHead h3 {
+  margin: 0;
+  color: #cc0000;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+}
+
+.panelBody {
+  padding: 20px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+/* ── Config rows (label + control) ───────────── */
+
+.configRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 28px;
+}
+
+.configLabel {
+  font-size: 12px;
+  line-height: 16px;
+  color: #1d1c17;
+  min-width: 0;
+  flex: 1;
+}
+
+.configSub {
+  display: block;
+  font-size: 10px;
+  line-height: 14px;
+  color: #7a7669;
+  margin-top: 2px;
+}
+
+/* ── Toggle ───────────────────────────────────── */
+
+.toggle {
+  flex-shrink: 0;
+  width: 36px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border: 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggle:active {
+  transform: scale(0.98);
+}
+
+.toggleOn {
+  justify-content: flex-end;
+  background: #cc0000;
+}
+
+.toggleOff {
+  justify-content: flex-start;
+  background: #d0c8bc;
+}
+
+.toggleThumb {
+  width: 14px;
+  height: 14px;
+  background: #fef9f1;
+  pointer-events: none;
+  transition: none;
+}
+
+/* ── Number / text inputs ─────────────────────── */
+
+.numberInput {
+  flex-shrink: 0;
+  width: 80px;
+  min-height: 28px;
+  padding: 4px 8px;
+  background: #fef9f1;
+  border: 1px solid #1d1c17;
+  color: #1d1c17;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: right;
+  box-shadow: 2px 2px 0 0 #7a7669;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.numberInput:hover:not(:focus) {
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.numberInput:focus {
+  outline: none;
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.inputUnit {
+  flex-shrink: 0;
+  font-size: 10px;
+  line-height: 14px;
+  color: #7a7669;
+  margin-left: 4px;
+}
+
+/* ── Deadline date/time input ─────────────────── */
+
+.deadlineControl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.deadlineInput {
+  height: 30px;
+  padding: 0 8px;
+  background: #fef9f1;
+  border: 1px solid #1d1c17;
+  color: #1d1c17;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  line-height: 16px;
+  box-shadow: 2px 2px 0 0 #7a7669;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.deadlineInput:hover:not(:focus) {
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.deadlineInput:focus {
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.deadlineSaveBtn {
+  flex-shrink: 0;
+  height: 30px;
+  padding: 0 12px;
+  background: #f2ede5;
+  border: 1px solid #cc0000;
+  color: #cc0000;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.deadlineSaveBtn:hover:not(:disabled) {
+  background: #cc0000;
+  color: #fef9f1;
+}
+
+.deadlineSaveBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ── Criteria rows ────────────────────────────── */
+
+.criteriaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid #d8d2c5;
+  flex: 1;
+}
+
+.criteriaRow:last-child {
+  border-bottom: 0;
+}
+
+.criteriaLabel {
+  font-size: 11px;
+  line-height: 14px;
+  color: #1d1c17;
+  flex: 1;
+}
+
+.criteriaControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.criteriaTotal {
+  font-size: 10px;
+  line-height: 14px;
+  color: #7a7669;
+  margin-top: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.criteriaTotal strong {
+  font-weight: 400;
+  color: #1d1c17;
+}
+
+/* ── Track rows ───────────────────────────────── */
+
+.trackRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid #d8d2c5;
+  padding-bottom: 14px;
+}
+
+.trackRow:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.trackInfo {
+  min-width: 0;
+  flex: 1;
+}
+
+.trackActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.trackId {
+  font-size: 11px;
+  line-height: 14px;
+  color: #cc0000;
+}
+
+.trackName {
+  font-size: 10px;
+  line-height: 13px;
+  color: #7a7669;
+  margin-top: 2px;
+}
+
+/* ── Admin session panel ──────────────────────── */
+
+.sessionInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #d8d2c5;
+  margin-bottom: 18px;
+}
+
+.sessionField {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.sessionFieldLabel {
+  font-size: 10px;
+  line-height: 13px;
+  color: #7a7669;
+  flex-shrink: 0;
+  width: 112px;
+}
+
+.sessionFieldValue {
+  font-size: 11px;
+  line-height: 14px;
+  color: #1d1c17;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.sessionFieldValue.accent {
+  color: #cc0000;
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 6px 14px;
+  margin-top: auto;
+  background: #cc0000;
+  border: 1px solid #cc0000;
+  color: #fef9f1;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 12px;
+  line-height: 16px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.logoutBtn:hover {
+  background: #aa0000;
+  border-color: #aa0000;
+}
+
+.logoutBtn:active {
+  background: #880000;
+  transition-duration: 0.05s;
+}
+
+.logoutBtn svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+/* ── Judge accounts table ─────────────────────── */
+
+.judgeTableScroll {
+  overflow-x: auto;
+}
+
+.judgeTable {
+  min-width: 620px;
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) minmax(120px, 1.2fr) 80px minmax(140px, 1fr) 150px;
+  align-items: stretch;
+  border-bottom: 1px solid #d8d2c5;
+}
+
+.tableHead {
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border-bottom: 1px solid #cc0000;
+  background: #f2ede5;
+  color: #7a7669;
+  font-size: 10px;
+  line-height: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.judgeRow {
+  display: contents;
+}
+
+.judgeCell {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid #d8d2c5;
+  color: #1d1c17;
+  font-size: 11px;
+  line-height: 14px;
+  overflow-wrap: anywhere;
+}
+
+.judgeCell:last-child {
+  border-right: 0;
+}
+
+.statusActive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  min-width: 64px;
+  font-size: 10px;
+  line-height: 13px;
+  color: #1d1c17;
+  background: #f2ede5;
+  border: 1px solid #1d1c17;
+}
+
+.statusInactive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  min-width: 64px;
+  font-size: 10px;
+  line-height: 13px;
+  color: #7a7669;
+  background: transparent;
+  border: 1px solid #7a7669;
+}
+
+.judgeActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.editBtn {
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 9px;
+  background: #fef9f1;
+  border: 1px solid #1d1c17;
+  color: #1d1c17;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 10px;
+  line-height: 13px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.editBtn:hover {
+  background: #f2ede5;
+  border-color: #cc0000;
+  color: #cc0000;
+}
+
+.editBtn:active {
+  background: #ede8e0;
+}
+
+.deleteBtn {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: #fef9f1;
+  border: 1px solid #cc0000;
+  color: #cc0000;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.deleteBtn svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.deleteBtn:hover {
+  background: #ffe8e8;
+  border-color: #aa0000;
+  color: #aa0000;
+}
+
+.deleteBtn:active {
+  background: #ffd4d4;
+}
+
+/* ── Add judge form ───────────────────────────── */
+
+.addFormRow {
+  display: contents;
+}
+
+.addFormCell {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #cc0000;
+  background: #f2ede5;
+}
+
+.addInput {
+  width: 100%;
+  min-height: 26px;
+  padding: 4px 8px;
+  background: #fef9f1;
+  border: 1px solid #1d1c17;
+  color: #1d1c17;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  line-height: 14px;
+  box-shadow: 2px 2px 0 0 #7a7669;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.addInput:hover:not(:focus) {
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.addInput:focus {
+  outline: none;
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.addInput::placeholder {
+  color: #7a7669;
+}
+
+.addFormActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.confirmBtn {
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 22px;
+  background: #f2ede5;
+  border: 1px solid #1d1c17;
+  color: #1d1c17;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+
+.confirmBtn:hover {
+  background: #ddd6c8;
+  border-color: #7a7669;
+  transform: scale(1.08);
+}
+
+.confirmBtn:active {
+  background: #f2ede5;
+  transform: scale(0.95);
+}
+
+.cancelBtn {
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 22px;
+  background: #cc0000;
+  border: 1px solid #cc0000;
+  color: #fef9f1;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+
+.cancelBtn:hover {
+  background: #aa0000;
+  border-color: #ff2222;
+  transform: scale(1.08);
+}
+
+.cancelBtn:active {
+  background: #880000;
+  transform: scale(0.95);
+}
+
+.confirmBtn svg,
+.cancelBtn svg {
+  width: 12px;
+  height: 12px;
+}
+
+.panelFooter {
+  padding: 8px 18px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.addJudgeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 6px 14px;
+  background: #fef9f1;
+  border: 1px solid #cc0000;
+  color: #cc0000;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  line-height: 14px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.addJudgeBtn:hover {
+  background: #ffe8e8;
+  border-color: #aa0000;
+  color: #aa0000;
+}
+
+.addJudgeBtn:active {
+  background: #ffd4d4;
+}
+
+.addJudgeBtn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* ── Reset button (secondary action) ─────────── */
+
+.resetBtn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid #7a7669;
+  color: #57534a;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.resetBtn:hover {
+  border-color: #1d1c17;
+  color: #1d1c17;
+}
+
+/* ── Track management ─────────────────────────── */
+
+.trackAddSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid #d8d2c5;
+  margin-top: auto;
+}
+
+.trackAddInput {
+  flex: 1;
+  min-width: 0;
+  height: 32px;
+  padding: 0 8px;
+  background: #fef9f1;
+  border: 1px solid #1d1c17;
+  color: #1d1c17;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  line-height: 14px;
+  box-shadow: 2px 2px 0 0 #7a7669;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.trackAddInput:hover:not(:focus) {
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.trackAddInput:focus {
+  outline: none;
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.trackAddInput::placeholder {
+  color: #7a7669;
+  text-transform: uppercase;
+}
+
+.trackAddBtn {
+  flex-shrink: 0;
+  height: 32px;
+  padding: 0 12px;
+  background: #f2ede5;
+  border: 1px solid #1d1c17;
+  color: #1d1c17;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.trackAddBtn:hover:not(:disabled) {
+  background: #cc0000;
+  border-color: #cc0000;
+}
+
+.trackAddBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.removeTrackBtn {
+  flex-shrink: 0;
+  height: 22px;
+  padding: 0 8px;
+  background: transparent;
+  border: 1px solid #cc0000;
+  color: #cc0000;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 10px;
+  line-height: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s, color 0.12s;
+}
+
+.removeTrackBtn:hover {
+  background: #cc0000;
+  color: #fef9f1;
+}
+
+.customTrackBadge {
+  display: inline-block;
+  font-size: 9px;
+  line-height: 12px;
+  color: #7a7669;
+  border: 1px solid #d0c8bc;
+  padding: 1px 5px;
+  letter-spacing: 0.04em;
+}
+
+/* ── Divider ──────────────────────────────────── */
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: #d8d2c5;
+}
+
+/* ── Update button ────────────────────────────── */
+
+.updateBtn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 6px 14px;
+  background: #f2ede5;
+  border: 1px solid #1d1c17;
+  color: #1d1c17;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.updateBtn:hover {
+  background: #cc0000;
+  border-color: #cc0000;
+  color: #fef9f1;
+}
+
+.updateBtn:active {
+  background: #aa0000;
+  border-color: #aa0000;
+}
+
+.updateBtn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.updateSuccessMsg {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #1d1c17;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ── Input error states ───────────────────────── */
+
+.numberInputError {
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.inputErrorMsg {
+  display: block;
+  margin-top: 4px;
+  color: #cc0000;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* ── Responsive ───────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .settingsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .fullCol {
+    grid-column: 1;
+  }
+
+  .toggle {
+    width: 56px;
+    height: 44px;
+    padding: 6px;
+  }
+
+  .toggleThumb {
+    width: 20px;
+    height: 20px;
+  }
+
+  .numberInput,
+  .addInput,
+  .logoutBtn,
+  .editBtn,
+  .deleteBtn,
+  .addJudgeBtn,
+  .updateBtn,
+  .resetBtn,
+  .trackAddBtn,
+  .trackAddInput {
+    min-height: 44px;
+  }
+
+  .confirmBtn,
+  .cancelBtn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .confirmBtn svg,
+  .cancelBtn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .judgeTableScroll {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .judgeTable {
+    min-width: 720px;
+    grid-template-columns: minmax(100px, 1fr) minmax(130px, 1.2fr) 90px minmax(150px, 1fr) 200px;
+  }
+
+  .judgeActions,
+  .addFormActions {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pageHeader {
+    margin: -20px -16px 18px;
+    padding: 22px 16px 14px;
+  }
+
+  .panelBody {
+    padding: 16px 14px;
+    gap: 14px;
+  }
+
+  .configRow,
+  .criteriaRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-height: 0;
+  }
+
+  .trackRow {
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .configLabel,
+  .criteriaLabel {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .configSub,
+  .inputUnit,
+  .criteriaTotal,
+  .sessionFieldLabel,
+  .trackName {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .trackId,
+  .sessionFieldValue {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .numberInput,
+  .addInput {
+    width: 100%;
+    min-height: 44px;
+    font-size: 16px;
+    line-height: 20px;
+    box-sizing: border-box;
+    text-align: left;
+  }
+
+  .toggle {
+    width: 56px;
+    height: 44px;
+    padding: 6px;
+  }
+
+  .toggleThumb {
+    width: 20px;
+    height: 20px;
+  }
+
+  .criteriaControls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .criteriaTotal {
+    justify-content: flex-start;
+  }
+
+  .pageHeader h2 {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .panelHead h3 {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .tableHead {
+    display: none;
+  }
+
+  .judgeTableScroll {
+    overflow-x: visible;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .judgeTable {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    border-bottom: 0;
+  }
+
+  .judgeRow,
+  .addFormRow {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid #cc0000;
+    background: #fef9f1;
+    box-shadow: 2px 2px 0 0 #cc0000;
+    margin-bottom: 16px;
+  }
+
+  .judgeCell,
+  .addFormCell {
+    display: block;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  .judgeCell::before,
+  .addFormCell::before {
+    content: attr(data-label) ": ";
+    display: inline;
+    color: #7a7669;
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-right: 6px;
+  }
+
+  .judgeCell[data-label="ACTIONS"]::before,
+  .addFormCell[data-label="ACTIONS"]::before {
+    display: none;
+  }
+
+  .judgeCell[data-label="ACTIONS"],
+  .addFormCell[data-label="ACTIONS"] {
+    border-top: 1px dashed #d8d2c5;
+    padding-top: 10px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+  }
+
+  .judgeActions,
+  .addFormActions {
+    gap: 8px;
+  }
+
+  .editBtn,
+  .deleteBtn {
+    min-height: 44px;
+    padding: 0 14px;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .logoutBtn,
+  .addJudgeBtn,
+  .updateBtn {
+    width: 100%;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  .sessionField {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .sessionFieldLabel {
+    width: auto;
+  }
+
+  .configRow > div {
+    width: 100%;
+  }
+
+  .deadlineControl {
+    width: 100%;
+  }
+
+  .deadlineInput {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .deadlineSaveBtn {
+    min-height: 44px;
+    font-size: 13px;
+  }
+
+  .panelFooter {
+    padding: 12px 14px 14px;
+  }
+}
+
+@media (max-width: 640px) {
+  .pageHeader {
+    margin: -20px -16px 20px;
+    padding: 22px 16px 14px;
+  }
+
+  .panelBody {
+    padding: 16px 14px;
+    gap: 14px;
+  }
+
+  .configRow,
+  .criteriaRow,
+  .trackRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-height: 0;
+  }
+
+  .configLabel {
+    flex: none;
+  }
+
+  .numberInput {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+  }
+
+  .criteriaControls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .criteriaTotal {
+    justify-content: flex-start;
+  }
+
+  .trackRow {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .sessionField {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .sessionFieldLabel {
+    width: auto;
+  }
+
+  .logoutBtn,
+  .addJudgeBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -76,7 +76,8 @@ const TEAMS: Team[] = [
 export default function Committee() {
   return (
     <section
-      className={`${ibmPlexMono.className} w-full bg-[#f2ede5] px-6 sm:px-10 md:px-14 py-16 sm:py-24`}
+      id="organise-members"
+      className={`${ibmPlexMono.className} w-full bg-[#f2ede5] px-6 sm:px-10 md:px-14 py-16 sm:py-24 scroll-mt-11`}
     >
       <div className="mx-auto max-w-7xl">
         <div className="w-full h-px bg-[#c5bfb5] mb-16 sm:mb-24" />

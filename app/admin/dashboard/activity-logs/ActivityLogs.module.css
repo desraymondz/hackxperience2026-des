@@ -1,0 +1,505 @@
+/* ── Header ──────────────────────────────────────────────── */
+
+.contentHeader {
+  margin: -26px -24px 24px -26px;
+  padding: 26px 26px 0;
+  background: #f2ede5;
+  border-top: 3px solid #cc0000;
+  border-bottom: 1px solid #3a0808;
+}
+
+/* When the logs are embedded under the dashboard grid, the header must sit
+   BELOW the panels (positive top margin) instead of bleeding to the page top. */
+.contentHeaderEmbedded {
+  margin-top: 28px;
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+}
+
+.contentHeader h2,
+.contentHeader p {
+  margin: 0;
+  font-weight: 400;
+}
+
+.contentHeader h2 {
+  color: #cc0000;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.contentHeader p {
+  margin-top: 3px;
+  color: #7a7669;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* ── Realtime pill ───────────────────────────────────────── */
+
+.realtimePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.realtimePillConnecting {
+  border-color: #d0c8bc;
+  color: #7a7669;
+}
+
+.realtimePillLive {
+  border-color: #3a9e6a;
+  color: #3a9e6a;
+}
+
+.realtimePillError {
+  border-color: #cc0000;
+  color: #cc0000;
+}
+
+.realtimeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.realtimePillLive .realtimeDot {
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+
+/* ── Table panel ─────────────────────────────────────────── */
+
+.tablePanel {
+  background: #fef9f1;
+  border: 1px solid #cc0000;
+  box-shadow: 4px 4px 0 0 #cc0000;
+}
+
+.tablePanelTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px 14px;
+  border-bottom: 1px solid #cc0000;
+}
+
+.sectionHeaderText {
+  color: #cc0000;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* ── Toolbar ─────────────────────────────────────────────── */
+
+.tableToolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px 10px;
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 180px;
+  height: 30px;
+  padding: 0 10px;
+  background: #fef9f1;
+  border: 1px solid #1d1c17;
+  color: #1d1c17;
+  font-size: 11px;
+  line-height: 16px;
+  font-family: var(--font-admin-mono), monospace;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.searchInput::placeholder {
+  color: #7a7669;
+}
+
+.searchInput:focus {
+  border-color: #cc0000;
+  box-shadow: 2px 2px 0 0 #cc0000;
+}
+
+.filterDropdown {
+  position: relative;
+}
+
+.filterTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 30px;
+  padding: 0 8px;
+  min-width: 148px;
+  background: #fef9f1;
+  border: 1px solid #1d1c17;
+  color: #1d1c17;
+  font-size: 11px;
+  line-height: 16px;
+  font-family: var(--font-admin-mono), monospace;
+  cursor: pointer;
+  outline: none;
+  white-space: nowrap;
+  transition: border-color 0.15s;
+}
+
+.filterTrigger:hover,
+.filterTrigger:focus {
+  border-color: #cc0000;
+}
+
+.filterChevron {
+  font-size: 8px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+
+.filterChevronOpen {
+  transform: rotate(180deg);
+}
+
+.filterMenu {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  min-width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: #f2ede5;
+  border: 2px solid #cc0000;
+  z-index: 50;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.filterOption {
+  display: block;
+  padding: 7px 10px;
+  font-size: 11px;
+  line-height: 15px;
+  font-family: var(--font-admin-mono), monospace;
+  color: #1d1c17;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.1s, color 0.1s;
+}
+
+.filterOption:hover {
+  background: #cc0000;
+  color: #fef9f1;
+}
+
+.filterOptionSelected {
+  background: #f2ede5;
+  color: #1d1c17;
+}
+
+.filterOptionSelected:hover {
+  background: #cc0000;
+  color: #fef9f1;
+}
+
+/* ── Filter dropdown wrapper ─────────────────────────────── */
+
+.filterDropdown {
+  /* toolbar context — CustomSelect handles internal sizing */
+}
+
+/* ── Table ───────────────────────────────────────────────── */
+
+.tableFrame {
+  overflow-x: auto;
+}
+
+.tableGrid {
+  min-width: 700px;
+  display: grid;
+  grid-template-columns: 148px 180px 1fr 200px;
+}
+
+.tableHead {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid #cc0000;
+  background: #f2ede5;
+  color: #7a7669;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.tableRow {
+  display: contents;
+}
+
+.tableCell {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 12px 16px;
+  border-bottom: 1px solid #d8d2c5;
+  color: #1d1c17;
+  font-size: 11px;
+  line-height: 15px;
+  overflow-wrap: anywhere;
+}
+
+/* ── Action badges ───────────────────────────────────────── */
+
+.actionBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  padding: 3px 10px;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.toneGreen {
+  color: #fef9f1;
+  background: #3a9e6a;
+  border: 1px solid #3a9e6a;
+}
+
+.toneRed {
+  color: #fef9f1;
+  background: #cc0000;
+  border: 1px solid #cc0000;
+}
+
+.toneAmber {
+  color: #9a6500;
+  background: transparent;
+  border: 1px solid #e59c00;
+}
+
+.toneNeutral {
+  color: #1d1c17;
+  background: transparent;
+  border: 1px solid #1d1c17;
+}
+
+/* ── Empty / loading ─────────────────────────────────────── */
+
+.emptyRow {
+  grid-column: 1 / -1;
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #d8d2c5;
+  color: #7a7669;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* ── Pagination ──────────────────────────────────────────── */
+
+.paginationBar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 18px;
+  border-top: 1px solid #cc0000;
+  background: #fef9f1;
+  flex-wrap: wrap;
+}
+
+.paginationBtn {
+  height: 28px;
+  padding: 0 10px;
+  background: #f2ede5;
+  border: 1px solid #1d1c17;
+  color: #1d1c17;
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  line-height: 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.paginationBtn:hover:not(:disabled) {
+  background: #cc0000;
+  border-color: #cc0000;
+}
+
+.paginationBtn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.paginationInfo {
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  line-height: 16px;
+  color: #1d1c17;
+}
+
+.paginationCount {
+  font-family: var(--font-admin-mono), monospace;
+  font-size: 11px;
+  line-height: 16px;
+  color: #7a7669;
+  margin-left: auto;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .searchInput,
+  .filterTrigger {
+    height: 44px;
+    min-height: 44px;
+  }
+
+  .paginationBtn {
+    height: 44px;
+    min-height: 44px;
+    padding: 0 14px;
+  }
+
+  .tableFrame {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 768px) {
+  .contentHeader {
+    margin: -20px -16px 18px;
+    padding: 22px 16px 0;
+  }
+
+  .contentHeaderEmbedded {
+    margin-top: 20px;
+  }
+
+  .headerRow {
+    padding-bottom: 10px;
+  }
+
+  .tabStrip {
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .tablePanelTop,
+  .tableToolbar {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .tablePanel {
+    overflow: visible;
+    box-shadow: 2px 2px 0 0 #cc0000;
+  }
+
+  .tableFrame {
+    overflow: visible;
+  }
+
+  .tableGrid {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .tableHead {
+    display: none;
+  }
+
+  .tableRow {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid #d8d2c5;
+    background: #fef9f1;
+    box-shadow: 2px 2px 0 0 #cc0000;
+  }
+
+  .tableCell {
+    min-height: 0;
+    padding: 0;
+    border-bottom: 0;
+    display: block;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .tableCell::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 3px;
+    color: #7a7669;
+    font-size: 10px;
+    line-height: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .searchInput {
+    min-width: 100%;
+    flex-basis: 100%;
+  }
+
+  .filterDropdown {
+    flex: 1;
+  }
+
+  .filterTrigger {
+    width: 100%;
+  }
+
+  .realtimePill {
+    font-size: 9px;
+    padding: 3px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tablePanelTop,
+  .tableToolbar {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}

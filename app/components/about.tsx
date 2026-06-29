@@ -10,7 +10,7 @@ const About: React.FC = () => {
   const TEXT_DIM = "rgba(255, 255, 255, 0.7)";
 
   return (
-    <section id="system" className="py-24 px-6 max-w-7xl mx-auto font-sans scroll-mt-11" style={{ fontFamily: 'Montserrat'}}>
+    <section id="overview" className="py-24 px-6 max-w-7xl mx-auto font-sans scroll-mt-11" style={{ fontFamily: 'Montserrat'}}>
       <div className="grid lg:grid-cols-3 gap-8">
         
         {/* Main Large Card (Dark) */}

@@ -280,7 +280,7 @@ export default function TimeLine() {
   const bronze = SPONSORS.filter(s => s.tier === 'bronze')
 
   return (
-    <section id="schedule" className="bg-[#1a1a1a] px-6 md:px-12 pt-12 sm:pt-16 md:pt-20 pb-8 sm:pb-12 font-mono scroll-mt-11">
+    <section id="timeline" className="bg-[#1a1a1a] px-6 md:px-12 pt-12 sm:pt-16 md:pt-20 pb-8 sm:pb-12 font-mono scroll-mt-11">
       <div className="max-w-7xl mx-auto">
         <SectionHeader
           title="HACKATHON_TIMELINE"

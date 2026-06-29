@@ -14,7 +14,7 @@ const montserrat = Montserrat({
 
 export default function TimelineCta() {
   return (
-    <section id="registry" className={`${ibmPlexMono.className} w-full bg-[#d10000] text-white scroll-mt-11`}>
+    <section id="join-us" className={`${ibmPlexMono.className} w-full bg-[#d10000] text-white scroll-mt-11`}>
       <div className="mx-auto w-full max-w-5xl px-6 sm:px-10 py-24 sm:py-32 md:py-40">
         {/* Heading — Montserrat, heavy */}
         <h2

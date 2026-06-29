@@ -131,7 +131,7 @@ export default function Faq() {
   };
 
   return (
-    <section id="intel" className={`${ibmPlexMono.className} w-full bg-[#f2ede5] py-16 sm:py-24 px-6 sm:px-10 scroll-mt-11`}>
+    <section id="faq" className={`${ibmPlexMono.className} w-full bg-[#f2ede5] py-16 sm:py-24 px-6 sm:px-10 scroll-mt-11`}>
       <div className="mx-auto max-w-4xl">
         <h2 className={`${montserrat.className} text-[28px] sm:text-[36px] md:text-[42px] font-extrabold tracking-tight text-[#1d1c17] mb-10 sm:mb-14`}>
           FAQ_QUERY_MODULE
