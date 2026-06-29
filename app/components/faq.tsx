@@ -13,6 +13,8 @@ const montserrat = Montserrat({
   weight: ["800", "900"],
 });
 
+import { TEAM_REGISTRATION_URL, LOOKING_FOR_TEAM_URL } from "@/lib/site-links";
+
 const TELEGRAM_URL = "https://t.me/+M4VYyn6OxJY0OGI1";
 
 const TelegramLink = () => (
@@ -20,6 +22,26 @@ const TelegramLink = () => (
     Telegram group
   </a>
 );
+
+const FormLink = ({ href, children }: { href: string; children: ReactNode }) => (
+  <a href={href} target="_blank" rel="noopener noreferrer" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">
+    {children}
+  </a>
+);
+
+const TeamRegistrationLink = () =>
+  TEAM_REGISTRATION_URL ? (
+    <FormLink href={TEAM_REGISTRATION_URL}>Team Registration Form</FormLink>
+  ) : (
+    <>Team Registration Form (link in our <TelegramLink />)</>
+  );
+
+const LookingForTeamLink = () =>
+  LOOKING_FOR_TEAM_URL ? (
+    <FormLink href={LOOKING_FOR_TEAM_URL}>Looking for a Team form</FormLink>
+  ) : (
+    <>Looking for a Team form (link in our <TelegramLink />)</>
+  );
 
 interface FaqItem {
   question: string;
@@ -37,7 +59,27 @@ const FAQ_DATA: FaqCategory[] = [
     items: [
       {
         question: "HOW DO I REGISTER FOR HACKXPERIENCE 2026?",
-        answer: <>Registration details will be announced in our <TelegramLink />. Join to be the first to know when registration opens.</>,
+        answer: (
+          <>
+            Your team&apos;s <strong>Team Leader</strong> completes the <TeamRegistrationLink /> on behalf of the team. Registration closes on <strong>16 July 2026, 23:59 SGT</strong>.
+          </>
+        ),
+      },
+      {
+        question: "WHAT IS THE TEAM SIZE?",
+        answer: "All teams must have 3 to 4 members. Choose one Team Leader as the primary point of contact with the organisers — they will submit the registration form for the whole team.",
+      },
+      {
+        question: "I'M SOLO OR DON'T HAVE A FULL TEAM YET",
+        answer: (
+          <>
+            If you&apos;re registering solo or with fewer than 3 members, fill out the <LookingForTeamLink /> and look for teammates during the pre-event sessions.
+          </>
+        ),
+      },
+      {
+        question: "CAN I TEAM UP WITH STUDENTS FROM OTHER UNIVERSITIES?",
+        answer: "Yes. SIM students may form teams with students from other universities. For each member, indicate whether they are from SIM or another institution on the registration form.",
       },
       {
         question: "IS THERE A REGISTRATION FEE?",
@@ -45,7 +87,7 @@ const FAQ_DATA: FaqCategory[] = [
       },
       {
         question: "WHO IS ELIGIBLE TO PARTICIPATE?",
-        answer: "All SIM students are welcome to participate. All years welcome.",
+        answer: "All SIM students are welcome — all years. You may also team up with students from other universities (see above).",
       },
     ],
   },
@@ -84,11 +126,19 @@ const FAQ_DATA: FaqCategory[] = [
     items: [
       {
         question: "WHEN AND WHERE IS THE HACKATHON?",
-        answer: <>Dates are still tentative, but it will span 2 days on SIM Campus. Stay tuned to our <TelegramLink /> for confirmed dates.</>,
+        answer: <>24–25 July 2026 on SIM Campus. Join our <TelegramLink /> for venue details and the full schedule as they are confirmed.</>,
       },
       {
-        question: "WHAT ARE THE PROBLEM STATEMENTS?",
-        answer: "Problem statements are revealed during the opening ceremony on Day 1.",
+        question: "WHAT ARE THE TRACKS?",
+        answer: (
+          <>
+            This year&apos;s theme is <strong>AI for Living</strong>. Teams choose one of two tracks — <strong>Care Forward</strong> (mental, physical, and nutrition wellbeing) or <strong>Friction To Flow</strong> (task management, work quality, and workflow automation). See the full track breakdown in the <a href="#tracks" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">Tracks section</a>.
+          </>
+        ),
+      },
+      {
+        question: "DO I NEED TO PICK A SUB-TRACK?",
+        answer: "Sub-tracks (e.g. Mental Care, Workflow Automation) guide your build and are selected when you submit your project. They are starting points — you're welcome to explore ideas within or across them.",
       },
       {
         question: "HOW WILL PROJECTS BE JUDGED?",
@@ -101,11 +151,11 @@ const FAQ_DATA: FaqCategory[] = [
     items: [
       {
         question: "WHAT IS HACKXPERIENCE?",
-        answer: "HackXperience is SIM IT Club's hackathon — a 24-hour challenge with workshops, mentorship, and presentations. In 2025, it brought together 90+ participants across 20 projects and won SIM's Outstanding Event Award (Silver).",
+        answer: "HackXperience is SIM IT Club's flagship hackathon — a 2-day agentic hackathon where curious students build and deploy agentic products. In 2025, it brought together 90+ participants across 20 projects and won SIM's Outstanding Event Award (Silver).",
       },
       {
         question: "HOW MANY PARTICIPANTS ARE EXPECTED?",
-        answer: "150 students across 30–38 teams.",
+        answer: "100+ students across multiple teams.",
       },
       {
         question: "I HAVE MORE QUESTIONS. WHO DO I CONTACT?",

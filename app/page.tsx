@@ -2,6 +2,7 @@
 import Navbar from "./components/navbar";
 import Hero from "./components/hero";
 import About from "./components/about";
+import Tracks from "./components/tracks";
 import PastEvents from "./components/pastEvents";
 import TimeLine from './timeline'
 import PreEvent from './pre_event'
@@ -19,6 +20,7 @@ export default function Home() {
       <Navbar/>
       <Hero/>
       <About/>
+      <Tracks/>
       <PastEvents/>
       <PreEvent/>
       <TimeLine/>

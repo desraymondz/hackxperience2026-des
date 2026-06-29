@@ -25,50 +25,52 @@ const TEAMS: Team[] = [
   {
     label: "EXCO TEAM",
     members: [
-      { role: "PRESIDENT", name: "JAYADIPA FUKUTARO", img: null },
-      { role: "VICE PRESIDENT", name: "MICHELLE CHAN", img: null },
-      { role: "SECRETARY", name: "REYNALDI ARDIANTO WIYOGO", img: null },
-      { role: "TECHNICAL DIRECTOR", name: "YAN MEI WONG", img: null },
-      { role: "TECHNICAL DIRECTOR", name: "DESMOND", img: null },
-      { role: "MARKETING DIRECTOR", name: "VANNESS YANG", img: null },
-      { role: "PARTNERSHIPS DIRECTOR", name: "WINSTON FAUSTIN", img: null },
+      { role: "PRESIDENT", name: "JAYADIPA FUKUTARO", img: "/committee/jayadipa-fukutaro.jpg" },
+      { role: "VICE PRESIDENT", name: "MICHELLE CHAN", img: "/committee/michelle-chan.jpg" },
+      { role: "SECRETARY", name: "REYNALDI ARDIANTO WIYOGO", img: "/committee/reynaldi-ardianto.jpg" },
+      { role: "TECHNICAL DIRECTOR", name: "YAN MEI WONG", img: "/committee/yan-mei-wong.jpg" },
+      { role: "TECHNICAL DIRECTOR", name: "DESMOND", img: "/committee/desmond.jpg" },
+      { role: "MARKETING DIRECTOR", name: "VANNESS YANG", img: "/committee/vanness-yang.jpg" },
+      { role: "PARTNERSHIPS DIRECTOR", name: "WINSTON FAUSTIN", img: "/committee/winston-faustin.jpg" },
     ],
   },
   {
     label: "DEV TEAM",
     members: [
-      { role: "MEMBER", name: "LEE HAE EUN CHLOE", img: null },
-      { role: "MEMBER", name: "VUN KIAN HIUNG", img: null },
-      { role: "MEMBER", name: "MOE PYE SONE", img: null },
-      { role: "MEMBER", name: "CHUA WEE YEE GERALD", img: null },
-      { role: "MEMBER", name: "TAN WEI QUAN", img: null },
-      { role: "MEMBER", name: "STANLEY LAURENZ", img: null },
-      { role: "MEMBER", name: "VICKY YANG", img: null },
-      { role: "MEMBER", name: "NADON PANWONG", img: null },
+      { role: "MEMBER", name: "LEE HAE EUN CHLOE", img: "/committee/chloe.jpg" },
+      { role: "MEMBER", name: "VUN KIAN HIUNG", img: "/committee/vun-kian-hiung.jpg" },
+      { role: "MEMBER", name: "MOE PYE SONE", img: "/committee/moe-pye-sone.jpg" },
+      { role: "MEMBER", name: "CHUA WEE YEE GERALD", img: "/committee/gerald.jpg" },
+      { role: "MEMBER", name: "TAN WEI QUAN", img: "/committee/wei-quan.jpg" },
+      { role: "MEMBER", name: "STANLEY LAURENZ", img: "/committee/stanley-laurenz.jpg" },
+      { role: "MEMBER", name: "VICKY YANG", img: "/committee/vicky-yang.jpg" },
+      { role: "MEMBER", name: "NADON PANWONG", img: "/committee/nadon-panwong.jpg" },
+      { role: "MEMBER", name: "AMEER", img: "/committee/ameer.jpg" },
     ],
   },
   {
     label: "MARKETING TEAM",
     members: [
-      { role: "MEMBER", name: "TEE YI JUN", img: null },
-      { role: "MEMBER", name: "NITYASHRI MEKA", img: null },
-      { role: "MEMBER", name: "PAING THIT XAN", img: null },
-      { role: "MEMBER", name: "SWAMINATHAN SHRAVANTHIGA", img: null },
-      { role: "MEMBER", name: "AGRACIA YONG YI XIN", img: null },
-      { role: "MEMBER", name: "MANIKANDAN SANJUVIGASINI", img: null },
-      { role: "MEMBER", name: "ALBERT LIBRANTONO", img: null },
-      { role: "MEMBER", name: "KIMBERLY", img: null },
+      { role: "MEMBER", name: "TEE YI JUN", img: "/committee/tee-yi-jun.jpg" },
+      { role: "MEMBER", name: "NITYASHRI MEKA", img: "/committee/nityashri-meka.jpg" },
+      { role: "MEMBER", name: "PAING THIT XAN", img: "/committee/paing-thit-xan.jpg" },
+      { role: "MEMBER", name: "SWAMINATHAN SHRAVANTHIGA", img: "/committee/shravanthiga.jpg" },
+      { role: "MEMBER", name: "AGRACIA YONG YI XIN", img: "/committee/agracia.jpg" },
+      { role: "MEMBER", name: "MANIKANDAN SANJUVIGASINI", img: "/committee/sanju.jpg" },
+      { role: "MEMBER", name: "ALBERT LIBRANTONO", img: "/committee/albert.jpg" },
+      { role: "MEMBER", name: "KIMBERLY", img: "/committee/kimberly.jpg" },
+      { role: "MEMBER", name: "HELEN PRIYATNA", img: "/committee/helen.jpg" },
     ],
   },
   {
     label: "PARTNERSHIP & INNOVATION",
     members: [
-      { role: "MEMBER", name: "PHOO PWINT WAI", img: null },
-      { role: "MEMBER", name: "SHISA YOSHIHIRO", img: null },
-      { role: "MEMBER", name: "EILEEN LEE", img: null },
-      { role: "MEMBER", name: "SU YI MAUNG", img: null },
-      { role: "MEMBER", name: "KARTHIKEYAN SURESH", img: null },
-      { role: "MEMBER", name: "ANG LIJA", img: null },
+      { role: "MEMBER", name: "PHOO PWINT WAI", img: "/committee/phoo-pwint-wai.jpg" },
+      { role: "MEMBER", name: "SHISA YOSHIHIRO", img: "/committee/shisa-yoshihiro.jpg" },
+      { role: "MEMBER", name: "EILEEN LEE", img: "/committee/eileen-lee.jpg" },
+      { role: "MEMBER", name: "SU YI MAUNG", img: "/committee/su-yi-maung.jpg" },
+      { role: "MEMBER", name: "KARTHIKEYAN SURESH", img: "/committee/karthik.jpg" },
+      { role: "MEMBER", name: "ANG LIJA", img: "/committee/lija.jpg" },
     ],
   },
 ];
@@ -103,7 +105,7 @@ export default function Committee() {
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-8 gap-4 sm:gap-5">
                 {team.members.map((member, i) => (
                   <div key={`${team.label}-${i}`}>
-                    <div className="w-full aspect-[3/4] bg-[#ddd8cf] border border-[#ccc7bd] flex items-center justify-center">
+                    <div className="w-full aspect-[3/4] bg-[#ddd8cf] border border-[#ccc7bd] flex items-center justify-center overflow-hidden">
                       {member.img ? (
                         <img
                           src={member.img}

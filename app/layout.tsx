@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 const SITE_URL = "https://hackxperience-landingpage-chloe.vercel.app";
-const SITE_TITLE = "HackXperience 2026 — 24-Hour Hackathon at SIM";
+const SITE_TITLE = "HackXperience 2026 — 2-Day Agentic Hackathon at SIM";
 const SITE_DESCRIPTION =
-  "Join HackXperience 2026, a 24-hour hackathon at the Singapore Institute of Management. Form teams of 4–5, ideate, build, and ship working prototypes — then present to industry judges. Open to Year 1–3 students.";
+  "Join HackXperience 2026, SIM IT Club's flagship 2-day agentic hackathon. Teams of 3–4 build and deploy agentic products around AI for Living — 24–25 July at SIM. Register by 16 July. Open to curious students.";
 
 export const metadata: Metadata = {
   title: {
@@ -35,7 +35,8 @@ export const metadata: Metadata = {
     "React",
     "Next.js",
     "student hackathon",
-    "innovation",
+    "agentic AI",
+    "AI for Living",
     "IT Club",
   ],
   authors: [{ name: "SIM Information Technology Club" }],
@@ -68,8 +69,8 @@ const jsonLd = {
   "@type": "Event",
   name: "HackXperience 2026",
   description: SITE_DESCRIPTION,
-  startDate: "2026-05-22T00:00:00+08:00",
-  endDate: "2026-05-23T00:00:00+08:00",
+  startDate: "2026-07-24T00:00:00+08:00",
+  endDate: "2026-07-25T23:59:59+08:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
   location: {

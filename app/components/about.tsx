@@ -27,7 +27,7 @@ const About: React.FC = () => {
           </h2>
           
           <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-10 md:mb-12 opacity-80 font-medium">
-            HackXperience 2026 is a 24-hour hackathon where teams of 4–5 turn problem statements into working prototypes. From kickoff to final commit, you'll ideate, build, and ship — then present to industry judges. Last year's run produced 20 projects from 90+ builders and took home SIM's Outstanding Event Award (Silver). This time, we're scaling up.
+            Welcome to HackXperience — a 2-day agentic hackathon for curious students to build and deploy agentic products. SIM IT Club&apos;s flagship event brings together 100+ participants on 24–25 July under the theme <strong>AI for Living</strong> — easing the tension between work and life through care or automation. Register your team of 3–4 by <strong>16 July 2026</strong>.
           </p>
 
           <div className="grid md:grid-cols-2 gap-8 md:gap-10 pt-8 md:pt-10 border-t border-white/10">
@@ -36,7 +36,7 @@ const About: React.FC = () => {
                 // WHO SHOULD JOIN
               </h4>
               <p className="text-sm md:text-base leading-relaxed" style={{ color: TEXT_DIM }}>
-                Web devs, AI engineers, designers, product thinkers, business analysts — anyone who builds. Year 1 to Year 3. No minimum skill level, just the drive to ship something real in 24 hours.
+                Curious students who want to build and deploy agentic products — web devs, AI engineers, designers, product thinkers, business analysts. Year 1 to Year 3. No minimum skill level, just the drive to ship something real in 2 days.
               </p>
             </div>
             <div>
@@ -44,7 +44,7 @@ const About: React.FC = () => {
                 // WHAT YOU GET
               </h4>
               <p className="text-sm md:text-base leading-relaxed" style={{ color: TEXT_DIM }}>
-                Pre-event workshops in React & Next.js to get you hackathon-ready. On-site mentorship from industry professionals. A stage to demo your build. And prizes worth fighting for.
+                Pre-event workshops to get you hackathon-ready. On-site mentorship from industry professionals. A stage to demo your agentic build. And prizes worth fighting for.
               </p>
             </div>
           </div>
@@ -53,7 +53,7 @@ const About: React.FC = () => {
         {/* Right Side Column (Stats Cards) */}
         <div className="flex flex-col gap-8 mt-4 lg:mt-0">
           
-          {/* 24H Card */}
+          {/* 2D Card */}
           <div 
             className="border-2 p-8 flex-1 flex flex-col justify-center"
             style={{ 
@@ -62,10 +62,10 @@ const About: React.FC = () => {
             }}
           >
             <span className="text-5xl md:text-6xl font-black" style={{ color: RED }}>
-              24H
+              2D
             </span>
             <span className="font-mono text-[10px] md:text-xs uppercase font-bold tracking-[0.2em] mt-3" style={{ color: DARK_BG }}>
-              Continuous Innovation
+              Agentic Innovation
             </span>
           </div>
 

@@ -1,21 +1,21 @@
 const EVENTS = [
   {
-    date: 'DATES_PENDING',
+    date: '16 JUL 2026',
     title: 'REGISTRATION DEADLINE',
-    time: '',
-    meta: '',
+    time: '11:59 PM',
+    meta: 'SGT · TEAM REGISTRATION FORM',
   },
   {
-    date: 'DATES_PENDING',
+    date: '24 JUL 2026',
     title: 'OPENING CEREMONY',
     time: '',
-    meta: '',
+    meta: 'SIM CAMPUS',
   },
   {
-    date: 'DATES_PENDING',
+    date: '24–25 JUL 2026',
     title: 'HACKING PERIOD',
     time: '',
-    meta: '',
+    meta: 'SIM CAMPUS',
   },
   {
     date: 'DATES_PENDING',
@@ -24,10 +24,10 @@ const EVENTS = [
     meta: '',
   },
   {
-    date: 'DATES_PENDING',
+    date: '25 JUL 2026',
     title: 'JUDGING + WINNERS',
     time: '',
-    meta: '',
+    meta: 'SIM CAMPUS',
   },
 ]
 
@@ -134,7 +134,8 @@ function parseDateTime(dateStr, timeStr) {
   }
 
   const [day, mon, year] = dateStr.split(' ')
-  const [startTime, endTime] = timeStr.split(' - ')
+  const [startTime, rawEnd] = timeStr.split(' - ')
+  const endTime = rawEnd || startTime
 
   function convert(t) {
     let [time, modifier] = t.split(' ')
@@ -156,7 +157,7 @@ function parseDateTime(dateStr, timeStr) {
 }
 
 function buildGoogleCalendarLink({ title, date, time, meta }) {
-  if (!time || !date || date === 'DATES_PENDING') return '#'
+  if (!time || !date || date === 'DATES_PENDING' || date.includes('–')) return '#'
 
   const { start, end } = parseDateTime(date, time)
 
@@ -166,7 +167,7 @@ function buildGoogleCalendarLink({ title, date, time, meta }) {
 }
 
 function TimelineItem({ date, title, time, meta, isLast }) {
-  const isPending = date === 'DATES_PENDING'
+  const isPending = date === 'DATES_PENDING' || date.includes('–')
 
   const calendarLink = !isPending
     ? buildGoogleCalendarLink({ title, date, time, meta })
@@ -284,7 +285,7 @@ export default function TimeLine() {
       <div className="max-w-7xl mx-auto">
         <SectionHeader
           title="HACKATHON_TIMELINE"
-          subtitle="// DATES AND VENUE UNDER CONFIRMATION. // FULL SCHEDULE DROPS ONCE LOCKED IN."
+          subtitle="// 24–25 JULY 2026 · SIM CAMPUS · FULL SCHEDULE DROPS ONCE LOCKED IN."
         />
 
         <div className="flex flex-col">

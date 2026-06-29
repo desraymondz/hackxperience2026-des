@@ -12,6 +12,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 // Homepage section jump links, in page order. The logo (left) is "MAIN".
 const NAV_ITEMS = [
   { label: "OVERVIEW", target: "overview" },                 // About
+  { label: "TRACKS", target: "tracks" },                     // Tracks
   { label: "PAST-EVENTS", target: "past-events" },           // Past Events
   { label: "PRE-EVENTS", target: "pre-events" },             // Pre-events
   { label: "TIMELINE", target: "timeline" },                 // Timeline

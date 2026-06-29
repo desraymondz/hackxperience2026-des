@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { IBM_Plex_Mono, Montserrat } from "next/font/google";
+import { TEAM_REGISTRATION_URL } from "@/lib/site-links";
+import { HACKATHON_THEME } from "@/lib/hackathon-content";
 // import DecryptedTimerText from './ui/DecryptedText';
 
 const Hero: React.FC = () => {
@@ -11,7 +13,7 @@ const Hero: React.FC = () => {
   });
 
   useEffect(() => {
-    const targetDate = new Date("May 22, 2026 00:00:00").getTime();
+    const targetDate = new Date("July 24, 2026 00:00:00").getTime();
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -79,14 +81,14 @@ const Hero: React.FC = () => {
             className="inline-block px-3 py-1.5 font-mono uppercase text-[10px] md:text-xs tracking-widest font-bold"
             style={{ backgroundColor: RED, color: OFF_WHITE }}
           >
-            // INITIATING HACKXPERIENCE
+            // 2-DAY AGENTIC HACKATHON
           </div>
           
           <h1 
             className="text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase leading-[0.95] tracking-normal"
             style={{ color: DARK_TEXT }}
           >
-            THE ARCHITECTS OF THE <span style={{ color: RED }}>UNDERGROUND</span>
+            AI FOR <span style={{ color: RED }}>LIVING</span>
           </h1>
 
           <div className="pt-2">
@@ -94,29 +96,67 @@ const Hero: React.FC = () => {
                 className="text-base md:text-xl leading-relaxed opacity-80 font-medium mb-6"
                 style={{ color: DARK_TEXT }}
               >
-                Be the first to get updates & secure your slot 👀
+                {HACKATHON_THEME.intro} {HACKATHON_THEME.closing}
               </p>
 
               {/* Buttons */}
-              <a 
-                  href="https://t.me/+M4VYyn6OxJY0OGI1" 
-                  target="_blank" 
+              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                {TEAM_REGISTRATION_URL ? (
+                  <a
+                    href={TEAM_REGISTRATION_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block w-full sm:w-auto"
+                  >
+                    <button
+                      className="w-full sm:w-auto px-8 md:px-10 py-4 font-black uppercase text-xs md:text-sm tracking-widest transition-transform active:translate-y-1"
+                      style={{
+                        backgroundColor: RED,
+                        color: OFF_WHITE,
+                        boxShadow: `4px 4px 0px ${DARK_TEXT}`,
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = DARK_RED)}
+                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = RED)}
+                    >
+                      register your team
+                    </button>
+                  </a>
+                ) : null}
+                <a
+                  href="https://t.me/+M4VYyn6OxJY0OGI1"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block w-full sm:w-auto"
                 >
-                  <button 
-                    className="w-full sm:w-auto px-8 md:px-10 py-4 font-black uppercase text-xs md:text-sm tracking-widest transition-transform active:translate-y-1"
-                    style={{ 
-                      backgroundColor: RED, 
-                      color: OFF_WHITE,
-                      boxShadow: `4px 4px 0px ${DARK_TEXT}` // Slightly smaller shadow on mobile
+                  <button
+                    className="w-full sm:w-auto px-8 md:px-10 py-4 font-black uppercase text-xs md:text-sm tracking-widest transition-transform active:translate-y-1 border-2"
+                    style={{
+                      backgroundColor: TEAM_REGISTRATION_URL ? "transparent" : RED,
+                      color: TEAM_REGISTRATION_URL ? DARK_TEXT : OFF_WHITE,
+                      borderColor: DARK_TEXT,
+                      boxShadow: `4px 4px 0px ${DARK_TEXT}`,
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = DARK_RED}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = RED}
+                    onMouseEnter={(e) => {
+                      if (TEAM_REGISTRATION_URL) {
+                        e.currentTarget.style.backgroundColor = DARK_TEXT;
+                        e.currentTarget.style.color = OFF_WHITE;
+                      } else {
+                        e.currentTarget.style.backgroundColor = DARK_RED;
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (TEAM_REGISTRATION_URL) {
+                        e.currentTarget.style.backgroundColor = "transparent";
+                        e.currentTarget.style.color = DARK_TEXT;
+                      } else {
+                        e.currentTarget.style.backgroundColor = RED;
+                      }
+                    }}
                   >
                     join ITClub telegram
                   </button>
-              </a>
+                </a>
+              </div>
                 
             </div>
           </div>
