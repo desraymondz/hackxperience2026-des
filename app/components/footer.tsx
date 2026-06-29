@@ -1,4 +1,5 @@
 import { IBM_Plex_Mono, Montserrat } from "next/font/google";
+import { TELEGRAM_URL } from "@/lib/site-links";
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ["latin"],
@@ -23,11 +24,11 @@ export default function Footer() {
             <h3
               className={`${montserrat.className} text-[#c00000] text-[22px] sm:text-[26px] font-extrabold tracking-tight leading-none uppercase`}
             >
-              HACKATHON_2026
+              HACKXPERIENCE_2026
             </h3>
             <p className="mt-5 text-[13px] sm:text-[14px] leading-[1.75] tracking-[0.01em] max-w-[380px]">
-              The premier innovation event at SIM, dedicated to fostering
-              high-level technical talent and radical building culture.
+              SIM IT Club&apos;s flagship hackathon. 100+ student builders, one
+              24-hour sprint, agentic products built under the theme <span className="text-[#c00000]">AI for Living</span>.
             </p>
           </div>
 
@@ -53,6 +54,14 @@ export default function Footer() {
             </div>
             <div className="flex flex-col gap-2.5 text-[13px] sm:text-[14px] tracking-[0.04em]">
               <a
+                href={TELEGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-4 decoration-[#555] hover:text-white hover:decoration-white transition-colors w-fit"
+              >
+                TELEGRAM
+              </a>
+              <a
                 href="https://www.linkedin.com/company/sim-information-technology-club/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -77,8 +86,8 @@ export default function Footer() {
 
         {/* Bottom row */}
         <div className="flex flex-col sm:flex-row justify-between gap-3 text-[10px] sm:text-[11px] tracking-[0.08em] uppercase text-[#444]">
-          <div>&copy; 2026 [SYSTEM_CORE] ALL RIGHTS RESERVED.</div>
-          <div>DESIGNED FOR EXECUTIVE EXCELLENCE.</div>
+          <div>&copy; 2026 SIM IT CLUB · HACKXPERIENCE. ALL RIGHTS RESERVED.</div>
+          <div>BUILT BY SIM IT CLUB · #HACKXPERIENCE2026</div>
         </div>
       </div>
     </footer>

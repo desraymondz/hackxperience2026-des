@@ -2,8 +2,10 @@
 // Single source of truth — keep in sync with supabase/schema.sql.
 
 /** Hackathon tracks (canonical list shown across the portals). */
-export const HACKX_TRACKS = ["AI / ML", "IoT / Hardware", "Web Dev", "Open Innovation"] as const;
-export type HackxTrack = (typeof HACKX_TRACKS)[number];
+import { HACKX_SUBMISSION_TRACKS } from "../hackathon-content";
+
+export const HACKX_TRACKS = HACKX_SUBMISSION_TRACKS;
+export type HackxTrack = (typeof HACKX_SUBMISSION_TRACKS)[number];
 
 /** A single team member on a submission. */
 export type TeamMember = {

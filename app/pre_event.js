@@ -1,16 +1,10 @@
 const PRE_EVENTS = [
   {
-    date: '15 APR 2026',
-    time: '12:00 PM - 04:00 PM',
-    title: 'PROJECT SHOWCASE',
-    meta: 'STUDENT HUB, SIM BLOCK B LEVEL 1',
-  },
-  {
-    date: 'DATES_PENDING',
-    time: '07:00 PM - 10:00 PM',
-    title: 'REACT & NEXT.JS WORKSHOP',
+    date: '17 JUL 2026',
+    time: '7:00 PM - 10:00 PM',
+    title: 'BUILDING AGENTIC AI: MICROSOFT FOUNDRY WORKSHOP',
     meta: 'SIM CAMPUS',
-  }
+  },
 ]
 
 const TELEGRAM_LINK = 'https://t.me/+o_3QtjEFmNFhYmFl'
@@ -68,7 +62,8 @@ function parseDateTime(dateStr, timeStr) {
   }
 
   const [day, mon, year] = dateStr.split(' ')
-  const [startTime, endTime] = timeStr.split(' - ')
+  const [startTime, rawEnd] = timeStr.split(' - ')
+  const endTime = rawEnd || startTime
 
   function convert(time) {
     let [t, modifier] = time.split(' ')
@@ -94,6 +89,8 @@ function parseDateTime(dateStr, timeStr) {
 }
 
 function buildGoogleCalendarLink({ title, date, time, meta }) {
+  if (!time || !date || date === 'DATES_PENDING') return null
+
   const { start, end } = parseDateTime(date, time)
 
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
@@ -122,10 +119,11 @@ function ActionButton({ href, children }) {
 
 function PreEventItem({ date, time, title, meta, isLast }) {
   const isPending = date === 'DATES_PENDING'
-
-  const link = isPending
-    ? TELEGRAM_LINK
-    : buildGoogleCalendarLink({ date, time, title, meta })
+  const hasTime = Boolean(time?.trim())
+  const calendarLink = !isPending && hasTime
+    ? buildGoogleCalendarLink({ date, time, title, meta })
+    : null
+  const link = calendarLink ?? TELEGRAM_LINK
 
   return (
     <div className="flex gap-4 sm:gap-8">
@@ -152,18 +150,18 @@ function PreEventItem({ date, time, title, meta, isLast }) {
 
         {!isPending && (
           <Meta>
-            {time} // {meta}
+            {hasTime ? `${time} // ${meta}` : meta}
           </Meta>
         )}
 
         <div className="mt-3 sm:mt-4">
           <ActionButton href={link}>
             <img
-              src={isPending ? '/telegram.svg' : '/google_calendar.svg'}
+              src={calendarLink ? '/google_calendar.svg' : '/telegram.svg'}
               className="w-4 h-4"
               alt="icon"
             />
-            {isPending ? 'GET_NOTIFIED' : 'SET_REMINDER'}
+            {calendarLink ? 'SET_REMINDER' : 'GET_NOTIFIED'}
           </ActionButton>
         </div>
       </div>

@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "google-drive": {
+      "command": "npx",
+      "args": ["-y", "@isaacphi/mcp-gdrive"],
+      "env": {
+        "CLIENT_ID": "PASTE_CLIENT_ID.apps.googleusercontent.com",
+        "CLIENT_SECRET": "PASTE_CLIENT_SECRET",
+        "GDRIVE_CREDS_DIR": "/absolute/path/to/hackxperience2026-des/.cursor/gdrive"
+      }
+    }
+  }
+}

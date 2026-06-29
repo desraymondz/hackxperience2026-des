@@ -9,6 +9,7 @@ import confetti from "canvas-confetti";
 import Navbar from "../components/navbar";
 import { supabaseBrowser } from "@/lib/supabase-browser";
 import { useSettings } from "@/lib/hooks/use-settings";
+import { HACKX_SUBMISSION_TRACKS } from "@/lib/hackathon-content";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -646,7 +647,7 @@ function CheckMsg({ status, takenMsg }: { status: CheckStatus | undefined; taken
 // ─── Step 01: Identity ────────────────────────────────────────
 
 const TECH_TAGS = ["REACT", "NEXT.JS", "TAILWIND", "NODE.JS", "PYTHON", "OPENAI API", "SUPABASE", "FIREBASE", "VERCEL", "GITHUB", "OTHER"];
-const TRACKS = ["AI for Campus Life", "Web Development", "Mobile App", "IoT / Hardware", "Data Analytics", "Open Track"];
+const TRACKS = [...HACKX_SUBMISSION_TRACKS];
 const UNIVERSITIES = ['NUS', 'NTU', 'SMU', 'SUTD', 'SIT', 'SUSS', 'SIM', 'Kaplan', 'PSB Academy', 'MDIS', 'James Cook University', 'Curtin Singapore', 'Other'];
 
 function Step01({

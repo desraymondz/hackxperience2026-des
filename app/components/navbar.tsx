@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { IBM_Plex_Mono } from "next/font/google";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -9,15 +10,19 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600", "700"],
 });
 
-// Homepage section jump links, in page order. The logo (left) is "MAIN".
-const NAV_ITEMS = [
-  { label: "OVERVIEW", target: "overview" },                 // About
-  { label: "PAST-EVENTS", target: "past-events" },           // Past Events
-  { label: "PRE-EVENTS", target: "pre-events" },             // Pre-events
-  { label: "TIMELINE", target: "timeline" },                 // Timeline
-  { label: "FAQ", target: "faq" },                           // FAQ
-  { label: "ORGANISE_MEMBERS", target: "organise-members" }, // Committee
-  { label: "JOIN_US!", target: "join-us" },                  // Final CTA
+// Nav links. `target` items smooth-scroll to a homepage section; `href` items
+// route to a standalone page. Kept short on purpose — only the essentials.
+type NavItem =
+  | { label: string; target: string }
+  | { label: string; href: string };
+
+const NAV_ITEMS: NavItem[] = [
+  { label: "TRACKS", target: "tracks" },
+  { label: "PRIZES", target: "prizes" },
+  { label: "TIMELINE", target: "timeline" },
+  { label: "FAQ", target: "faq" },
+  { label: "GALLERY", href: "/gallery" },
+  { label: "SUBMIT", href: "/submit" },
 ];
 
 export default function Navbar() {
@@ -25,6 +30,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -39,9 +45,14 @@ export default function Navbar() {
     }
   };
 
-  const handleNavClick = (item: { label: string; target: string }) => {
-    // Every item is an in-page section anchor. If we're on another route,
-    // route home with the hash; otherwise smooth-scroll in place.
+  const handleNavClick = (item: NavItem) => {
+    // Standalone pages route directly.
+    if ("href" in item) {
+      router.push(item.href);
+      return;
+    }
+    // Section anchors: route home with the hash if we're elsewhere,
+    // otherwise smooth-scroll in place.
     if (pathname !== "/") {
       router.push(`/#${item.target}`);
     } else {
@@ -65,36 +76,42 @@ export default function Navbar() {
       style={{ backgroundColor: "#1d1c17" }}
     >
       {/* Left — Logo */}
-      <button
+      <motion.button
         onClick={handleLogoClick}
         className="flex items-center gap-0 text-white text-[13px] sm:text-[14px] font-bold tracking-wide cursor-pointer whitespace-nowrap"
+        whileHover={reduceMotion ? undefined : { scale: 1.03, color: "#fef9f1" }}
+        whileTap={reduceMotion ? undefined : { scale: 0.98 }}
       >
         <span className="text-[#c00000] mr-1">&gt;_</span>
-        HACK_TERMINAL
-      </button>
+        HACKXPERIENCE
+      </motion.button>
 
       {/* Center — Nav links */}
       <div className="hidden md:flex items-center gap-1">
         {NAV_ITEMS.map((item) => (
-          <button
+          <motion.button
             key={item.label}
             onClick={() => handleNavClick(item)}
-            className="text-[12px] font-medium tracking-[0.08em] cursor-pointer px-2.5 py-1 transition-colors duration-150 whitespace-nowrap text-white/70 hover:text-white"
+            className="relative text-[12px] font-medium tracking-[0.08em] cursor-pointer px-2.5 py-1 whitespace-nowrap text-white/70"
+            whileHover={reduceMotion ? undefined : { color: "#ffffff", y: -1 }}
+            whileTap={reduceMotion ? undefined : { y: 0 }}
           >
             [{item.label}]
-          </button>
+          </motion.button>
         ))}
       </div>
 
       {/* Right — Login button + mobile menu toggle */}
       <div className="flex items-center gap-2 sm:gap-3">
-        <button
+        <motion.button
           id="login_secure"
           onClick={() => router.push("/login")}
-          className="login_secure bg-[#c00000] hover:bg-[#a00000] text-white text-[11px] sm:text-[12px] font-bold tracking-[0.10em] px-4 py-1.5 cursor-pointer transition-colors duration-150 whitespace-nowrap"
+          className="login_secure bg-[#c00000] text-white text-[11px] sm:text-[12px] font-bold tracking-[0.10em] px-4 py-1.5 cursor-pointer whitespace-nowrap"
+          whileHover={reduceMotion ? undefined : { backgroundColor: "#a00000", y: -1 }}
+          whileTap={reduceMotion ? undefined : { y: 0, scale: 0.98 }}
         >
           LOGIN_SECURE
-        </button>
+        </motion.button>
         {/* Hamburger — only below md, where the center links are hidden */}
         <button
           onClick={() => setMenuOpen((v) => !v)}
@@ -118,22 +135,31 @@ export default function Navbar() {
       </div>
 
       {/* Mobile dropdown — replaces the hidden center links below md */}
-      {menuOpen && (
-        <div
-          className="md:hidden absolute top-11 left-0 right-0 flex flex-col border-t border-white/10"
-          style={{ backgroundColor: "#1d1c17" }}
-        >
-          {NAV_ITEMS.map((item) => (
-            <button
-              key={item.label}
-              onClick={() => { handleNavClick(item); setMenuOpen(false); }}
-              className="text-left text-[12px] font-medium tracking-[0.08em] px-4 sm:px-6 py-3 border-b border-white/5 transition-colors duration-150 text-white/70 hover:text-white"
-            >
-              [{item.label}]
-            </button>
-          ))}
-        </div>
-      )}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+            transition={{ duration: 0.22 }}
+            className="md:hidden absolute top-11 left-0 right-0 flex flex-col border-t border-white/10 overflow-hidden"
+            style={{ backgroundColor: "#1d1c17" }}
+          >
+            {NAV_ITEMS.map((item, i) => (
+              <motion.button
+                key={item.label}
+                initial={reduceMotion ? false : { opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: reduceMotion ? 0 : i * 0.04 }}
+                onClick={() => { handleNavClick(item); setMenuOpen(false); }}
+                className="text-left text-[12px] font-medium tracking-[0.08em] px-4 sm:px-6 py-3 border-b border-white/5 text-white/70 hover:text-white"
+              >
+                [{item.label}]
+              </motion.button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

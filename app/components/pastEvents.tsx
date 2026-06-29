@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { IBM_Plex_Mono, Montserrat } from "next/font/google";
-import { div } from 'framer-motion/client';
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { HoverLift, RevealItem, RevealStagger } from "./ui/motion-ui";
 
 const PastEvents: React.FC = () => {
   const [activeYear, setActiveYear] = useState<'2025' | '2024'>('2025');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const reduceMotion = useReducedMotion();
 
   // Color Palette Constants
   const RED = "#c00000";
@@ -14,11 +17,12 @@ const PastEvents: React.FC = () => {
 
   const eventData = {
     '2025': {
-      title: <>HACK<wbr/><span style={{ color: RED }}>EXPERIENCE</span></>,
-      desc: "In 2025, Hackexperience brought together 90+ participants to develop 20 distinct projects within a 24-hour sprint. The event focused on practical execution and collaborative prototyping among students and early-career developers. Our efforts in coordinating this technical exchange were recognized with SIM’s 2025 Outstanding Event Award (Silver).",
+      title: <>HACK<wbr/><span style={{ color: RED }}>XPERIENCE</span></>,
+      desc: "In 2025, HackXperience brought 90+ builders together to ship 20 projects in a 24-hour sprint, all-in on practical execution and collaborative prototyping. The event earned SIM's 2025 Outstanding Event Award (Silver).",
       imgs: [
-        "PastYear1.jpg",
-        "PastYear2.jpg"
+        "/PastYear1.jpg",
+        "/PastYear2.jpg",
+        "/PastYear3.JPG",
       ],
       tag: "PROJECT_LOG_025",
       stats: [
@@ -29,12 +33,12 @@ const PastEvents: React.FC = () => {
     },
     '2024': {
       title: <>OMNITOOL <span style={{ color: RED }}>HACKATHON</span> 2024</>,
-      desc: "Omnitool Hackathon 2024 focused on building versatile utility tools for students. It served as our foundational event, establishing the core community of developers and designers that would go on to build the Architects of the Underground.",
+      desc: "OmniTool Hackathon 2024 challenged teams to build versatile utility tools for students. As our founding event, it established the core community of developers and designers that HackXperience is built on today.",
       imgs: [
-        "OmniTool1.jpg",
-        "OmniTool3.jpg",
-        "OmniTool4.jpg",
-        "OmniTool5.jpg"
+        "/OmniTool1.jpg",
+        "/OmniTool3.jpg",
+        "/OmniTool4.jpg",
+        "/OmniTool5.jpg"
       ], 
       tag: "PROJECT_LOG_024",
       stats: [
@@ -79,87 +83,92 @@ const PastEvents: React.FC = () => {
         {/* Tabs / Year Selector */}
         <div className="flex gap-4 mb-10 overflow-x-auto pb-2">
           {(['2025', '2024'] as const).map((year) => (
-            <button
+            <motion.button
               key={year}
               onClick={() => setActiveYear(year)}
-              className="px-8 py-2 font-mono text-sm uppercase font-bold border-2 transition-transform active:translate-y-1 rounded-full whitespace-nowrap"
-              style={{ 
+              className="px-8 py-2 font-mono text-sm uppercase font-bold border-2 rounded-full whitespace-nowrap"
+              style={{
                 borderColor: DARK_TEXT,
                 backgroundColor: activeYear === year ? RED : WHITE,
                 color: activeYear === year ? WHITE : DARK_TEXT,
-                boxShadow: activeYear === year ? `0px 0px 0px ${DARK_TEXT}` : `3px 3px 0px ${DARK_TEXT}`
+                boxShadow: activeYear === year ? `0px 0px 0px ${DARK_TEXT}` : `3px 3px 0px ${DARK_TEXT}`,
               }}
+              whileHover={reduceMotion ? undefined : { y: -2, scale: 1.02 }}
+              whileTap={reduceMotion ? undefined : { y: 1, scale: 0.98 }}
+              layout
             >
               {year}
-            </button>
+            </motion.button>
           ))}
         </div>
 
         <div className="flex flex-col gap-10">
           
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-stretch">
-            
-            {/* Image Container */}
-            <div className="relative w-full lg:w-[40%] shrink-0">
-              {/* Brutalist Red Offset Shadow */}
-              <div className="absolute inset-0 translate-x-3 translate-y-3 -z-10" style={{ backgroundColor: RED }}></div>
-              
-              {/* Inner container to hold absolute images and hide overflow */}
-              <div className="relative w-full aspect-video border-4 overflow-hidden" style={{ borderColor: DARK_TEXT }}>
-                
-                {/* Image Stack for Fade Effect */}
-                {current.imgs.map((imgSrc, index) => (
-                  <img 
-                    key={index}
-                    src={imgSrc}
-                    alt={`${activeYear} Event image ${index + 1}`}
-                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
-                      index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                    }`}
-                  />
-                ))}
+          <RevealStagger
+            className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-stretch"
+            stagger={0.08}
+          >
+            {/* Image carousel */}
+            <RevealItem className="w-full lg:w-[40%] shrink-0">
+              <motion.div
+                className="relative w-full"
+                whileHover={reduceMotion ? undefined : { y: -4 }}
+                transition={{ type: "spring", stiffness: 360, damping: 22 }}
+              >
+                <div className="absolute inset-0 translate-x-3 translate-y-3 -z-10" style={{ backgroundColor: RED }} />
 
-                {/* Dot Overlay Navigation */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2.5 z-20">
-                  {current.imgs.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`h-2.5 rounded-full transition-all duration-500 ease-out shadow-[1px_1px_0px_rgba(0,0,0,0.5)] ${
-                        index === currentImageIndex 
-                          ? 'w-7 bg-white' 
-                          : 'w-2.5 bg-white/50 hover:bg-white/80'
+                <div className="relative w-full aspect-video border-4 overflow-hidden" style={{ borderColor: DARK_TEXT }}>
+                  {current.imgs.map((imgSrc, index) => (
+                    <img
+                      key={imgSrc}
+                      src={imgSrc}
+                      alt={`${activeYear} Event image ${index + 1}`}
+                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
+                        index === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0"
                       }`}
-                      aria-label={`Go to image ${index + 1}`}
                     />
                   ))}
+
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2.5 z-20">
+                    {current.imgs.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentImageIndex(index)}
+                        className={`h-2.5 rounded-full transition-all duration-500 ease-out shadow-[1px_1px_0px_rgba(0,0,0,0.5)] ${
+                          index === currentImageIndex
+                            ? "w-7 bg-white"
+                            : "w-2.5 bg-white/50 hover:bg-white/80"
+                        }`}
+                        aria-label={`Go to image ${index + 1}`}
+                      />
+                    ))}
+                  </div>
                 </div>
+              </motion.div>
+            </RevealItem>
 
-              </div>
-            </div>
-
-            {/* Stats Container */}
+            {/* Stats */}
             <div className="w-full lg:w-[60%] grid grid-cols-1 sm:grid-cols-3 gap-6">
               {current.stats.map((stat) => (
-                <div 
-                  key={stat.label}
-                  className="py-10 px-4 border-2 flex flex-col items-center justify-center transition-transform hover:translate-y-1 bg-white"
-                  style={{ 
-                    borderColor: DARK_TEXT,
-                    boxShadow: `4px 4px 0px ${DARK_TEXT}`
-                  }}
-                >
-                  <span className="text-4xl lg:text-5xl xl:text-6xl font-black" style={{ color: DARK_TEXT }}>
-                    {stat.value}
-                  </span>
-                  <span className="font-mono text-xs uppercase font-bold mt-3 text-center" style={{ color: DARK_TEXT }}>
-                    {stat.label}
-                  </span>
-                </div>
+                <RevealItem key={stat.label}>
+                  <HoverLift
+                    className="py-10 px-4 border-2 flex flex-col items-center justify-center bg-white h-full"
+                    style={{
+                      borderColor: DARK_TEXT,
+                      boxShadow: `4px 4px 0px ${DARK_TEXT}`,
+                    }}
+                  >
+                    <span className="text-4xl lg:text-5xl xl:text-6xl font-black" style={{ color: DARK_TEXT }}>
+                      {stat.value}
+                    </span>
+                    <span className="font-mono text-xs uppercase font-bold mt-3 text-center" style={{ color: DARK_TEXT }}>
+                      {stat.label}
+                    </span>
+                  </HoverLift>
+                </RevealItem>
               ))}
             </div>
-
-          </div>
+          </RevealStagger>
 
           {/* Bottom Section: Branding & Description */}
           <div className="flex flex-col md:flex-row gap-8 items-start pt-6">

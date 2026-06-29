@@ -1,98 +1,156 @@
 # HackXperience 2026
 
+> SIM IT Club's flagship 2-day agentic hackathon. Theme: **AI for Living**. Teams of 3–4 build and deploy agentic products at SIM Campus, 24–25 July 2026.
+
 ## About
-HackXperience 2026 is a student-run hackathon organised by SIM IT Club (SIMITC), a student-led technology club under SIM Student Life at Singapore Institute of Management. The event challenges student teams to build real web applications solving real-world problems over a 24-hour period (non-overnight), with mentorship, workshops, and judging by industry professionals.
+HackXperience 2026 is a student-run hackathon organised by SIM IT Club (SIMITC), a student-led technology club under SIM Student Life at Singapore Institute of Management. This year's edition is a **2-day agentic hackathon** where curious students build autonomous AI products around the theme **AI for Living** — easing the tension between work and life through care that nurtures wellbeing, or automation that brings flow back into the workday.
 
 ## Event Details
-- Date: 22–23 May 2026 (tentative)
-- Duration: 24 hours (non-overnight)
+- Dates: 24–25 July 2026
+- Duration: 2 days (agentic hackathon; non-overnight format)
+- Registration deadline: 16 July 2026, 23:59 SGT
+- Project submission deadline: 25 July 2026, 12:00 PM SGT
 - Venue: Singapore Institute of Management (SIM), 461 Clementi Road, Singapore 599491
 - Organiser: SIM IT Club
+- Expected participants: 100+ students
+- Team size: 3–4 members (one Team Leader as primary contact)
+- Cross-university teams: Allowed
+- Registration fee: Free
 - Contact: it@mymail.sim.edu.sg
-- Telegram community: https://t.me/+o_3QtjEFmNFhYmFl
+- Telegram community (SIM ITCommunity): https://t.me/+o_3QtjEFmNFhYmFl
 - Telegram contact: @FukutaroJFS
 - Instagram: https://www.instagram.com/simitclub
 - LinkedIn: https://www.linkedin.com/company/sim-information-technology-club/
 - Website: https://hackxperience2026.vercel.app
 
+## Registration
+- Team registration (Team Leader submits for the whole team): https://forms.cloud.microsoft/r/BjC48ET3vW
+- Looking for a team (solo or incomplete teams): https://forms.cloud.microsoft/r/Lycc7m85fx
+- Registration closes 16 July 2026, 23:59 SGT
+
 ## Pre-Events
-- IT Club Project Showcase: 15 April 2026, 12:00–16:00, SIM Student Hub, Block B Level 1
-- React & Next.js Workshop (2-part): Dates TBA, 19:00–22:00, SIM Campus
+- **Building Agentic AI: Microsoft Foundry Workshop** — 17 July 2026, 19:00–22:00, SIM Campus. Covers agent fundamentals, Microsoft Foundry ecosystem, multi-agent workflows, hands-on agent builds, and responsible AI. Room details via Telegram.
 
-## Participation
-- Expected participants: ~150 students across 30–38 teams
-- Team size: 4–5 members
-- Who can join: All SIM students, all years welcome
-- Participant profiles: Web Developers, Data/AI Engineers, UI/UX Designers, Cybersecurity, Product Managers, Business Analysts
-- Registration fee: Free
+Pre-events are optional but highly recommended.
 
-## Problem Statement Tracks
-HackXperience 2026 challenges teams to build working web or AI-powered apps. Sample tracks:
-- Reinventing the Art of Gift Giving — build an app for gift discovery and group gifting
-- Gamify Healthy Cooking — gamified app to make healthy eating community-driven
-- AI for Productivity — AI-powered app to help people work faster and access equal opportunities
-- AI for the Planet — AI-powered environmental app for forest monitoring, natural resources, or climate impact modelling
+## Theme & Tracks
+Theme: **AI for Living** — how can AI help us live better, not just keep up?
 
-Problem statements are revealed during the opening ceremony on Day 1.
+Teams choose one of two main tracks. Sub-tracks guide builds and are selected at project submission.
+
+### Care Forward
+Wellbeing across mind and body — reimagine care in daily living.
+- **1A Mental Care** — social apps, mental wellness tools, caregiver coordination
+- **1B Physical Care** — fitness tracking, training/endurance apps, exercise routines
+- **1C Nutrition & Diet** — food label scanning, nutrition trackers, meal planning
+
+### Friction To Flow
+Reduce workday friction with agentic AI.
+- **2A Task & Time Management** — task allocation agents, calendar agents, meeting summarizers, focus assistants
+- **2B Work Quality & Integrity** — plagiarism/AI checkers, citation assistants, code review agents, career coaching
+- **2C Workflow Automation** — admin automation, cross-app connectors, document generation, personal chief-of-staff agents
+
+## Prizes
+Total prize pool: $1,800+
+
+| Award | Prize |
+|---|---|
+| Care Forward Track — Winner | $300 |
+| Care Forward Track — Runner-up | $150 |
+| Friction To Flow Track — Winner | $300 |
+| Friction To Flow Track — Runner-up | $150 |
+| Best Use of Microsoft Stack (sponsor choice) | $700 ($200 cash + Microsoft Certification access worth SGD $500) |
+| Best Entrepreneurial Award (sponsor choice) | $100 |
+| Community Choice Award (participant voting) | $50 |
+| Game Prize (informal, details TBC) | $50 |
+
+Judging criteria emphasise creativity & impact, agentic depth (autonomous reasoning, tool use, orchestration), technical execution, and presentation quality. Track-specific criteria are on the website Prizes section.
+
+## Judges
+- **Vincent Choy** — Senior Cloud Consultant, Fedelelis · Microsoft MVP
+- **Richard Lee** — Chief Architect, IntelWave AI
+- **Cher Lim** — AI Educator, SIM Global Education
+
+## Sponsors & Partners
+- **DynamicWeb** (gold) — https://dynamicweb.com/
+- **IAMCP** — International Association of Microsoft Channel Partners — https://www.iamcp.org/
+
+Sponsorship enquiries: it@mymail.sim.edu.sg
+
+## Hackathon Timeline (key milestones)
+- 16 Jul 2026 — Registration deadline (23:59 SGT)
+- 24 Jul 2026 — Opening ceremony, hacking begins (SIM Campus)
+- 24–25 Jul 2026 — Hacking period
+- 25 Jul 2026 — Submission deadline (12:00 PM SGT)
+- 25 Jul 2026 — Judging and winners announced
+
+Full day-by-day schedule to be confirmed on Telegram.
+
+## Who Should Join
+Curious students who want to build agentic products — web developers, AI engineers, designers, product managers, business analysts, and anyone willing to learn. All SIM students welcome; cross-university teammates allowed.
 
 ## Past Events
-- HackXperience 2025: 90+ participants, 20 projects, winner of SIM Outstanding Event Award (Silver, 2025 SLAAN Award). Challenge tracks: DynamicWeb & Kitchen Copilot.
-- Omnitool Hackathon: 95 participants, 20–21 projects.
+- **HackXperience 2025** — 90+ participants, 20 projects. Winner of SIM Outstanding Event Award (Silver, 2025 SLAAN Award). Challenge tracks: DynamicWeb & Kitchen Copilot.
+- **Omnitool Hackathon** — 95 participants, 20–21 projects.
 
 ## About SIM IT Club
 SIM IT Club (ITC) is a student-led organisation under SIM Student Life. Mission: create safe spaces for students to learn technology, build projects, and grow as a community of builders. Tagline: "Your Arrow into Tech."
 
-Programs run by SIM IT Club:
-- ITCamp: Frontendamentals — 3-month weekly web development bootcamp covering HTML, CSS, Tailwind, React, Next.js, and Vercel deployment
-- Industry Workshops — guest-led sessions with tech professionals
-- Internal Projects — committee members build and ship real products
-- HackXperience — annual hackathon open to all SIM students
+Programs:
+- **ITCamp: Frontendamentals** — 3-month weekly web development bootcamp (HTML, CSS, Tailwind, React, Next.js, Vercel)
+- **Industry Workshops** — guest-led sessions with tech professionals
+- **Internal Projects** — committee members build and ship real products
+- **HackXperience** — annual hackathon open to SIM students
 
 ## Pages
 - Homepage: https://hackxperience2026.vercel.app
-- Projects showcase: https://hackxperience2026.vercel.app/projects
+- Photo gallery (past events): https://hackxperience2026.vercel.app/gallery
+- Project submission portal: https://hackxperience2026.vercel.app/submit
 
 ## Frequently Asked Questions
 
 ### Registration
 Q: How do I register for HackXperience 2026?
-A: Registration details will be announced in the ITCommunity Telegram group (https://t.me/+o_3QtjEFmNFhYmFl). Join to be the first to know when registration opens.
+A: Your team's Team Leader submits the Team Registration Form (https://forms.cloud.microsoft/r/BjC48ET3vW) on behalf of the team. Registration closes 16 July 2026, 23:59 SGT.
+
+Q: What is the team size?
+A: 3 to 4 members. One Team Leader is the primary contact and submits the form.
+
+Q: I'm solo or don't have a full team yet.
+A: Fill out the Looking for a Team form (https://forms.cloud.microsoft/r/Lycc7m85fx) and find teammates during pre-events.
+
+Q: Can I team up with students from other universities?
+A: Yes. Indicate SIM vs other institution for each member on the registration form.
 
 Q: Is there a registration fee?
-A: No. HackXperience 2026 is free to participate.
+A: No. Free to participate.
 
-Q: Who is eligible to participate?
-A: All SIM students are welcome. All years are eligible.
+Q: Who is eligible?
+A: All SIM students, all years. Cross-university teammates allowed.
 
 ### Pre-Events
-Q: What are the pre-events for HackXperience 2026?
-A: There are two pre-events. The IT Club Project Showcase is on 15 April 2026, 12PM–4PM at SIM Student Hub, Block B Level 1. The React & Next.js Workshop is a two-part session (dates TBA, 7PM–10PM at SIM Campus). Follow the ITCommunity Telegram group (https://t.me/+o_3QtjEFmNFhYmFl) for date announcements.
+Q: What are the pre-events?
+A: Microsoft Foundry Workshop (17 Jul 2026, 7–10 PM, SIM Campus). Join Telegram for updates: https://t.me/+o_3QtjEFmNFhYmFl
 
-Q: What is the IT Club Project Showcase?
-A: SIM IT Club subcommittees spent months building projects collaboratively. On 15 April, they showcase what they built. Visitors can get inspiration on what a typical project looks like and consult subcommittee members on tech stack, process, and tips.
-
-Q: What is the React & Next.js Workshop?
-A: A two-part hands-on workshop taught by trained SIM IT Club committee members, covering React and Next.js — popular, industry-standard development tools. Designed to equip participants with web development skills and prepare them for the hackathon. Attendees who complete both sessions receive a free e-Certificate.
-
-Q: Do I need to attend the pre-events to join the hackathon?
-A: No, pre-events are not mandatory but are highly recommended.
+Q: Do I need to attend pre-events?
+A: No, but highly recommended.
 
 ### Main Event
 Q: When and where is HackXperience 2026?
-A: Dates are tentative. The hackathon spans 2 days on SIM Campus. Follow the ITCommunity Telegram group (https://t.me/+o_3QtjEFmNFhYmFl) for confirmed dates.
+A: 24–25 July 2026 on SIM Campus. Venue details and full schedule via Telegram.
 
-Q: What are the problem statements?
-A: Problem statements are revealed during the opening ceremony on Day 1 of the hackathon.
+Q: What are the tracks?
+A: AI for Living — Care Forward (wellbeing) or Friction To Flow (productivity/automation). Six sub-tracks total; pick one sub-track at submission.
 
 Q: How will projects be judged?
-A: Teams present their projects to industry judges. Winners are announced at the closing ceremony.
+A: Industry judges evaluate track prizes, sponsor choice awards (Microsoft Stack, Entrepreneurial), and community voting. See Prizes section for criteria.
 
 ### General
 Q: What is HackXperience?
-A: HackXperience is SIM IT Club's annual hackathon — a 24-hour challenge with workshops, mentorship, and presentations. In 2025, it brought together 90+ participants across 20 projects and won SIM's Outstanding Event Award (Silver).
+A: SIM IT Club's annual hackathon. 2026 is a 2-day agentic edition. 2025 had 90+ participants, 20 projects, and won SIM Outstanding Event Award (Silver).
 
-Q: How many participants are expected for HackXperience 2026?
-A: Approximately 150 students across 30–38 teams.
+Q: How many participants are expected?
+A: 100+ students.
 
-Q: Who can I contact for more questions?
-A: Email it@mymail.sim.edu.sg, join the ITCommunity Telegram group (https://t.me/+o_3QtjEFmNFhYmFl), or PM @FukutaroJFS on Telegram.
+Q: Who can I contact?
+A: it@mymail.sim.edu.sg, SIM ITCommunity Telegram (https://t.me/+o_3QtjEFmNFhYmFl), or @FukutaroJFS on Telegram.

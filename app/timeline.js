@@ -1,72 +1,78 @@
+'use client'
+
+import { RevealItem, RevealStagger } from './components/ui/motion-ui'
+import { motion } from 'framer-motion'
+
 const EVENTS = [
   {
-    date: 'DATES_PENDING',
+    date: '16 JUL 2026',
     title: 'REGISTRATION DEADLINE',
-    time: '',
-    meta: '',
+    time: '11:59 PM',
+    meta: 'SGT · TEAM REGISTRATION FORM',
   },
   {
-    date: 'DATES_PENDING',
+    date: '24 JUL 2026',
     title: 'OPENING CEREMONY',
     time: '',
-    meta: '',
+    meta: 'SIM CAMPUS',
   },
   {
-    date: 'DATES_PENDING',
+    date: '24–25 JUL 2026',
     title: 'HACKING PERIOD',
     time: '',
-    meta: '',
+    meta: 'SIM CAMPUS',
   },
   {
-    date: 'DATES_PENDING',
+    date: '25 JUL 2026',
     title: 'SUBMISSION DEADLINE',
-    time: '',
-    meta: '',
+    time: '12:00 PM',
+    meta: 'SGT · PROJECT PORTAL',
   },
   {
-    date: 'DATES_PENDING',
+    date: '25 JUL 2026',
     title: 'JUDGING + WINNERS',
     time: '',
-    meta: '',
+    meta: 'SIM CAMPUS',
   },
 ]
 
 const JUDGES = [
   {
-    name: 'JUDGE NAME',
-    role: 'CHIEF TECHNOLOGY OFFICER',
-    company: 'COMPANY NAME',
-    bio: 'Industry leader with 10+ years building scalable systems. Passionate about AI and developer tooling.',
-    linkedin: '#',
-    img: null,
+    name: 'VINCENT CHOY',
+    role: 'SENIOR CLOUD CONSULTANT',
+    company: 'FEDELELIS · MICROSOFT MVP',
+    bio: 'Microsoft MVP for Microsoft 365 and Copilot, honored every year since 2014. Global judge and mentor for the Microsoft Imagine Cup. Frequent international speaker on security and digital transformation, passionate about guiding students to turn bold ideas into lasting impact.',
+    linkedin: 'https://www.linkedin.com/in/office365mvp/',
+    img: '/judges/vincent-choy.png',
   },
   {
-    name: 'JUDGE NAME',
-    role: 'SENIOR ENGINEER',
-    company: 'COMPANY NAME',
-    bio: 'Full-stack engineer and open source contributor. Specialises in distributed systems and cloud architecture.',
-    linkedin: '#',
-    img: null,
+    name: 'RICHARD LEE',
+    role: 'CHIEF ARCHITECT',
+    company: 'INTELWAVE AI',
+    bio: 'Leads a team architecting and scaling agentic systems at IntelWave AI. AWS AI Engineering Community Builder and Y Combinator hackathon alum. Speaker at Amazon, Tencent, Stripe, SMU, and ClawCon; contributor to CNBC and The Business Times. Has judged Agora, Hack&Roll, and TinyFish.',
+    linkedin: 'https://www.linkedin.com/in/yaksheng/',
+    img: '/judges/richard-lee.png',
   },
   {
-    name: 'JUDGE NAME',
-    role: 'PRODUCT MANAGER',
-    company: 'COMPANY NAME',
-    bio: 'Led product at multiple startups from zero to scale. Focused on developer experience and growth.',
-    linkedin: '#',
-    img: null,
+    name: 'CHER LIM',
+    role: 'AI EDUCATOR',
+    company: 'SIM GLOBAL EDUCATION · WINE TREASURES',
+    bio: 'Educator at SIM Global Education teaching AI and machine learning across partner-university programs: deep learning, ML algorithm development, data visualization, and AI project modules. Teaching Excellence Award 2025 and 15-Year Lecturer Service Award recipient at SIM.',
+    linkedin: 'https://www.linkedin.com/in/cher-l-812959/',
+    img: '/judges/cher-lim.png',
   },
 ]
 
 const SPONSORS = [
-  { name: 'GOLD SPONSOR', tier: 'gold', img: null },
-  { name: 'GOLD SPONSOR', tier: 'gold', img: null },
-  { name: 'SILVER SPONSOR', tier: 'silver', img: null },
-  { name: 'SILVER SPONSOR', tier: 'silver', img: null },
-  { name: 'SILVER SPONSOR', tier: 'silver', img: null },
-  { name: 'BRONZE SPONSOR', tier: 'bronze', img: null },
-  { name: 'BRONZE SPONSOR', tier: 'bronze', img: null },
-  { name: 'BRONZE SPONSOR', tier: 'bronze', img: null },
+  {
+    name: 'DynamicWeb',
+    tier: 'gold',
+    img: '/sponsors/dynamicweb.png',
+    url: 'https://dynamicweb.com/',
+    logoClass:
+      'w-full max-w-[min(100%,26rem)] h-auto max-h-28 sm:max-h-36 md:max-h-40 object-contain transition-transform duration-200 group-hover:scale-[1.03]',
+  },
+  { name: 'IAMCP', tier: 'gold', img: '/sponsors/iamcp.png', url: 'https://www.iamcp.org/' },
 ]
 
 function SectionHeader({ title, subtitle }) {
@@ -134,7 +140,8 @@ function parseDateTime(dateStr, timeStr) {
   }
 
   const [day, mon, year] = dateStr.split(' ')
-  const [startTime, endTime] = timeStr.split(' - ')
+  const [startTime, rawEnd] = timeStr.split(' - ')
+  const endTime = rawEnd || startTime
 
   function convert(t) {
     let [time, modifier] = t.split(' ')
@@ -156,7 +163,7 @@ function parseDateTime(dateStr, timeStr) {
 }
 
 function buildGoogleCalendarLink({ title, date, time, meta }) {
-  if (!time || !date || date === 'DATES_PENDING') return '#'
+  if (!time || !date || date === 'DATES_PENDING' || date.includes('–')) return '#'
 
   const { start, end } = parseDateTime(date, time)
 
@@ -166,14 +173,19 @@ function buildGoogleCalendarLink({ title, date, time, meta }) {
 }
 
 function TimelineItem({ date, title, time, meta, isLast }) {
-  const isPending = date === 'DATES_PENDING'
+  const isPending = date === 'DATES_PENDING' || date.includes('–')
 
   const calendarLink = !isPending
     ? buildGoogleCalendarLink({ title, date, time, meta })
     : null
 
   return (
-    <div className="flex gap-4 sm:gap-8">
+    <RevealItem>
+    <motion.div
+      className="flex gap-4 sm:gap-8"
+      whileHover={{ x: 4 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+    >
       <div className="flex flex-col items-center w-4 flex-shrink-0">
         <div
           className="w-3.5 bg-red-700"
@@ -205,26 +217,35 @@ function TimelineItem({ date, title, time, meta, isLast }) {
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
+    </RevealItem>
   )
 }
 
 function JudgeRow({ name, role, company, bio, linkedin, img, isLast }) {
   return (
-    <div className="flex gap-4 sm:gap-8">
+    <RevealItem>
+    <motion.div
+      className="flex gap-4 sm:gap-8"
+      whileHover={{ x: 4 }}
+      transition={{ type: 'spring', stiffness: 380, damping: 26 }}
+    >
       <div className="flex flex-col items-center w-4 flex-shrink-0">
         <div className="w-3.5 flex-shrink-0 bg-gray-600" style={{ height: 18, clipPath: 'polygon(50% 0%, 100% 35%, 100% 100%, 0% 100%, 0% 35%)' }} />
         {!isLast && <div className="w-0.5 bg-gray-700 flex-1 min-h-20" />}
       </div>
       <div className="flex-1 pb-12 sm:pb-16 pt-1">
         <div className="flex gap-4 sm:gap-8 md:gap-10 items-start">
-          <div className="flex-shrink-0 overflow-hidden bg-gray-800 border border-gray-700 rounded-xl w-16 h-16 sm:w-28 sm:h-28 md:w-36 md:h-36 flex items-center justify-center">
+          <motion.div
+            className="flex-shrink-0 overflow-hidden bg-gray-800 border border-gray-700 rounded-xl w-16 h-16 sm:w-28 sm:h-28 md:w-36 md:h-36 flex items-center justify-center"
+            whileHover={{ scale: 1.04, borderColor: '#c00000' }}
+          >
             {img ? (
               <img src={img} alt={name} className="w-full h-full object-cover" />
             ) : (
               <div className="text-gray-500 text-xs font-mono">IMG</div>
             )}
-          </div>
+          </motion.div>
           <div className="flex-1 min-w-0">
             <Label>{role}</Label>
             <div className="text-white text-lg sm:text-2xl md:text-3xl font-bold tracking-wider font-mono mb-1 leading-tight">{name}</div>
@@ -235,7 +256,8 @@ function JudgeRow({ name, role, company, bio, linkedin, img, isLast }) {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
+    </RevealItem>
   )
 }
 
@@ -246,29 +268,59 @@ function SponsorRow({ tier, sponsors }) {
     bronze: { label: 'BRONZE TIER', sub: '// COMMUNITY PARTNERS' },
   }
   const { label, sub } = tierMeta[tier]
-  const cardHeight = tier === 'gold' ? 'h-20 sm:h-24 md:h-28' : tier === 'silver' ? 'h-16 sm:h-20 md:h-24' : 'h-14 sm:h-16 md:h-20'
+  const logoClass =
+    tier === 'gold'
+      ? 'w-full max-w-[min(100%,22rem)] h-auto max-h-20 sm:max-h-28 md:max-h-32 object-contain transition-transform duration-200 group-hover:scale-[1.03]'
+      : 'w-full max-w-40 sm:max-w-48 max-h-14 sm:max-h-16 object-contain grayscale brightness-75 group-hover:brightness-100 transition-all duration-200'
 
   return (
-    <div className="mb-10 sm:mb-14 last:mb-0">
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-8">
-        <div className="flex-shrink-0 sm:w-36">
-          <Label>{label}</Label>
-          <Meta>{sub}</Meta>
-        </div>
-        <div className="flex-1 flex flex-wrap gap-3">
-          {sponsors.map((s, i) => (
+    <div className="mb-12 sm:mb-16 last:mb-0">
+      <div className="mb-6 sm:mb-8">
+        <Label>{label}</Label>
+        <Meta>{sub}</Meta>
+      </div>
+      <div
+        className={`grid gap-5 md:gap-8 items-stretch ${
+          sponsors.length === 1 ? 'grid-cols-1 max-w-2xl' : 'grid-cols-1 sm:grid-cols-2'
+        }`}
+      >
+        {sponsors.map((s, i) => {
+          const goldCardSize =
+            'h-[148px] sm:h-[188px] md:h-[220px] w-full p-8 sm:p-10 md:p-12'
+          const card = (
             <div
-              key={i}
-              className={`flex-1 min-w-20 border border-gray-700 flex items-center justify-center hover:border-gray-500 transition-colors duration-200 ${cardHeight}`}
+              className={`group relative flex h-full w-full items-center justify-center border-2 border-[#d5d0c8] bg-[#f2ede5] transition-all duration-200 hover:border-red-600 hover:shadow-[8px_8px_0_0_#c00000] hover:-translate-y-1 ${
+                tier === 'gold'
+                  ? goldCardSize
+                  : 'h-[100px] sm:h-[120px] w-full p-6 sm:p-8'
+              }`}
             >
+              <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-red-600 opacity-50 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-red-600 opacity-50 group-hover:opacity-100 transition-opacity pointer-events-none" />
               {s.img ? (
-                <img src={s.img} alt={s.name} className="object-contain grayscale brightness-75 hover:brightness-100 transition-all duration-200 max-w-16 sm:max-w-24 max-h-8 sm:max-h-10" />
+                <img src={s.img} alt={s.name} className={s.logoClass ?? logoClass} />
               ) : (
-                <div className="text-gray-300 text-xs sm:text-sm font-bold tracking-wider font-mono text-center px-2">{s.name}</div>
+                <div className="text-[#1d1c17] text-sm sm:text-base font-bold tracking-wider font-mono text-center px-4">
+                  {s.name}
+                </div>
               )}
             </div>
-          ))}
-        </div>
+          )
+
+          return s.url ? (
+            <a
+              key={i}
+              href={s.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block h-full w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+            >
+              {card}
+            </a>
+          ) : (
+            <div key={i} className="h-full w-full">{card}</div>
+          )
+        })}
       </div>
     </div>
   )
@@ -284,10 +336,10 @@ export default function TimeLine() {
       <div className="max-w-7xl mx-auto">
         <SectionHeader
           title="HACKATHON_TIMELINE"
-          subtitle="// DATES AND VENUE UNDER CONFIRMATION. // FULL SCHEDULE DROPS ONCE LOCKED IN."
+          subtitle="// 24–25 JULY 2026 · SIM CAMPUS · FULL SCHEDULE DROPS ONCE LOCKED IN."
         />
 
-        <div className="flex flex-col">
+        <RevealStagger className="flex flex-col" stagger={0.07}>
           {EVENTS.map((event, i) => (
             <TimelineItem
               key={i}
@@ -295,19 +347,21 @@ export default function TimeLine() {
               isLast={i === EVENTS.length - 1}
             />
           ))}
-        </div>
+        </RevealStagger>
 
-        {/* <SectionHeader title="JUDGES_AND_MENTORS" subtitle="// INDUSTRY EXPERTS EVALUATING YOUR WORK" />
-        <div className="flex flex-col">
-          {JUDGES.map((judge, i) => (
-            <JudgeRow key={i} {...judge} isLast={i === JUDGES.length - 1} />
-          ))}
+        <div id="judges">
+          <SectionHeader title="JUDGES_AND_MENTORS" subtitle="// INDUSTRY EXPERTS EVALUATING YOUR WORK" />
+          <RevealStagger className="flex flex-col" stagger={0.1}>
+            {JUDGES.map((judge, i) => (
+              <JudgeRow key={judge.name} {...judge} isLast={i === JUDGES.length - 1} />
+            ))}
+          </RevealStagger>
         </div>
 
         <SectionHeader title="SPONSORS_AND_PARTNERS" subtitle="// ORGANISATIONS MAKING THIS POSSIBLE" />
         {gold.length   > 0 && <SponsorRow tier="gold"   sponsors={gold}   />}
         {silver.length > 0 && <SponsorRow tier="silver" sponsors={silver} />}
-        {bronze.length > 0 && <SponsorRow tier="bronze" sponsors={bronze} />} */}
+        {bronze.length > 0 && <SponsorRow tier="bronze" sponsors={bronze} />}
 
         <div className="w-full h-px bg-red-700 mt-12 sm:mt-20 mb-8 sm:mb-16" />
 

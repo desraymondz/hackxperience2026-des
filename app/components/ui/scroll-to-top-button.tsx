@@ -40,13 +40,13 @@ export default function ScrollToTopButton() {
           whileHover={{ backgroundColor: DARK_RED }}
           whileTap={{ x: 4, y: 4, boxShadow: `0px 0px 0px ${DARK_TEXT}` }}
           transition={{ duration: 0.2 }}
-          className="flex h-14 w-14 items-center justify-center border-2 cursor-pointer"
+          className="flex h-16 w-16 items-center justify-center border-2 cursor-pointer"
           style={{
             borderColor: DARK_TEXT,
             boxShadow: `5px 5px 0px ${DARK_TEXT}`,
           }}
         >
-          <ArrowUp size={24} strokeWidth={2.75} color={OFF_WHITE} />
+          <ArrowUp size={26} strokeWidth={2.5} color={OFF_WHITE} />
         </motion.button>
       )}
     </AnimatePresence>
