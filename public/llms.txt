@@ -29,7 +29,6 @@ HackXperience 2026 is a student-run hackathon organised by SIM IT Club (SIMITC),
 - Registration closes 16 July 2026, 23:59 SGT
 
 ## Pre-Events
-- **IT Club Project Showcase** — 15 April 2026, 12:00–16:00, SIM Student Hub, Block B Level 1. Subcommittees showcase projects built over the semester; visitors can get inspiration and consult on tech stack and process.
 - **Building Agentic AI: Microsoft Foundry Workshop** — 17 July 2026, 19:00–22:00, SIM Campus. Covers agent fundamentals, Microsoft Foundry ecosystem, multi-agent workflows, hands-on agent builds, and responsible AI. Room details via Telegram.
 
 Pre-events are optional but highly recommended.
@@ -131,7 +130,7 @@ A: All SIM students, all years. Cross-university teammates allowed.
 
 ### Pre-Events
 Q: What are the pre-events?
-A: Project Showcase (15 Apr 2026, 12–4 PM, Student Hub Blk B L1) and Microsoft Foundry Workshop (17 Jul 2026, 7–10 PM, SIM Campus). Join Telegram for updates: https://t.me/+o_3QtjEFmNFhYmFl
+A: Microsoft Foundry Workshop (17 Jul 2026, 7–10 PM, SIM Campus). Join Telegram for updates: https://t.me/+o_3QtjEFmNFhYmFl
 
 Q: Do I need to attend pre-events?
 A: No, but highly recommended.

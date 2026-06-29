@@ -241,35 +241,57 @@ function SponsorRow({ tier, sponsors }) {
     bronze: { label: 'BRONZE TIER', sub: '// COMMUNITY PARTNERS' },
   }
   const { label, sub } = tierMeta[tier]
-  const cardHeight = tier === 'gold' ? 'h-20 sm:h-24 md:h-28' : tier === 'silver' ? 'h-16 sm:h-20 md:h-24' : 'h-14 sm:h-16 md:h-20'
+  const logoClass =
+    tier === 'gold'
+      ? 'w-full max-w-[min(100%,22rem)] h-auto max-h-20 sm:max-h-28 md:max-h-32 object-contain transition-transform duration-200 group-hover:scale-[1.03]'
+      : 'w-full max-w-40 sm:max-w-48 max-h-14 sm:max-h-16 object-contain grayscale brightness-75 group-hover:brightness-100 transition-all duration-200'
 
   return (
-    <div className="mb-10 sm:mb-14 last:mb-0">
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-8">
-        <div className="flex-shrink-0 sm:w-36">
-          <Label>{label}</Label>
-          <Meta>{sub}</Meta>
-        </div>
-        <div className="flex-1 flex flex-wrap gap-3">
-          {sponsors.map((s, i) => (
+    <div className="mb-12 sm:mb-16 last:mb-0">
+      <div className="mb-6 sm:mb-8">
+        <Label>{label}</Label>
+        <Meta>{sub}</Meta>
+      </div>
+      <div
+        className={`grid gap-5 md:gap-8 ${
+          sponsors.length === 1 ? 'grid-cols-1 max-w-2xl' : 'grid-cols-1 sm:grid-cols-2'
+        }`}
+      >
+        {sponsors.map((s, i) => {
+          const card = (
             <div
-              key={i}
-              className={`flex-1 min-w-20 border border-gray-700 flex items-center justify-center hover:border-gray-500 transition-colors duration-200 ${cardHeight}`}
+              className={`group relative flex items-center justify-center border-2 border-[#d5d0c8] bg-[#f2ede5] transition-all duration-200 hover:border-red-600 hover:shadow-[8px_8px_0_0_#c00000] hover:-translate-y-1 ${
+                tier === 'gold'
+                  ? 'min-h-[148px] sm:min-h-[188px] md:min-h-[220px] p-8 sm:p-10 md:p-12'
+                  : 'min-h-[100px] sm:min-h-[120px] p-6 sm:p-8'
+              }`}
             >
+              <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-red-600 opacity-50 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-red-600 opacity-50 group-hover:opacity-100 transition-opacity pointer-events-none" />
               {s.img ? (
-                s.url ? (
-                  <a href={s.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-full h-full p-3 sm:p-4">
-                    <img src={s.img} alt={s.name} className={`object-contain transition-all duration-200 ${tier === 'gold' ? 'max-h-10 sm:max-h-14 max-w-[85%]' : 'max-w-16 sm:max-w-24 max-h-8 sm:max-h-10 grayscale brightness-75 hover:brightness-100'}`} />
-                  </a>
-                ) : (
-                  <img src={s.img} alt={s.name} className={`object-contain transition-all duration-200 ${tier === 'gold' ? 'max-h-10 sm:max-h-14 max-w-[85%]' : 'max-w-16 sm:max-w-24 max-h-8 sm:max-h-10 grayscale brightness-75 hover:brightness-100'}`} />
-                )
+                <img src={s.img} alt={s.name} className={logoClass} />
               ) : (
-                <div className="text-gray-300 text-xs sm:text-sm font-bold tracking-wider font-mono text-center px-2">{s.name}</div>
+                <div className="text-[#1d1c17] text-sm sm:text-base font-bold tracking-wider font-mono text-center px-4">
+                  {s.name}
+                </div>
               )}
             </div>
-          ))}
-        </div>
+          )
+
+          return s.url ? (
+            <a
+              key={i}
+              href={s.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+            >
+              {card}
+            </a>
+          ) : (
+            <div key={i}>{card}</div>
+          )
+        })}
       </div>
     </div>
   )

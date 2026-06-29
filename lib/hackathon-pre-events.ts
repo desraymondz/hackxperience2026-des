@@ -6,7 +6,7 @@ export const MICROSOFT_FOUNDRY_WORKSHOP = {
   title: "BUILDING AGENTIC AI: MICROSOFT FOUNDRY WORKSHOP",
   meta: "SIM CAMPUS",
   topics: [
-    "Fundamentals of AI agents — autonomy, goal setting, and instructions",
+    "Fundamentals of AI agents: autonomy, goal setting, and instructions",
     "Microsoft Foundry ecosystem: models, tools, data sources, workflows, and no-code agent creation",
     "Design workflows integrating multiple agents for complex tasks and decisions",
     "Hands-on lessons: prompt-based agents, customer service bots, data analysis assistants, and knowledge base agents",

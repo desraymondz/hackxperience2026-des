@@ -1,11 +1,5 @@
 const PRE_EVENTS = [
   {
-    date: '15 APR 2026',
-    time: '12:00 PM - 04:00 PM',
-    title: 'PROJECT SHOWCASE',
-    meta: 'STUDENT HUB, SIM BLOCK B LEVEL 1',
-  },
-  {
     date: '17 JUL 2026',
     time: '7:00 PM - 10:00 PM',
     title: 'BUILDING AGENTIC AI: MICROSOFT FOUNDRY WORKSHOP',

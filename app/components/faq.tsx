@@ -66,7 +66,7 @@ const FAQ_DATA: FaqCategory[] = [
       },
       {
         question: "WHAT IS THE TEAM SIZE?",
-        answer: "All teams must have 3 to 4 members. Choose one Team Leader as the primary point of contact with the organisers — they will submit the registration form for the whole team.",
+        answer: "All teams must have 3 to 4 members. Choose one Team Leader as the primary point of contact with the organisers. They will submit the registration form for the whole team.",
       },
       {
         question: "I'M SOLO OR DON'T HAVE A FULL TEAM YET",
@@ -86,7 +86,7 @@ const FAQ_DATA: FaqCategory[] = [
       },
       {
         question: "WHO IS ELIGIBLE TO PARTICIPATE?",
-        answer: "All SIM students are welcome — all years. You may also team up with students from other universities (see above).",
+        answer: "All SIM students are welcome, across all years. You may also team up with students from other universities (see above).",
       },
     ],
   },
@@ -99,7 +99,7 @@ const FAQ_DATA: FaqCategory[] = [
           <>
             The pre-hackathon workshop leading up to the main event:
             <ul className="list-disc pl-5 mt-2 space-y-1">
-              <li><strong>Building Agentic AI: Microsoft Foundry Workshop</strong> — 17 July 2026, 7:00–10:00 PM @ SIM Campus</li>
+              <li><strong>Building Agentic AI: Microsoft Foundry Workshop</strong> · 17 July 2026, 7:00–10:00 PM @ SIM Campus</li>
             </ul>
             <span className="block mt-2">Join our <TelegramLink /> for room details and registration updates.</span>
           </>
@@ -109,7 +109,7 @@ const FAQ_DATA: FaqCategory[] = [
         question: "WHAT IS THE MICROSOFT FOUNDRY WORKSHOP ABOUT?",
         answer: (
           <>
-            A pre-hackathon workshop on <strong>17 July 2026, 7:00–10:00 PM</strong> covering agentic AI with Microsoft Foundry — including agent fundamentals, Foundry models and workflows, multi-agent design, hands-on agent builds, and responsible AI at SIM Campus. Join our <TelegramLink /> for room details and updates.
+            A pre-hackathon workshop on <strong>17 July 2026, 7:00–10:00 PM</strong> covering agentic AI with Microsoft Foundry, including agent fundamentals, Foundry models and workflows, multi-agent design, hands-on agent builds, and responsible AI at SIM Campus. Join our <TelegramLink /> for room details and updates.
             <ul className="list-disc pl-5 mt-2 space-y-1">
               {MICROSOFT_FOUNDRY_WORKSHOP.topics.map((topic) => (
                 <li key={topic}>{topic}</li>
@@ -135,13 +135,13 @@ const FAQ_DATA: FaqCategory[] = [
         question: "WHAT ARE THE TRACKS?",
         answer: (
           <>
-            This year&apos;s theme is <strong>AI for Living</strong>. Teams choose one of two tracks — <strong>Care Forward</strong> (mental, physical, and nutrition wellbeing) or <strong>Friction To Flow</strong> (task management, work quality, and workflow automation). See the full track breakdown in the <a href="#tracks" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">Tracks section</a>.
+            This year&apos;s theme is <strong>AI for Living</strong>. Teams choose one of two tracks: <strong>Care Forward</strong> (mental, physical, and nutrition wellbeing) or <strong>Friction To Flow</strong> (task management, work quality, and workflow automation). See the full track breakdown in the <a href="#tracks" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">Tracks section</a>.
           </>
         ),
       },
       {
         question: "DO I NEED TO PICK A SUB-TRACK?",
-        answer: "Sub-tracks (e.g. Mental Care, Workflow Automation) guide your build and are selected when you submit your project. They are starting points — you're welcome to explore ideas within or across them.",
+        answer: "Sub-tracks (e.g. Mental Care, Workflow Automation) guide your build and are selected when you submit your project. They are starting points, and you're welcome to explore ideas within or across them.",
       },
       {
         question: "HOW DO I SUBMIT MY PROJECT?",
@@ -149,7 +149,7 @@ const FAQ_DATA: FaqCategory[] = [
           <>
             Submit via the project portal at{" "}
             <a href="/submit" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">hackxperience2026.vercel.app/submit</a>
-            {" "}before <strong>25 July 2026, 12:00 PM SGT</strong> (strictly no late submissions). One submission per team — include your GitHub repository and slide deck. Duplicate submissions are not allowed.
+            {" "}before <strong>25 July 2026, 12:00 PM SGT</strong> (strictly no late submissions). One submission per team. Include your GitHub repository and slide deck. Duplicate submissions are not allowed.
           </>
         ),
       },
@@ -157,17 +157,17 @@ const FAQ_DATA: FaqCategory[] = [
         question: "WHAT ARE THE GOLDEN RULES?",
         answer: (
           <ul className="list-disc pl-5 space-y-2">
-            <li><strong>Fairness</strong> — all code must be written during the hackathon; brainstorming beforehand is allowed, but no pre-coded work.</li>
-            <li><strong>Presence</strong> — at least one team member must be physically present throughout so you don&apos;t miss announcements.</li>
-            <li><strong>Timing</strong> — all work must be finalised by the submission deadline; no coding after submission.</li>
-            <li><strong>Ethical work</strong> — avoid projects that promote harm, discrimination, or unsafe use of AI.</li>
-            <li><strong>Inclusivity</strong> — mutual respect and support; no offensive language, bullying, or abusive behaviour.</li>
+            <li><strong>Fairness:</strong> all code must be written during the hackathon; brainstorming beforehand is allowed, but no pre-coded work.</li>
+            <li><strong>Presence:</strong> at least one team member must be physically present throughout so you don&apos;t miss announcements.</li>
+            <li><strong>Timing:</strong> all work must be finalised by the submission deadline; no coding after submission.</li>
+            <li><strong>Ethical work:</strong> avoid projects that promote harm, discrimination, or unsafe use of AI.</li>
+            <li><strong>Inclusivity:</strong> mutual respect and support; no offensive language, bullying, or abusive behaviour.</li>
           </ul>
         ),
       },
       {
         question: "HOW WILL PROJECTS BE JUDGED?",
-        answer: "Teams present in a showcase format — 7 minutes pitch plus 3 minutes Q&A per team. Industry judges evaluate track prizes (Care Forward and Friction To Flow), sponsor choice awards, and community voting on the HackXperience voting page. See the Prizes section for the full prize breakdown.",
+        answer: "Teams present in a showcase format: 7 minutes pitch plus 3 minutes Q&A per team. Industry judges evaluate track prizes (Care Forward and Friction To Flow), sponsor choice awards, and community voting on the HackXperience voting page. See the Prizes section for the full prize breakdown.",
       },
     ],
   },
@@ -178,13 +178,13 @@ const FAQ_DATA: FaqCategory[] = [
         question: "WHAT ARE THE PRIZES?",
         answer: (
           <>
-            Over S$1,800 in prizes (all amounts in SGD) — track winners and runner-ups (S$300 / S$150 each), sponsor awards including Best Use of Microsoft Stack (S$700), Best Entrepreneurial Award (S$100), Community Choice (S$50), and an informal Game Prize (S$50, details TBC). See the full breakdown in the <a href="#prizes" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">Prizes section</a>.
+            Over S$1,800 in prizes (all amounts in SGD): track winners and runner-ups (S$300 / S$150 each), sponsor awards including Best Use of Microsoft Stack (S$700), Best Entrepreneurial Award (S$100), Community Choice (S$50), and an informal Game Prize (S$50, details TBC). See the full breakdown in the <a href="#prizes" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">Prizes section</a>.
           </>
         ),
       },
       {
         question: "WHAT IS HACKXPERIENCE?",
-        answer: "HackXperience is SIM IT Club's flagship hackathon — a 24-hour sprint where curious students build and deploy agentic products. In 2025, it brought together 90+ participants across 20 projects and won SIM's Outstanding Event Award (Silver).",
+        answer: "HackXperience is SIM IT Club's flagship hackathon, a 24-hour sprint where curious students build and deploy agentic products. In 2025, it brought together 90+ participants across 20 projects and won SIM's Outstanding Event Award (Silver).",
       },
       {
         question: "HOW MANY PARTICIPANTS ARE EXPECTED?",
