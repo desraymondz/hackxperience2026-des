@@ -36,6 +36,8 @@ const EVENTS = [
   },
 ]
 
+const REVEAL_TRACKS_AND_JUDGES = process.env.NEXT_PUBLIC_REVEAL_TRACKS_AND_JUDGES === 'true'
+
 const JUDGES = [
   {
     name: 'VINCENT CHOY',
@@ -370,14 +372,16 @@ export default function TimeLine() {
           ))}
         </RevealStagger>
 
-        <div id="judges">
-          <SectionHeader title="JUDGES_AND_MENTORS" subtitle="// INDUSTRY EXPERTS EVALUATING YOUR WORK" />
-          <RevealStagger className="flex flex-col" stagger={0.1}>
-            {JUDGES.map((judge, i) => (
-              <JudgeRow key={judge.name} {...judge} isLast={i === JUDGES.length - 1} />
-            ))}
-          </RevealStagger>
-        </div>
+        {REVEAL_TRACKS_AND_JUDGES && (
+          <div id="judges">
+            <SectionHeader title="JUDGES_AND_MENTORS" subtitle="// INDUSTRY EXPERTS EVALUATING YOUR WORK" />
+            <RevealStagger className="flex flex-col" stagger={0.1}>
+              {JUDGES.map((judge, i) => (
+                <JudgeRow key={judge.name} {...judge} isLast={i === JUDGES.length - 1} />
+              ))}
+            </RevealStagger>
+          </div>
+        )}
 
         <SectionHeader title="SPONSORS_AND_PARTNERS" subtitle="// ORGANISATIONS MAKING THIS POSSIBLE" />
         {gold.length   > 0 && <SponsorRow tier="gold"   sponsors={gold}   />}

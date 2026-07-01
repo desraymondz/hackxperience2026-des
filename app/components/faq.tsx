@@ -15,16 +15,10 @@ const montserrat = Montserrat({
   weight: ["800", "900"],
 });
 
-import { TEAM_REGISTRATION_URL, LOOKING_FOR_TEAM_URL, TELEGRAM_URL } from "@/lib/site-links";
+import { TEAM_REGISTRATION_URL, LOOKING_FOR_TEAM_URL } from "@/lib/site-links";
 import { MICROSOFT_FOUNDRY_WORKSHOP } from "@/lib/hackathon-pre-events";
 import { PRIZE_POOL_WORTH } from "@/lib/hackathon-prizes";
 import { REVEAL_TRACKS_AND_JUDGES } from "@/lib/event-reveal";
-
-const TelegramLink = () => (
-  <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">
-    SIM ITCommunity Telegram group
-  </a>
-);
 
 const FormLink = ({ href, children }: { href: string; children: ReactNode }) => (
   <a href={href} target="_blank" rel="noopener noreferrer" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">
@@ -36,14 +30,14 @@ const TeamRegistrationLink = () =>
   TEAM_REGISTRATION_URL ? (
     <FormLink href={TEAM_REGISTRATION_URL}>Team Registration Form</FormLink>
   ) : (
-    <>Team Registration Form (link in our <TelegramLink />)</>
+    <>Team Registration Form</>
   );
 
 const LookingForTeamLink = () =>
   LOOKING_FOR_TEAM_URL ? (
     <FormLink href={LOOKING_FOR_TEAM_URL}>Looking for a Team form</FormLink>
   ) : (
-    <>Looking for a Team form (link in our <TelegramLink />)</>
+    <>Looking for a Team form</>
   );
 
 interface FaqItem {
@@ -77,7 +71,7 @@ function buildFaqData(): FaqCategory[] {
         question: "I'M SOLO OR DON'T HAVE A FULL TEAM YET",
         answer: (
           <>
-            If you&apos;re registering solo or with fewer than 3 members, please fill out the <LookingForTeamLink /> and look for teammates during the pre-event session or in our official <TelegramLink />. Our crew will be there to facilitate group formation.
+            If you&apos;re registering solo or with fewer than 3 members, please fill out the <LookingForTeamLink /> and our crew will facilitate the group formation.
           </>
         ),
       },
@@ -104,9 +98,8 @@ function buildFaqData(): FaqCategory[] {
           <>
             The pre-hackathon workshop leading up to the main event:
             <ul className="list-disc pl-5 mt-2 space-y-1">
-              <li><strong>Building Agentic AI: Microsoft Foundry Workshop</strong> · 17 July 2026, 7:00–10:00 PM @ SIM Campus</li>
+              <li><strong>Building Agentic AI: Microsoft Foundry Workshop</strong> · 17 July 2026, 7:00–10:00 PM @ {MICROSOFT_FOUNDRY_WORKSHOP.meta}</li>
             </ul>
-            <span className="block mt-2">Join our <TelegramLink /> for room details and registration updates.</span>
           </>
         ),
       },
@@ -114,7 +107,7 @@ function buildFaqData(): FaqCategory[] {
         question: "WHAT IS THE MICROSOFT FOUNDRY WORKSHOP ABOUT?",
         answer: (
           <>
-            A pre-hackathon workshop on <strong>17 July 2026, 7:00–10:00 PM</strong> covering agentic AI with Microsoft Foundry, including agent fundamentals, Foundry models and workflows, multi-agent design, hands-on agent builds, and responsible AI at SIM Campus. Join our <TelegramLink /> for room details and updates.
+            A pre-hackathon workshop on <strong>17 July 2026, 7:00–10:00 PM</strong> at <strong>{MICROSOFT_FOUNDRY_WORKSHOP.meta}</strong>, covering agentic AI with Microsoft Foundry, including agent fundamentals, Foundry models and workflows, multi-agent design, hands-on agent builds, and responsible AI.
             <ul className="list-disc pl-5 mt-2 space-y-1">
               {MICROSOFT_FOUNDRY_WORKSHOP.topics.map((topic) => (
                 <li key={topic}>{topic}</li>
@@ -134,7 +127,7 @@ function buildFaqData(): FaqCategory[] {
     items: [
       {
         question: "WHEN AND WHERE IS THE HACKATHON?",
-        answer: <>24–25 July 2026 on SIM Campus. Join our <TelegramLink /> for venue details and the full schedule as they are confirmed.</>,
+        answer: <>24–25 July 2026 on SIM Campus. Venue details and the full schedule will be confirmed closer to the event.</>,
       },
       {
         question: "WHAT ARE THE TRACKS?",
@@ -144,7 +137,7 @@ function buildFaqData(): FaqCategory[] {
           </>
         ) : (
           <>
-            This year&apos;s theme is <strong>AI for Living</strong>. The full track breakdown will be revealed at the pre-event Microsoft Foundry workshop on <strong>17 July 2026</strong>.
+            This year&apos;s theme is <strong>AI for Living</strong>. The full track breakdown and judging panel will be announced together at the pre-event Microsoft Foundry workshop on <strong>17 July 2026</strong>.
           </>
         ),
       },
@@ -180,7 +173,7 @@ function buildFaqData(): FaqCategory[] {
         question: "HOW WILL PROJECTS BE JUDGED?",
         answer: REVEAL_TRACKS_AND_JUDGES
           ? "Teams present in a showcase format: 7 minutes pitch plus 3 minutes Q&A per team. Industry judges evaluate track prizes (Care Forward and Friction To Flow), sponsor choice awards, and community voting on the HackXperience voting page. See the Prizes section for the full prize breakdown."
-          : "Teams present in a showcase format: 7 minutes pitch plus 3 minutes Q&A per team. Industry judges evaluate track prizes, sponsor choice awards, and community voting on the HackXperience voting page. See the Prizes section for the full prize breakdown.",
+          : "Teams present in a showcase format: 7 minutes pitch plus 3 minutes Q&A per team. Industry judges evaluate track prizes, sponsor choice awards, and community voting on the HackXperience voting page. The judging panel will be announced at the pre-event on 17 July 2026. See the Prizes section for the full prize breakdown.",
       },
     ],
   },
@@ -195,7 +188,7 @@ function buildFaqData(): FaqCategory[] {
           </>
         ) : (
           <>
-            Prize pool {PRIZE_POOL_WORTH} (all amounts in SGD): track winners and runner-ups (S$300 / S$150 each per track), sponsor awards including Best Use of Microsoft Stack (S$700), Best Entrepreneurial Award (S$100), Community Choice (S$50), and an informal Game Prize (S$50, details TBC). Track names revealed at the pre-event. See the full breakdown in the <a href="#prizes" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">Prizes section</a>.
+            Prize pool {PRIZE_POOL_WORTH} (all amounts in SGD): track winners and runner-ups (S$300 / S$150 each per track), sponsor awards including Best Use of Microsoft Stack (S$700), Best Entrepreneurial Award (S$100), Community Choice (S$50), and an informal Game Prize (S$50, details TBC). Tracks and judges announced at the pre-event on 17 July 2026. See the full breakdown in the <a href="#prizes" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">Prizes section</a>.
           </>
         ),
       },
@@ -213,7 +206,7 @@ function buildFaqData(): FaqCategory[] {
           <>
             Email us at{" "}
             <a href="mailto:it@mymail.sim.edu.sg" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">it@mymail.sim.edu.sg</a>
-            , ask in our <TelegramLink />, or PM{" "}
+            {" "}or PM{" "}
             <a href="https://web.telegram.org/k/#@FukutaroJFS" target="_blank" rel="noopener noreferrer" className="text-[#c00000] underline underline-offset-2 hover:text-[#a00000]">@FukutaroJFS</a>
             {" "}on Telegram.
           </>

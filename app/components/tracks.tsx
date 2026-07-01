@@ -47,7 +47,7 @@ function TracksTeaser() {
           {"// TRACKS — REVEALED AT PRE-EVENT"}
         </p>
         <p className="text-sm md:text-base leading-relaxed opacity-80 font-medium">
-          Full track breakdown announced at the Microsoft Foundry workshop · 17 July 2026
+          Full track breakdown and judging panel announced at the Microsoft Foundry workshop · 17 July 2026
         </p>
       </HoverLift>
     </RevealItem>

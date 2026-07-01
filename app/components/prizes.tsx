@@ -111,7 +111,7 @@ const Prizes: React.FC = () => {
               </>
             ) : (
               <>
-                Prize pool <strong>{PRIZE_POOL_WORTH}</strong> in track prizes, sponsor awards, community votes, and special categories. Track names revealed at the pre-event.
+                Prize pool <strong>{PRIZE_POOL_WORTH}</strong> in track prizes, sponsor awards, community votes, and special categories. Tracks and judges announced at the pre-event on 17 July 2026.
               </>
             )}
           </p>
