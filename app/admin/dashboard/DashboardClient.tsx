@@ -99,8 +99,21 @@ function PixelHeart({ count, maxCount }: { count: number; maxCount: number }) {
   );
 }
 
-function HpTrackRow({ track, count, maxCount }: { track: string; count: number; maxCount: number }) {
+function HpTrackRow({
+  track,
+  count,
+  maxCount,
+  totalCount,
+}: {
+  track: string;
+  count: number;
+  maxCount: number;
+  totalCount: number;
+}) {
   const targetPct = maxCount === 0 ? 0 : (count / maxCount) * 100;
+  const sharePct = totalCount === 0 ? 0 : Math.round((count / totalCount) * 100);
+  const isTopTrack = count > 0 && count === maxCount;
+  const submissionWord = count === 1 ? "submission" : "submissions";
   const [ghostPct, setGhostPct] = useState(0);
   const [fillPct, setFillPct] = useState(0);
 
@@ -117,12 +130,18 @@ function HpTrackRow({ track, count, maxCount }: { track: string; count: number; 
     <div className={styles.hpRow}>
       <PixelHeart count={count} maxCount={maxCount} />
       <div className={styles.hpInfo}>
-        <span className={styles.hpLabel}>{track}</span>
+        <div className={styles.hpTopLine}>
+          <span className={styles.hpLabel} title={track}>{track}</span>
+          <span className={`${styles.hpBadge} ${isTopTrack ? styles.hpBadgeTop : ""}`}>
+            {count}
+          </span>
+        </div>
+        <span className={styles.hpDetails}>
+          {count} {submissionWord} · {sharePct}% of total
+        </span>
         <div className={styles.hpBarOuter}>
           <div className={styles.hpGhost} style={{ width: `${ghostPct}%` }} />
-          <div className={styles.hpFill} style={{ width: `${fillPct}%` }}>
-            {count > 0 && <span className={styles.hpCount}>{count}</span>}
-          </div>
+          <div className={styles.hpFill} style={{ width: `${fillPct}%` }} />
         </div>
       </div>
     </div>
@@ -132,6 +151,7 @@ function HpTrackRow({ track, count, maxCount }: { track: string; count: number; 
 function TrackChart({ submissions }: { submissions: AdminSubmission[] }) {
   const dynamicTracks = Array.from(new Set(submissions.map((s) => s.track).filter(Boolean)));
   const trackOrder = Array.from(new Set([...HACKX_TRACKS, ...dynamicTracks]));
+  const totalCount = submissions.length;
   const counts = trackOrder.map((track) => ({
     track,
     count: submissions.filter((s) => s.track === track).length,
@@ -141,7 +161,13 @@ function TrackChart({ submissions }: { submissions: AdminSubmission[] }) {
   return (
     <div className={styles.hpWrap}>
       {counts.map(({ track, count }) => (
-        <HpTrackRow key={track} track={track} count={count} maxCount={maxCount} />
+        <HpTrackRow
+          key={track}
+          track={track}
+          count={count}
+          maxCount={maxCount}
+          totalCount={totalCount}
+        />
       ))}
     </div>
   );

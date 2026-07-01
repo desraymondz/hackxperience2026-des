@@ -210,6 +210,36 @@ function timeAgo(date: Date): string {
   return `${Math.floor(secs / 60)}m ago`;
 }
 
+function safeDecodeUrlSegment(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
+function getAssetFileName(file?: File | null, url?: string | null): string {
+  if (file?.name) return file.name;
+  if (!url) return "Uploaded file";
+
+  try {
+    const pathname = new URL(url).pathname;
+    const segment = pathname.split("/").filter(Boolean).pop();
+    return segment ? safeDecodeUrlSegment(segment) : "Uploaded file";
+  } catch {
+    const segment = url.split("/").filter(Boolean).pop();
+    return segment ? safeDecodeUrlSegment(segment) : "Uploaded file";
+  }
+}
+
+function formatFileSize(bytes?: number | null): string {
+  if (!bytes || bytes <= 0) return "Size unavailable";
+  const k = 1024;
+  const sizes = ["Bytes", "KB", "MB", "GB"];
+  const i = Math.min(Math.floor(Math.log(bytes) / Math.log(k)), sizes.length - 1);
+  return `${(bytes / Math.pow(k, i)).toFixed(i === 0 ? 0 : 2)} ${sizes[i]}`;
+}
+
 function ThumbnailPreview({ file, url: urlProp }: { file?: File | null; url?: string | null }) {
   const [objectUrl, setObjectUrl] = useState<string | null>(null);
 
@@ -630,6 +660,7 @@ function FormFooter({ onNext, onBack, nextLabel, showBack = true, disabled }: {
 // ─── Duplicate-check helpers ──────────────────────────────────
 
 type CheckStatus = "idle" | "checking" | "taken" | "available";
+type UploadStatus = "idle" | "loading" | "done";
 
 function CheckMsg({ status, takenMsg }: { status: CheckStatus | undefined; takenMsg: string }) {
   if (!status || status === "idle") return null;
@@ -683,6 +714,46 @@ function Step01({
   };
   const words = (s: string) => s.trim() ? s.trim().split(/\s+/).length : 0;
   const thumbRef = useRef<HTMLInputElement>(null);
+  const thumbUploadTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [thumbUploadStatus, setThumbUploadStatus] = useState<UploadStatus>(
+    form.thumbnailFile || form.thumbnailUrl ? "done" : "idle",
+  );
+  const [thumbUploadProgress, setThumbUploadProgress] = useState<number>(
+    form.thumbnailFile || form.thumbnailUrl ? 100 : 0,
+  );
+  const thumbnailFileName = getAssetFileName(form.thumbnailFile, form.thumbnailUrl);
+  const thumbnailSizeLabel = formatFileSize(form.thumbnailFile?.size);
+
+  useEffect(() => {
+    return () => {
+      if (thumbUploadTimerRef.current) {
+        clearInterval(thumbUploadTimerRef.current);
+      }
+    };
+  }, []);
+
+  const simulateThumbUpload = () => {
+    if (thumbUploadTimerRef.current) {
+      clearInterval(thumbUploadTimerRef.current);
+    }
+
+    setThumbUploadStatus("loading");
+    setThumbUploadProgress(0);
+    let progress = 0;
+
+    thumbUploadTimerRef.current = setInterval(() => {
+      progress = Math.min(100, progress + 14 + Math.floor(Math.random() * 24));
+      setThumbUploadProgress(progress);
+
+      if (progress >= 100) {
+        setThumbUploadStatus("done");
+        if (thumbUploadTimerRef.current) {
+          clearInterval(thumbUploadTimerRef.current);
+          thumbUploadTimerRef.current = null;
+        }
+      }
+    }, 160);
+  };
 
   return (
     <>
@@ -765,28 +836,132 @@ function Step01({
                 return;
               }
               setForm({ ...form, thumbnailFile: file ?? null });
+              if (file) {
+                simulateThumbUpload();
+              } else {
+                setThumbUploadStatus("idle");
+                setThumbUploadProgress(0);
+              }
             }} />
-          <motion.div
-            onClick={() => thumbRef.current?.click()}
-            whileHover={{ borderColor: RED, backgroundColor: "rgba(192,0,0,0.04)" }}
-            whileTap={{ scale: 0.995 }}
-            transition={{ duration: 0.15 }}
-            style={{
-              aspectRatio: "16 / 9", border: `1.5px dashed ${DARK_BG}`, background: OFF_WHITE,
-              display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-              gap: 6, boxShadow: SHADOW_SM, cursor: "pointer", overflow: "hidden", position: "relative",
-            }}
-          >
-            {form.thumbnailFile || form.thumbnailUrl ? (
-              <ThumbnailPreview file={form.thumbnailFile} url={form.thumbnailUrl} />
-            ) : (
-              <>
-                <Mono color={MUTED} size={11}>[ Click to Upload ]</Mono>
-                <Mono color={MUTED} size={10}>.JPG .PNG .WEBP · ≤ {maxFileSizeMb} MB</Mono>
-                <Mono color={MUTED} size={10}>// Cropped to 16:9 on display</Mono>
-              </>
+          <div style={{ width: "clamp(260px, 33.333%, 460px)" }}>
+            <motion.div
+              onClick={() => thumbRef.current?.click()}
+              whileHover={{ borderColor: RED, backgroundColor: "rgba(192,0,0,0.04)" }}
+              whileTap={{ scale: 0.995 }}
+              transition={{ duration: 0.15 }}
+              style={{
+                aspectRatio: "16 / 9", border: `1.5px dashed ${DARK_BG}`, background: OFF_WHITE,
+                display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                gap: 6, boxShadow: SHADOW_SM, cursor: "pointer", overflow: "hidden",
+              }}
+            >
+              {form.thumbnailFile || form.thumbnailUrl ? (
+                <>
+                  <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+                    <div
+                      style={{
+                        width: "33.333%",
+                        minWidth: 110,
+                        maxWidth: 180,
+                        border: `1.5px solid ${DARK_BG}`,
+                        boxShadow: SHADOW_SM,
+                        background: "#fff",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <ThumbnailPreview file={form.thumbnailFile} url={form.thumbnailUrl} />
+                    </div>
+                  </div>
+                  <span
+                    title={thumbnailFileName}
+                    style={{
+                      width: "90%",
+                      fontFamily: FM,
+                      fontSize: 10,
+                      color: MUTED,
+                      textAlign: "center",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      textTransform: "none",
+                    }}
+                  >
+                    {thumbnailFileName}
+                  </span>
+                  <span style={{ fontFamily: FM, fontSize: 10, color: MUTED, textTransform: "none" }}>
+                    {thumbnailSizeLabel}
+                  </span>
+                  <Mono color={MUTED} size={10}>// Click to replace</Mono>
+                </>
+              ) : (
+                <>
+                  <Mono color={MUTED} size={11}>[ Click to Upload ]</Mono>
+                  <Mono color={MUTED} size={10}>.JPG .PNG .WEBP · ≤ {maxFileSizeMb} MB</Mono>
+                  <Mono color={MUTED} size={10}>// 1 file only</Mono>
+                  <Mono color={MUTED} size={10}>// Cropped to 16:9 on display</Mono>
+                </>
+              )}
+            </motion.div>
+            {(form.thumbnailFile || form.thumbnailUrl) && (thumbUploadStatus === "loading" || thumbUploadStatus === "done") && (
+              <div
+                style={{
+                  marginTop: 6,
+                  background: "rgba(255,255,255,0.92)",
+                  border: `1px solid ${DARK_BG}`,
+                  padding: "6px 8px",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                  <Mono color={thumbUploadStatus === "done" ? GREEN : RED} size={10} weight={800}>
+                    {thumbUploadStatus === "done" ? "[ Upload Complete ]" : `[ Uploading ${Math.round(thumbUploadProgress)}% ]`}
+                  </Mono>
+                  <Mono color={MUTED} size={9}>// 1 file only</Mono>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: 8,
+                    marginBottom: 4,
+                  }}
+                >
+                  <div
+                    title={thumbnailFileName}
+                    style={{
+                      flex: 1,
+                      minWidth: 0,
+                      fontFamily: FM,
+                      fontSize: 10,
+                      color: MUTED,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {thumbnailFileName}
+                  </div>
+                  <span style={{ fontFamily: FM, fontSize: 10, color: MUTED, whiteSpace: "nowrap", textTransform: "none" }}>
+                    {thumbnailSizeLabel}
+                  </span>
+                </div>
+                <div style={{ height: 4, background: "#ece6d8", border: `1px solid ${DARK_BG}`, position: "relative" }}>
+                  <motion.div
+                    initial={false}
+                    animate={{ width: `${thumbUploadProgress}%` }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      bottom: 0,
+                      background: thumbUploadStatus === "done" ? GREEN : RED,
+                    }}
+                  />
+                </div>
+              </div>
             )}
-          </motion.div>
+          </div>
           {thumbnailError && (
             <Mono color={RED} size={10} style={{ display: "block", marginTop: 6 }}>
               // {thumbnailError}
@@ -843,7 +1018,64 @@ function Step02({
   const set = (k: keyof FormState) => (v: string) => setForm({ ...form, [k]: v });
   const deckRef = useRef<HTMLInputElement>(null);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const deckUploadTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [deckUploadStatus, setDeckUploadStatus] = useState<UploadStatus>(
+    form.pitchDeckFile || form.pitchDeckUploadUrl ? "done" : "idle",
+  );
+  const [deckUploadProgress, setDeckUploadProgress] = useState<number>(
+    form.pitchDeckFile || form.pitchDeckUploadUrl ? 100 : 0,
+  );
+  const pitchDeckFileName = getAssetFileName(form.pitchDeckFile, form.pitchDeckUploadUrl);
+  const pitchDeckSizeLabel = formatFileSize(form.pitchDeckFile?.size);
+  const [isDeckHovering, setIsDeckHovering] = useState(false);
   const touch = (k: string) => () => setTouched(t => ({ ...t, [k]: true }));
+
+  useEffect(() => {
+    return () => {
+      if (deckUploadTimerRef.current) {
+        clearInterval(deckUploadTimerRef.current);
+      }
+    };
+  }, []);
+
+  const simulateDeckUpload = () => {
+    if (deckUploadTimerRef.current) {
+      clearInterval(deckUploadTimerRef.current);
+    }
+
+    setDeckUploadStatus("loading");
+    setDeckUploadProgress(0);
+    let progress = 0;
+
+    deckUploadTimerRef.current = setInterval(() => {
+      progress = Math.min(100, progress + 12 + Math.floor(Math.random() * 26));
+      setDeckUploadProgress(progress);
+
+      if (progress >= 100) {
+        setDeckUploadStatus("done");
+        if (deckUploadTimerRef.current) {
+          clearInterval(deckUploadTimerRef.current);
+          deckUploadTimerRef.current = null;
+        }
+      }
+    }, 160);
+  };
+
+  const canPreviewDeck = Boolean(form.pitchDeckFile || form.pitchDeckUploadUrl);
+  const previewDeck = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    if (form.pitchDeckFile) {
+      const localUrl = URL.createObjectURL(form.pitchDeckFile);
+      window.open(localUrl, "_blank", "noopener,noreferrer");
+      setTimeout(() => URL.revokeObjectURL(localUrl), 60_000);
+      return;
+    }
+
+    if (form.pitchDeckUploadUrl) {
+      window.open(form.pitchDeckUploadUrl, "_blank", "noopener,noreferrer");
+    }
+  };
 
   return (
     <>
@@ -882,31 +1114,126 @@ function Step02({
                 return;
               }
               setForm({ ...form, pitchDeckFile: file ?? null });
+              if (file) {
+                simulateDeckUpload();
+              } else {
+                setDeckUploadStatus("idle");
+                setDeckUploadProgress(0);
+              }
             }} />
           <motion.div
             onClick={() => deckRef.current?.click()}
+            onMouseEnter={() => setIsDeckHovering(true)}
+            onMouseLeave={() => setIsDeckHovering(false)}
             whileHover={{ borderColor: RED, backgroundColor: "rgba(192,0,0,0.04)" }}
             whileTap={{ scale: 0.995 }}
             transition={{ duration: 0.15 }}
             style={{
               height: 130, border: `1.5px dashed ${DARK_BG}`, background: OFF_WHITE,
               display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-              gap: 8, boxShadow: SHADOW_SM, cursor: "pointer",
+              gap: 8, boxShadow: SHADOW_SM, cursor: "pointer", position: "relative", overflow: "hidden",
             }}
           >
+            {canPreviewDeck && (
+              <button
+                type="button"
+                onClick={previewDeck}
+                style={{
+                  position: "absolute",
+                  top: 8,
+                  right: 8,
+                  height: 24,
+                  padding: "0 8px",
+                  border: `1.5px solid ${DARK_BG}`,
+                  background: isDeckHovering ? RED : "#fff",
+                  color: isDeckHovering ? "#fff" : DARK_BG,
+                  fontFamily: FM,
+                  fontSize: 10,
+                  fontWeight: 700,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  opacity: isDeckHovering ? 1 : 0,
+                  pointerEvents: isDeckHovering ? "auto" : "none",
+                  cursor: "pointer",
+                  transition: "opacity 0.15s ease, background 0.15s ease, color 0.15s ease",
+                }}
+              >
+                Preview
+              </button>
+            )}
             {form.pitchDeckFile ? (
               <>
                 <Mono color={RED} size={12} weight={800}>[ File Attached ]</Mono>
-                <Mono color={MUTED} size={10}>{form.pitchDeckFile.name}</Mono>
+                <Mono color={MUTED} size={10}>{pitchDeckFileName}</Mono>
+                <span style={{ fontFamily: FM, fontSize: 10, color: MUTED, textTransform: "none" }}>{pitchDeckSizeLabel}</span>
+                <Mono color={MUTED} size={10}>// Click to replace</Mono>
+              </>
+            ) : form.pitchDeckUploadUrl ? (
+              <>
+                <Mono color={RED} size={12} weight={800}>[ Existing File Ready ]</Mono>
+                <Mono color={MUTED} size={10}>{pitchDeckFileName}</Mono>
+                <span style={{ fontFamily: FM, fontSize: 10, color: MUTED, textTransform: "none" }}>{pitchDeckSizeLabel}</span>
                 <Mono color={MUTED} size={10}>// Click to replace</Mono>
               </>
             ) : (
               <>
                 <Mono color={MUTED} size={12}>[ Click to Upload ]</Mono>
                 <Mono color={MUTED} size={10}>.PDF .PPTX · ≤ {maxFileSizeMb} MB</Mono>
+                <Mono color={MUTED} size={10}>// 1 file only</Mono>
               </>
             )}
           </motion.div>
+          {(form.pitchDeckFile || form.pitchDeckUploadUrl) && (deckUploadStatus === "loading" || deckUploadStatus === "done") && (
+            <div
+              style={{
+                marginTop: 6,
+                background: "rgba(255,255,255,0.92)",
+                border: `1px solid ${DARK_BG}`,
+                padding: "6px 8px",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                <Mono color={deckUploadStatus === "done" ? GREEN : RED} size={10} weight={800}>
+                  {deckUploadStatus === "done" ? "[ Upload Complete ]" : `[ Uploading ${Math.round(deckUploadProgress)}% ]`}
+                </Mono>
+                <Mono color={MUTED} size={9}>// 1 file only</Mono>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 4 }}>
+                <div
+                  title={pitchDeckFileName}
+                  style={{
+                    flex: 1,
+                    minWidth: 0,
+                    fontFamily: FM,
+                    fontSize: 10,
+                    color: MUTED,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {pitchDeckFileName}
+                </div>
+                <span style={{ fontFamily: FM, fontSize: 10, color: MUTED, whiteSpace: "nowrap", textTransform: "none" }}>
+                  {pitchDeckSizeLabel}
+                </span>
+              </div>
+              <div style={{ height: 4, background: "#ece6d8", border: `1px solid ${DARK_BG}`, position: "relative" }}>
+                <motion.div
+                  initial={false}
+                  animate={{ width: `${deckUploadProgress}%` }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    background: deckUploadStatus === "done" ? GREEN : RED,
+                  }}
+                />
+              </div>
+            </div>
+          )}
           {pitchDeckError && (
             <Mono color={RED} size={10} style={{ display: "block", marginTop: 6 }}>
               // {pitchDeckError}
