@@ -7,7 +7,7 @@ export const HACKATHON_THEME = {
   intro:
     "In today's increasingly complex world, balancing work and everything beyond it is harder than ever. HackXperience 2026 challenges you to explore what agentic AI can do for real, everyday living.",
   closing:
-    "Full track details will be revealed at the pre-event.",
+    "Full track details and the judging panel will be announced at the pre-event on 17 July 2026.",
   introRevealed:
     "In today's increasingly complex world, we are constantly juggled between two essential tasks: our work, and our life beyond it. HackXperience 2026 challenges you to ease that tension, through care that nurtures a healthier life, or automation that brings flow back into the workday.",
   closingRevealed:
